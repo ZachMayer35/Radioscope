@@ -1,0 +1,27 @@
+{
+  "name": "radioscope",
+  "version": "1.0.0",
+  "description": "A JavaScript run-time visualizer with head-to-head code fighting.",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZachMayer35/Radioscope.git"
+  },
+  "author": "Zachary Mayer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ZachMayer35/Radioscope/issues"
+  },
+  "homepage": "https://github.com/ZachMayer35/Radioscope#readme",
+  "devDependencies": {
+    "redis": "^2.6.2",
+    "webpack": "^1.13.2"
+  },
+  "dependencies": {
+    "hapi": "^15.0.2"
+  }
+}
