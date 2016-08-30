@@ -9,6 +9,7 @@ var logPrefix = '[' + path.basename(__filename) + '] ';
 var Fibonacci = {
     getNth: function(n){
         console.log(chalk.green(logPrefix + 'getNth called with parameter n = ' + n ));
+        var t = process.hrtime();
         var a = 1;
         var b = 1;
         for(var i = 2; i < n; i++){
@@ -16,7 +17,8 @@ var Fibonacci = {
             a = b;
             b = oldA + b;
         }
-        console.log(chalk.green(logPrefix + 'getNth returned num = ' + b));
+        var t1 = process.hrtime(t);
+        console.log(chalk.green(logPrefix + 'getNth returned num = ' + b + ' and took ' + t1[0] + ' seconds and ' + t1[1] + ' nanoseconds to complete.'));
         return b;
     },
     getUpToN: function(n){       

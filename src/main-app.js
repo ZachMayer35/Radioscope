@@ -9,7 +9,7 @@ require('./assets/HACK.css');
 
 function mainApp () {
     ReactDOM.render(
-        <Counter />,
+        <div><h3>THINGER</h3><Counter /></div>,
         document.getElementById('appContainer')
     );
 }
