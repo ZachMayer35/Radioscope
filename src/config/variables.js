@@ -4,7 +4,9 @@ var path = require('path');
 var chalk = require('chalk');
 
 // This and anything in config.paths must be absolute.
-var ROOT_PATH = path.resolve(__dirname, '../..');
+var ROOT_PATH = global.ROOT_PATH = path.resolve(__dirname, '../..');
+
+global.API_PATH = global.API_PATH || __dirname + '/../api';
 
 var SOURCE_DIRNAME = 'src';
 var WEB_ROOT_DIRNAME = 'public';
@@ -14,18 +16,13 @@ var BUILD_DIRNAME = 'static/build';
 var SERVER_HOST;
 var SERVER_PORT;
 var SERVER_PROTOCOL = 'http'; // Note: I did not test https yet, so you might need more adjustments to make it work
-var WEBPACK_DEV_SERVER_PORT = 3001;
+var WEBPACK_DEV_SERVER_PORT = 3000;
 
 // process.env object contains environment variables passed to the node.js process.
 // For example, you can see NODE_ENV passed to node in the "scripts" section of package.json
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
     SERVER_HOST = 'localhost';
-    SERVER_PORT = process.env.PORT || 3000;
-
-} else if (process.env.NODE_ENV === 'production') {
-    SERVER_HOST = 'localhost';
-    SERVER_PORT = process.env.PORT || 2000;
-
+    SERVER_PORT = process.env.PORT || 8080;
 } else {
     var errorText = '[' + path.basename(__filename) + '] ERROR: NODE_ENV is not set: ' + process.env.NODE_ENV;
     console.log(chalk.red(errorText));

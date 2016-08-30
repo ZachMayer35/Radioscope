@@ -12,7 +12,7 @@ var Inert = require('inert');
 var Vision = require('vision');
 var HapiReactViews = require('hapi-react-views');
 
-
+var routes = require('./config/routes');
 
 var server = new Hapi.Server();
 
@@ -47,10 +47,6 @@ server.register(plugins, (err) => {
         engines: {jsx: HapiReactViews},
         path: config.paths.serverViews
     });
-
-    // Note: only one route per will be used to fulfill a request.
-    // In case of multiple routes matching the URL, the most "specific" route wins.
-    // See http://hapijs.com/api#path-matching-order
 
     // Serve all files from the assets directory
     // Note: in production this also serves webpack bundles
@@ -96,7 +92,7 @@ server.register(plugins, (err) => {
         method: 'GET',
         path: '/',
         handler: {
-            view: 'app' // app.jsx in /views
+            view: 'app' // app.jsx in /server-views
         }
     });
 
@@ -116,21 +112,9 @@ server.register(plugins, (err) => {
                 }
             }
         });
-
-        // Note: We also make requests to Webpack Dev Server EventSource endpoint (typically /__webpack_hmr).
-        // We don't need to proxy these requests because we configured webpack-hot-middleware
-        // to request them directly from a webpack dev server URL in webpack-config.js
-
-        // Enable a separate sandbox.
-        // Use it to work on individual components outside of your application context.
-        server.route({
-            method: 'GET',
-            path: '/sandbox',
-            handler: {
-                view: 'sandbox' // sandbox.jsx in /views
-            }
-        });
     }
+
+    server.route(routes);
 
     server.start(() => {
         console.log('Hapi server started!');

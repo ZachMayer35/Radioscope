@@ -52,8 +52,7 @@ if (process.env.NODE_ENV === 'development') {
 
     Object.assign(webpackConfig, {
         entry: {
-            app: [APP_ENTRY, WEBPACK_HOT_ENTRY],
-            sandbox: [path.join(config.paths.source, 'main-sandbox'), WEBPACK_HOT_ENTRY]
+            app: [APP_ENTRY, WEBPACK_HOT_ENTRY]
         },
         devtool: 'cheap-module-eval-source-map', // Generate source maps (more or less efficiently)
         module: {

@@ -5,8 +5,7 @@ var ReactDOM = require('react-dom');
 var Counter = require('./components/counter');
 
 require('./main-app.css');
-
-
+require('./assets/HACK.css');
 
 function mainApp () {
     ReactDOM.render(
@@ -14,7 +13,5 @@ function mainApp () {
         document.getElementById('appContainer')
     );
 }
-
-
 
 document.addEventListener('DOMContentLoaded', mainApp);

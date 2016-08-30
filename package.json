@@ -1,7 +1,7 @@
 {
   "name": "radioscope",
   "version": "1.0.0",
-  "description": "A JavaScript run-time visualizer with head-to-head code fighting.",  
+  "description": "A JavaScript run-time visualizer with head-to-head code fighting.",
   "private": true,
   "main": "src/server.js",
   "engines": {
@@ -44,6 +44,7 @@
     "hapi-react-views": "^5.0.1",
     "ignore-styles": "^1.2.0",
     "inert": "^3.2.0",
+    "joi": "^9.0.4",
     "jsdom": "^8.1.0",
     "mocha": "^2.4.5",
     "react": "^0.14.3",

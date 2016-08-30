@@ -5,7 +5,7 @@
   "verbose": true,
   "ext": "js jsx",
   "env": {
-    "NODE_ENV": "development"
+    "NODE_ENV": "production"
   },
   "delay": 200,
   "ignore": [
