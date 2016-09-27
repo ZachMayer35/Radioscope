@@ -3,13 +3,16 @@
 var React = require('react'); // React must be in scope when using JSX because JSX is translated into React.createElement(...)
 var ReactDOM = require('react-dom');
 var Counter = require('./components/counter');
+var Fibonacci = require('./components/fibonacci');
+var path = require('path');
 
-require('./main-app.css');
-require('./assets/HACK.css');
+global.API_PATH = global.API_PATH || path.join(__dirname, '/../api');
+
+require('./assets/main.scss');
 
 function mainApp () {
     ReactDOM.render(
-        <div><h3>THINGER</h3><Counter /></div>,
+        <div id='we'><Counter /><Fibonacci /></div>,
         document.getElementById('appContainer')
     );
 }

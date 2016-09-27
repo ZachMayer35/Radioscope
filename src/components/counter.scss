@@ -1,0 +1,28 @@
+@import '../assets/variables';
+
+.Counter {
+    max-width: 500px;
+    .-number, .-text, .-button{
+        color:  $borderColor;//#0040b0;
+    }
+    .-number {
+        display: inline-block;
+        min-width: 1.5em;
+        font-size: 80px;      
+    }
+    .-button {
+        position: relative;
+        top: -12px;
+        margin-left: 30px;
+        font-size: 40px;
+        background: white;
+        border: 3px solid $borderColor; //#0040b0;
+        border-radius: 10px;
+        width: 2em;
+        cursor: pointer;
+        line-height: 1.7em;
+        &:active {
+            background: #66aaff;
+        }
+    }
+}

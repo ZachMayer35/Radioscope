@@ -17,6 +17,11 @@ var CSS_LOADER = {
     loaders: ['style', 'css'], // Loaders are processed last-to-first
     include: config.paths.source
 };
+var SASS_LOADER = {
+    test: /\.scss$/,
+    loaders: ["style", "css", "sass"],
+    include: config.paths.source
+}
 
 
 var webpackConfig = {
@@ -65,6 +70,7 @@ if (process.env.NODE_ENV === 'development') {
             ],
             loaders: [
                 CSS_LOADER,
+                SASS_LOADER,
                 {
                     test: JS_JSX,
                     loader: BABEL,
@@ -106,6 +112,7 @@ if (process.env.NODE_ENV === 'development') {
         module: {
             loaders: [
                 CSS_LOADER,
+                SASS_LOADER,
                 {
                     test: JS_JSX,
                     loader: BABEL,

@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react');
-require('./counter.css');
+require('./counter.scss');
 
 /**
  * @class Counter
@@ -26,11 +26,7 @@ class Counter extends React.Component {
         return (
             <div className='Counter'>
 
-                <h1>Counter</h1>
-
-                <p>This is a counter component. It stores the count in its state.</p>
-                <p>If you edit any file that is bundled by webpack, webpack dev server will patch this page while preserving component state.</p>
-                <p>This is called <em>hot module reloading</em> and is more useful than just auto-reloading the whole page (if you reload the page, you'll see the counter drops to zero because component state is not persisted).</p>
+                <h1 className='-text'>Counter</h1>
 
                 <span className='-number'>{this.state.counter}</span>
                 <button className='-button' type='button' onClick={this.increment.bind(this)}>+</button>

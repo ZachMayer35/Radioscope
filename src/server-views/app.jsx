@@ -10,12 +10,10 @@ var App = React.createClass({
             <html>
                 <head>
                     <meta charSet='utf-8' />
-                    <title>Main App</title>
+                    <title>Test Demo</title>
                     <script src={getWebpackAssets().app.js}></script>
                 </head>
                 <body>
-                    <p>Hello world, this layout is rendered by a <strong>server-side</strong> react view (views/app.jsx)</p>
-                    <p>{'UTC time from server: ' + Date.now()}</p>
                     <div id='appContainer'>This text will be replaced by Counter component</div>
                 </body>
             </html>
