@@ -1,0 +1,73 @@
+{
+  "name": "radioscope",
+  "version": "1.0.0",
+  "description": "A JavaScript run-time visualizer with head-to-head code fighting.",
+  "private": true,
+  "main": "src/server.js",
+  "engines": {
+    "node": "^4.4.5"
+  },
+  "scripts": {
+    "start": "npm run build&&SET NODE_ENV=production&node --harmony src/server.js",
+    "build": "SET NODE_ENV=production&node --harmony src/scripts/make.js&SET NODE_ENV=production&webpack -p --config src/config/webpack-config.js",
+    "webpack": "SET NODE_ENV=development&node --harmony src/scripts/make.js&SET NODE_ENV=development&node --harmony src/webpack-dev-server.js",
+    "dev": "start cmd.exe @cmd /k \"npm run webpack\"&SET NODE_ENV=development&node --harmony src/scripts/make.js&SET NODE_ENV=development&.\\node_modules\\.bin\\nodemon --harmony src/server.js",
+    "make": "SET NODE_ENV=development&node --harmony src/scripts/make.js",
+    "lint": "eslint . --ext .js --ext .jsx",
+    "postinstall": "npm run build",
+    "test": "./node_modules/.bin/mocha --compilers jsx:babel-register --require ignore-styles ./tests/specs --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZachMayer35/Radioscope.git"
+  },
+  "author": "Zachary Mayer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ZachMayer35/Radioscope/issues"
+  },
+  "homepage": "https://github.com/ZachMayer35/Radioscope#readme",
+  "devDependencies": {
+    "assets-webpack-plugin": "^3.2.0",
+    "babel-core": "^6.3.17",
+    "babel-eslint": "^4.1.6",
+    "babel-loader": "^6.2.0",
+    "babel-plugin-react-transform": "^2.0.0-beta1",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "babel-preset-stage-1": "^6.3.13",
+    "babel-register": "^6.3.13",
+    "chai": "^3.5.0",
+    "chalk": "^1.1.1",
+    "css-loader": "^0.23.0",
+    "hapi": "^15.0.2",
+    "hapi-react-views": "^5.0.1",
+    "ignore-styles": "^1.2.0",
+    "inert": "^3.2.0",
+    "joi": "^9.0.4",
+    "jsdom": "^8.1.0",
+    "mocha": "^2.4.5",
+    "node-sass": "^3.10.0",
+    "react": "^0.14.3",
+    "react-addons-test-utils": "^0.14.7",
+    "react-dom": "^0.14.3",
+    "redis": "^2.6.2",
+    "rimraf": "^2.4.4",
+    "sass-loader": "^4.0.2",
+    "sinon": "^1.17.6",
+    "style-loader": "^0.13.0",
+    "vision": "^4.0.1",
+    "webpack": "^1.13.2",
+    "webpack-dev-middleware": "^1.2.0",
+    "webpack-hot-middleware": "^2.3.0"
+  },
+  "dependencies": {
+    "eslint": "^1.1.0",
+    "eslint-loader": "^1.0.0",
+    "eslint-plugin-react": "^3.2.2",
+    "express": "^4.13.3",
+    "h2o2": "^4.0.1",
+    "nodemon": "^1.8.1",
+    "react-transform-hmr": "^1.0.1"
+  }
+}
