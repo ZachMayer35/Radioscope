@@ -2,7 +2,6 @@
 
 var React = require('react'); // React must be in scope when using JSX because JSX is translated into React.createElement(...)
 var ReactDOM = require('react-dom');
-var Counter = require('./components/counter');
 var Fibonacci = require('./components/fibonacci');
 var path = require('path');
 
@@ -12,7 +11,7 @@ require('./assets/main.scss');
 
 function mainApp () {
     ReactDOM.render(
-        <div id='we'><Counter /><Fibonacci /></div>,
+        <div id='we'><Fibonacci initial_N={10}/></div>,
         document.getElementById('appContainer')
     );
 }

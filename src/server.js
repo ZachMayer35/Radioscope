@@ -83,7 +83,7 @@ server.register(plugins, (err) => {
         method: 'GET',
         path: '/{path*}',
         handler: (request, reply) => {
-            reply('Hapi catch-all view for /' + encodeURIComponent(request.params.path));
+            reply('Hapi catch-all view for /' + request.params.path);
         }
     });
 

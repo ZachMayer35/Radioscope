@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react');
-//require('./counter.scss');
+require('./fibonacci.scss');
 
 /**
  * @class Fibonacci
@@ -13,24 +13,27 @@ class Fibonacci extends React.Component {
         super(props);
 
         this.state = {
-            n: 0,
+            n: parseInt(this.props.initial_N),
             f: 1,
         };
 
         this.increment = this.increment.bind(this);
-        this.decrement = this.decrement.bind(this);        
+        this.decrement = this.decrement.bind(this);  
+        this.reset = this.reset.bind(this); 
+
+        this.reset();     
     }
 
     render () {
         return (
-            <div className='Counter'>
+            <div className='Fibonacci'>
 
                 <h1 className='-text'>Fibonacci</h1>
                 <p className='-text'>Increment N to get the next fibonacci number in the sequence.</p>
                 <span className='-text'>
-                    n = {this.state.n}
+                    n = <span className='-number n'>{this.state.n}</span>
                     <br />
-                    Fibonacci Number At N = {this.state.f}
+                    Fibonacci Number At N = <span className='-number f'>{this.state.f}</span>
                 </span>                
                 <button className='-button' type='button' onClick={this.increment.bind(this)}>+</button>
                 <button className='-button' type='button' onClick={this.decrement.bind(this)}>–</button>
@@ -47,13 +50,17 @@ class Fibonacci extends React.Component {
         this._requestData(this.state.n - 1)
     }
 
+    reset () {
+        this._requestData(this.state.n);
+    }
+
     _requestData (newN) {
         if(newN >= 0){
             var oReq = new XMLHttpRequest();        
             oReq.addEventListener("load", function(e){
                 this.setState({n: newN});
-                console.log(e.currentTarget.response);
-                this.setState({f: e.currentTarget.response});
+                this.setState({f: parseInt(e.target.response)});
+                this.props.requestComplete();
             }.bind(this));
             oReq.open("GET", global.API_PATH + "/fibonacci/getNth/" + newN);
             oReq.send();
@@ -61,5 +68,15 @@ class Fibonacci extends React.Component {
     }
 }
 
+
+Fibonacci.defaultProps = {
+    initial_N: 0,
+    requestComplete: function(){ /* default empty request complete harness */ }
+};
+
+Fibonacci.propTypes = {
+    initial_N: React.PropTypes.number.isRequired,
+    requestComplete: React.PropTypes.func.isRequired
+};
 
 module.exports = Fibonacci;

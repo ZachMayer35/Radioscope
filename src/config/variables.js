@@ -76,7 +76,6 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 
-Object.freeze(config); // On a separate line because IntelliJ's JS code assistance is not very smart :(
-
+Object.freeze(config); 
 
 module.exports = config;
