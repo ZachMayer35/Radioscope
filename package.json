@@ -8,10 +8,10 @@
     "node": "^4.4.5"
   },
   "scripts": {
-    "start": "SET NODE_ENV=production&node --harmony src/server.js",
+    "start": "npm run build&&SET NODE_ENV=production&node --harmony src/server.js",
     "build": "SET NODE_ENV=production&node --harmony src/scripts/make.js&SET NODE_ENV=production&webpack -p --config src/config/webpack-config.js",
     "webpack": "SET NODE_ENV=development&node --harmony src/scripts/make.js&SET NODE_ENV=development&node --harmony src/webpack-dev-server.js",
-    "dev": "SET NODE_ENV=development&node --harmony src/scripts/make.js&SET NODE_ENV=development&.\\node_modules\\.bin\\nodemon --harmony src/server.js",
+    "dev": "start cmd.exe @cmd /k \"npm run webpack\"&SET NODE_ENV=development&node --harmony src/scripts/make.js&SET NODE_ENV=development&.\\node_modules\\.bin\\nodemon --harmony src/server.js",
     "make": "SET NODE_ENV=development&node --harmony src/scripts/make.js",
     "lint": "eslint . --ext .js --ext .jsx",
     "postinstall": "npm run build",
