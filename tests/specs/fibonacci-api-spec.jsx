@@ -2,8 +2,8 @@
 
 process.env.NODE_ENV = "production";
 var expect = require('chai').expect;
-var config = require('../../src/config/variables');
-var routes = require('../../src/config/routes');
+var config = require('../../variables');
+var routes = require('../../api/routes');
 var Hapi = require('hapi');
 
 var server;

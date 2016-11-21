@@ -8,7 +8,7 @@ var ReactDOM = require('react-dom');
 var expect = require('chai').expect;
 var sinon = require('sinon');
 
-var Fibonacci = require('../../src/components/fibonacci');
+var Fibonacci = require('../../web/client/components/fibonacci');
 
 describe('When Fibonacci Component is displayed it', () => {
 
