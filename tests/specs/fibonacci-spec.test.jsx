@@ -39,7 +39,7 @@ describe('When Fibonacci Component is displayed it', () => {
         renderedDOMElement = ReactDOM.findDOMNode(component);
     }
 
-    before(() => {        
+    beforeAll(() => {        
         setupXHR();
         init();
     });

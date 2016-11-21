@@ -29,9 +29,9 @@ var swagger_options = {
 };
 
 var plugins = [
-    {register: Inert}, // enables serving static files (file and directory handlers). Required for Swagger
-    {register: Vision}, // enables rendering views with custom engines (view handler). Required for Swagger
-    {register: HapiSwagger, options: swagger_options } // enables swagger API documentation
+    { register: Inert }, // enables serving static files (file and directory handlers). Required for Swagger
+    { register: Vision }, // enables rendering views with custom engines (view handler). Required for Swagger
+    { register: HapiSwagger, options: swagger_options } // enables swagger API documentation
 ];
 
 server.register(plugins, (err) => {
@@ -46,14 +46,16 @@ server.register(plugins, (err) => {
         method: 'GET',
         path: '/',
         handler: (request, reply) => {
-            reply.redirect('/documentation');
+            server.inject('/documentation', function (res) {
+                reply(res.payload);
+            });
         }
     });
-    
+
     server.route(routes);
 
     server.start(() => {
         console.log('API and Documentation server started!');
-        console.log('Listening at http://' + config.server.api_host + ':' + config.server.api_port);        
+        console.log('Listening at http://' + config.server.api_host + ':' + config.server.api_port);
     });
 });

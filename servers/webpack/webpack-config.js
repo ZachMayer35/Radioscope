@@ -21,6 +21,11 @@ var SASS_LOADER = {
     loaders: ["style", "css", "sass"],
     include: config.paths.source
 }
+var LESS_LOADER = {
+    test: /\.less$/,
+    loaders: ["style", "css", "less"],
+    include: config.paths.source
+}
 
 
 var webpackConfig = {
@@ -70,6 +75,7 @@ if (process.env.NODE_ENV === 'development') {
             loaders: [
                 CSS_LOADER,
                 SASS_LOADER,
+                LESS_LOADER,
                 {
                     test: JS_JSX,
                     loader: BABEL,
@@ -112,6 +118,7 @@ if (process.env.NODE_ENV === 'development') {
             loaders: [
                 CSS_LOADER,
                 SASS_LOADER,
+                LESS_LOADER,
                 {
                     test: JS_JSX,
                     loader: BABEL,

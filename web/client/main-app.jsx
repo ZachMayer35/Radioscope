@@ -7,7 +7,7 @@ var path = require('path');
 
 global.API_PATH = global.API_PATH || path.join(__dirname, '/../api');
 
-require('./assets/main.scss');
+require('./assets/main.less');
 
 function mainApp () {
     ReactDOM.render(

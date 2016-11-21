@@ -48,7 +48,8 @@ var config = {
         components: path.join(ROOT_PATH, WEB_CLIENT_DIRNAME, 'components'),
         serverViews: path.join(ROOT_PATH, WEB_SERVER_DIRNAME, 'views'),
         api: path.join(ROOT_PATH, API_PATH),
-        docs: path.join(ROOT_PATH, DOC_PATH)
+        docs: path.join(ROOT_PATH, DOC_PATH),
+        test: path.join(ROOT_PATH, 'tests')
     },
     server: {
         publicFiles: [

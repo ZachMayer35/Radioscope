@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react');
-require('./fibonacci.scss');
+require('./fibonacci.less');
 
 /**
  * @class Fibonacci
@@ -28,7 +28,7 @@ class Fibonacci extends React.Component {
         return (
             <div className='Fibonacci'>
 
-                <h1 className='-text'>Fibonacci!!</h1>
+                <h1 className='-text'>Fibonacci</h1>
                 <p className='-text'>Increment N to get the next fibonacci number in the sequence.</p>
                 <span className='-text'>
                     n = <span className='-number n'>{this.state.n}</span>

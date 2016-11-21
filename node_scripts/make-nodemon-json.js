@@ -19,7 +19,8 @@ var nodemonConfig = {
         '.idea',
         '.sass-cache',
         path.relative(config.paths.root, config.paths.components) + '/*', // ignore frontend files to minimize server restarts
-        path.relative(config.paths.root, config.paths.webRoot) + '/*' // ignore compiled bundles & static frontend files        
+        path.relative(config.paths.root, config.paths.webRoot) + '/*', // ignore compiled bundles & static frontend files
+        path.relative(config.paths.root, config.paths.test) + '/*' // ignore changes to tests; those are picked up by JEST.
     ]
 };
 
