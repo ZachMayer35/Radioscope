@@ -15,6 +15,7 @@ var ASSETS_DIRNAME = 'static';
 var BUILD_DIRNAME = 'static/build';
 var API_PATH = 'api';
 var DOC_PATH = 'documentation';
+var SWAGGER_PATH = 'swaggerui';
 
 var SERVER_HOST;
 var SERVER_PORT;
@@ -37,7 +38,9 @@ var config = {
         assets: '/' + ASSETS_DIRNAME + '/',
         build: '/' + BUILD_DIRNAME + '/',
         api: '/' + API_PATH + '/',
-        docs: '/' + DOC_PATH + '/'
+        api_root: '/' + API_PATH,
+        docs: '/' + DOC_PATH + '/',
+        swagger: '/' + SWAGGER_PATH + '/',
     },
     paths: {
         root: ROOT_PATH,
@@ -47,8 +50,6 @@ var config = {
         source: path.join(ROOT_PATH, WEB_CLIENT_DIRNAME),
         components: path.join(ROOT_PATH, WEB_CLIENT_DIRNAME, 'components'),
         serverViews: path.join(ROOT_PATH, WEB_SERVER_DIRNAME, 'views'),
-        api: path.join(ROOT_PATH, API_PATH),
-        docs: path.join(ROOT_PATH, DOC_PATH),
         test: path.join(ROOT_PATH, 'tests')
     },
     server: {

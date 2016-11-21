@@ -14,7 +14,14 @@ const HapiSwagger = require('hapi-swagger');
 const Inert = require('inert');
 const Vision = require('vision');
 
-var server = new Hapi.Server();
+var server = new Hapi.Server({
+    connections: {
+        router: {
+            isCaseSensitive: false,
+            stripTrailingSlash: true
+        }
+    }
+});
 
 server.connection({
     host: config.server.api_host,
@@ -45,6 +52,16 @@ server.register(plugins, (err) => {
     server.route({
         method: 'GET',
         path: '/',
+        handler: (request, reply) => {
+            server.inject('/documentation', function (res) {
+                reply(res.payload);
+            });
+        }
+    });
+    // Default Route. Redirects to /documentation
+    server.route({
+        method: 'GET',
+        path: config.publicPaths.api_root,
         handler: (request, reply) => {
             server.inject('/documentation', function (res) {
                 reply(res.payload);

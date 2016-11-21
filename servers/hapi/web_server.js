@@ -12,7 +12,14 @@ var Inert = require('inert');
 var Vision = require('vision');
 var HapiReactViews = require('hapi-react-views');
 
-var server = new Hapi.Server();
+var server = new Hapi.Server({
+    connections: {
+        router: {
+            isCaseSensitive: false,
+            stripTrailingSlash: true
+        }
+    }
+});
 
 server.connection({
     host: config.server.host,
@@ -113,6 +120,17 @@ server.register(plugins, (err) => {
     // Route requests to /API to the API server.
     server.route({
         method: 'GET',
+        path: config.publicPaths.api_root,
+        handler: {
+            proxy: {
+                host: config.server.api_host,
+                port: config.server.api_port,
+                passThrough: true
+            }
+        }
+    });
+    server.route({
+        method: 'GET',
         path: config.publicPaths.api + '{path*}',
         handler: {
             proxy: {
@@ -126,6 +144,29 @@ server.register(plugins, (err) => {
     server.route({
         method: 'GET',
         path: config.publicPaths.docs + '{path*}',
+        handler: {
+            proxy: {
+                host: config.server.api_host,
+                port: config.server.api_port,
+                passThrough: true
+            }
+        }
+    });
+    // Route requests to /swaggerui to the API server which hosts swagger docs.
+    server.route({
+        method: 'GET',
+        path: config.publicPaths.swagger + '{path*}',
+        handler: {
+            proxy: {
+                host: config.server.api_host,
+                port: config.server.api_port,
+                passThrough: true
+            }
+        }
+    });
+    server.route({
+        method: 'GET',
+        path: '/swagger.json',
         handler: {
             proxy: {
                 host: config.server.api_host,

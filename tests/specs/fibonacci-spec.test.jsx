@@ -1,4 +1,5 @@
 'use strict';
+/* globals beforeAll */
 
 // In order for React to use our test DOM we need to require it before requiring React
 require('../utils/test-dom')();
