@@ -10,17 +10,28 @@ A JavaScript run-time visualizer with head-to-head code fighting.
 * webpack
 * Babel
 * react
-* react-transform-hmr.
+* react-transform-hmr
 
 ### Hot Module Reloading Development Mode
 
 * `npm run dev`
-* `npm run webpack` in another console
-* [http://localhost:8080](http://localhost:8080)
-* HMR works on JSX and CSS files currently. Other files may cause Hapi to restart.
+* [http://localhost:8080](http://localhost:8080) Web Server
+* [http://localhost:8085](http://localhost:8085) API Server
+* HMR works on JSX and CSS files in the /web/client/ directory currently. Other files may cause Hapi to restart.
+* nodemon watches for changes to other files and will restart the web and api servers as needed.
+* If any one process needs to be restarted use `npm run web_dev` or `npm run api` or `npm run webpack`
 
 ### Production
 
-* `npm run build`
-* `npm start`
-* [http://localhost:8080](http://localhost:8080)
+* `npm run build` builds a webpack bundle and map to public/static/build
+* `npm start` builds the webpack bundle and starts the web server and api server
+* `npm run web` builds the webpack bundle and starts the web server only
+* [http://localhost:8080](http://localhost:8080) Web Server
+* [http://localhost:8085](http://localhost:8085) API Server
+
+### Tests
+
+* `npm run jest`
+* Runs jest in watch mode. Will only run tests which are affected by files changed since the last commit and re-runs tests on save.
+* `npm run test`
+* Runs all tests once.

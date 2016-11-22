@@ -11,6 +11,7 @@ var Hapi = require('hapi');
 var Inert = require('inert');
 var Vision = require('vision');
 var HapiReactViews = require('hapi-react-views');
+var H2o2 = require('h2o2');
 
 var server = new Hapi.Server({
     connections: {
@@ -31,10 +32,8 @@ var plugins = [
     {register: Vision}, // enables rendering views with custom engines (view handler)
 ];
 // Enable proxying requests to webpack dev server (proxy handler)
-if (process.env.NODE_ENV === 'development') {
-    var H2o2 = require('h2o2');
-    plugins.push({register: H2o2});
-}
+plugins.push({register: H2o2});
+
 
 
 

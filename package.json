@@ -8,14 +8,17 @@
     "node": "^4.4.5"
   },
   "scripts": {
-    "start": "npm run build&&start cmd.exe @cmd /k \"npm run api\"&SET NODE_ENV=production&node --harmony servers/hapi/web_server.js",
+    "start": "start cmd.exe @cmd /k \"npm run api\"&npm run web",
+    "web": "npm run build&&SET NODE_ENV=production&node --harmony servers/hapi/web_server.js",
+    "web_dev": "npm run make_dev&&SET NODE_ENV=development&.\\node_modules\\.bin\\nodemon --harmony servers/hapi/web_server.js",
     "api": "SET NODE_ENV=production&.\\node_modules\\.bin\\nodemon --harmony servers/hapi/api_server.js",
-    "build": "SET NODE_ENV=production&node --harmony node_scripts/make.js&SET NODE_ENV=production&webpack -p --config servers/webpack/webpack-config.js",
-    "webpack": "SET NODE_ENV=development&node --harmony node_scripts/make.js&SET NODE_ENV=development&node --harmony servers/webpack/webpack-dev-server.js",
-    "dev": "start cmd.exe @cmd /k \"npm run webpack\"&start cmd.exe @cmd /k \"npm run api\"&SET NODE_ENV=development&node --harmony node_scripts/make.js&SET NODE_ENV=development&.\\node_modules\\.bin\\nodemon --harmony servers/hapi/web_server.js",
+    "build": "npm run make&SET NODE_ENV=production&webpack -p --config servers/webpack/webpack-config.js",
+    "webpack": "npm run make_dev&SET NODE_ENV=development&node --harmony servers/webpack/webpack-dev-server.js",
+    "dev": "start cmd.exe @cmd /k \"npm run webpack\"&start cmd.exe @cmd /k \"npm run api\"&npm run web_dev",
+    "make_dev": "SET NODE_ENV=development&node --harmony node_scripts/make.js", 
     "make": "SET NODE_ENV=production&node --harmony node_scripts/make.js",
     "lint": "eslint . --ext .js --ext .jsx --quiet",
-    "test": "node node_scripts/test.js --env=jsdom --all",
+    "test": "node node_scripts/test.js --env=jsdom",
     "jest": "node node_scripts/test.js --env=jsdom --watch"
   },
   "repository": {
