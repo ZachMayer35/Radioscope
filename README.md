@@ -11,6 +11,9 @@ A JavaScript run-time visualizer with head-to-head code fighting.
 * Babel
 * react
 * react-transform-hmr
+* less
+* chai
+* jest
 
 ### Hot Module Reloading Development Mode
 

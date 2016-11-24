@@ -161,7 +161,7 @@ StringsArrays.routes = [
             // SWAGGER DOCS
             description: 'Strings and Arrays 3',
             notes: 'Rotate a matrix (2D array)',
-            tags: ['api', 'StringsArrays', 'get'],
+            tags: ['api', 'StringsArrays', 'post'],
             // END SWAGGER DOCS 
             validate: {
                 payload: Joi.object().keys({ matrix: Joi.array() })
