@@ -34,9 +34,11 @@ class Fibonacci extends React.Component {
                     n = <span className='-number n'>{this.state.n}</span>
                     <br />
                     Fibonacci Number At N = <span className='-number f'>{this.state.f}</span>
-                </span>                
-                <button className='-button' type='button' onClick={this.increment.bind(this)}>+</button>
-                <button className='-button' type='button' onClick={this.decrement.bind(this)}>–</button>
+                </span> 
+                <div className='btn-group'>               
+                    <button className='btn btn-lg btn-primary' type='button' onClick={this.increment.bind(this)}>+</button>
+                    <button className='btn btn-lg btn-primary' type='button' onClick={this.decrement.bind(this)}>–</button>
+                </div>
 
             </div>
         );
