@@ -3,10 +3,17 @@ A JavaScript run-time visualizer with head-to-head code fighting.
 
 ## Usage
 
-### Install
+### Dependencies
 
-* `npm install` 
-* Installs the web and api components in parallel; installation consoles will exit when completed.
+* node.js v4+
+* Hapi
+* webpack
+* Babel
+* react
+* react-transform-hmr
+* less
+* chai
+* jest
 
 ### Hot Module Reloading Development Mode
 
@@ -19,9 +26,11 @@ A JavaScript run-time visualizer with head-to-head code fighting.
 
 ### Production
 
+* `npm run build` builds a webpack bundle and map to public/static/build
 * `npm start` builds the webpack bundle and starts the web server and api server
-* http://[HOST_NAME]:80 Web Server
-* http://[HOST_NAME]:8085 API Server
+* `npm run web` builds the webpack bundle and starts the web server only
+* [http://localhost:8080](http://localhost:8080) Web Server
+* [http://localhost:8085](http://localhost:8085) API Server
 
 ### Tests
 

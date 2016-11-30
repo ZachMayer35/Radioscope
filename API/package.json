@@ -1,0 +1,75 @@
+{
+  "name": "radioscope",
+  "version": "1.0.0",
+  "description": "A JavaScript run-time visualizer with head-to-head code fighting.",
+  "private": true,
+  "main": "servers/hapi/api_server.js",
+  "engines": {
+    "node": "^4.4.5"
+  },
+  "scripts": {
+    "start": "npm run make&&SET NODE_ENV=production&.\\node_modules\\.bin\\nodemon --harmony servers/hapi/api_server.js",
+    "dev": "npm run make_dev&&SET NODE_ENV=production&.\\node_modules\\.bin\\nodemon --harmony servers/hapi/api_server.js",
+    "make": "SET NODE_ENV=production&node --harmony node_scripts/make.js",
+    "make_dev": "SET NODE_ENV=development&node --harmony node_scripts/make.js",
+    "lint": "eslint . --ext .js --quiet",
+    "test": "npm run make&&node node_scripts/test.js --env=jsdom",
+    "jest": "npm run make&&node node_scripts/test.js --env=jsdom --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZachMayer35/Radioscope.git"
+  },
+  "author": "Zachary Mayer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ZachMayer35/Radioscope/issues"
+  },
+  "homepage": "https://github.com/ZachMayer35/Radioscope#readme",
+  "jest": {
+    "moduleFileExtensions": [
+      "",
+      "js",
+      "json"
+    ],
+    "setupFiles": [
+      "<rootDir>\\tests\\config\\polyfills.js"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/(build|docs|node_modules)/"
+    ],
+    "testEnvironment": "node"
+  },
+  "devDependencies": {
+    "babel-core": "^6.3.17",
+    "babel-eslint": "^4.1.6",
+    "babel-loader": "^6.2.0",
+    "babel-plugin-react-transform": "^2.0.0-beta1",
+    "babel-plugin-webpack-loaders": "^0.8.0",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "babel-register": "^6.3.13",
+    "chai": "^3.5.0",
+    "chalk": "^1.1.1",
+    "dotenv": "^2.0.0",
+    "hapi": "^15.0.2",
+    "hapi-swagger": "^7.4.0",
+    "ignore-styles": "^1.2.0",
+    "inert": "^3.2.0",
+    "jest": "^17.0.3",
+    "joi": "^9.0.4",
+    "jsdom": "^8.1.0",
+    "mocha": "^2.4.5",
+    "quick-local-ip": "^1.0.7",
+    "rimraf": "^2.4.4",
+    "sinon": "^1.17.6",
+    "vision": "^4.0.1",
+    "whatwg-fetch": "^2.0.1"
+  },
+  "dependencies": {
+    "eslint": "^1.1.0",
+    "eslint-loader": "^1.0.0",
+    "eslint-plugin-react": "^3.2.2",
+    "nodemon": "^1.8.1"
+  }
+}
