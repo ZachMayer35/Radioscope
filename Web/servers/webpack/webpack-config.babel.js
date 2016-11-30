@@ -26,7 +26,10 @@ var LESS_LOADER = {
     loaders: ["style", "css", "less"],
     include: config.paths.source
 }
-
+var URL_LOADER = {
+    test: /\.(eot|woff|woff2|ttf|svg|png|jpg)$/,
+    loader: 'url-loader?limit=30000&name=[name]-[hash].[ext]'
+}
 
 var webpackConfig = {
     resolve: {
@@ -73,6 +76,7 @@ if (process.env.NODE_ENV === 'development') {
                 }
             ],
             loaders: [
+                URL_LOADER,
                 CSS_LOADER,
                 SASS_LOADER,
                 LESS_LOADER,
@@ -91,10 +95,6 @@ if (process.env.NODE_ENV === 'development') {
                             }]
                         ]
                     }
-                },
-                {
-                    test: /\.(eot|woff|woff2|ttf|svg|png|jpg)$/,
-                    loader: 'url-loader?limit=30000&name=[name]-[hash].[ext]'
                 }
             ]
         },
@@ -120,6 +120,7 @@ if (process.env.NODE_ENV === 'development') {
         devtool: 'source-map', // generate full source maps
         module: {
             loaders: [
+                URL_LOADER,
                 CSS_LOADER,
                 SASS_LOADER,
                 LESS_LOADER,
