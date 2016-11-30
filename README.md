@@ -1,6 +1,8 @@
 # Radioscope
 A JavaScript run-time visualizer with head-to-head code fighting.
 
+[![Build Status](https://travis-ci.org/ZachMayer35/Radioscope.svg?branch=master)](https://travis-ci.org/ZachMayer35/Radioscope)
+
 ## Usage
 
 ### Install
