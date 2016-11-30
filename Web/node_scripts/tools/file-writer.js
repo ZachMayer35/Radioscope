@@ -1,10 +1,10 @@
 'use strict';
 
-var fs = require('fs');
-var path = require('path');
-var rimraf = require('rimraf');
-var chalk = require('chalk');
-var config = require('../../variables');
+import fs from 'fs';
+import path from 'path';
+import rimraf from 'rimraf';
+import chalk from 'chalk';
+import config from '../../variables';
 
 
 var logPrefix = '[' + path.basename(__filename) + '] ';

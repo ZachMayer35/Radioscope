@@ -1,13 +1,13 @@
 'use strict';
 
-var React = require('react'); // React must be in scope when using JSX because JSX is translated into React.createElement(...)
-var ReactDOM = require('react-dom');
-var Fibonacci = require('./components/fibonacci');
-var path = require('path');
+import React from 'react'; // React must be in scope when using JSX because JSX is translated into React.createElement(...)
+import ReactDOM from 'react-dom';
+import Fibonacci from './components/fibonacci';
+import path from 'path';
 
 global.API_PATH = global.API_PATH || path.join(__dirname, '/../api');
 
-require('./assets/main.less');
+import css from './assets/main.less';
 
 function mainApp () {
     ReactDOM.render(

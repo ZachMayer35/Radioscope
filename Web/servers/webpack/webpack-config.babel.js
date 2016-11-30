@@ -1,9 +1,9 @@
 'use strict';
 
-var path = require('path');
-var webpack = require('webpack');
-var AssetsWebpackPlugin = require('assets-webpack-plugin');
-var config = require('../../variables');
+import path from 'path';
+import webpack from 'webpack';
+import AssetsWebpackPlugin from 'assets-webpack-plugin';
+import config from '../../variables';
 
 
 

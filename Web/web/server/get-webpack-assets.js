@@ -1,7 +1,7 @@
 'use strict';
 
-var config = require('../../variables');
-var path = require('path');
+import config from '../../variables';
+import path from 'path';
 
 var assetsJsonPath = path.resolve(config.webpack.assetsPath, config.webpack.assetsFilename);
 

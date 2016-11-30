@@ -1,9 +1,11 @@
 'use strict';
 
-require('dotenv').config({ silent: true });
-var path = require('path');
-var FileWriter = require('./tools/file-writer');
-var ip = require('quick-local-ip');
+import dotenv from 'dotenv'
+dotenv.config({ silent: true });
+
+import path from 'path';
+import FileWriter from './tools/file-writer';
+import ip from 'quick-local-ip';
 
 var HOST = process.env.NODE_ENV === 'development' ? 'localhost' : ip.getLocalIP4();
 var PORT = process.env.NODE_ENV === 'development' ? '8080' : '80';

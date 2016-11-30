@@ -1,6 +1,6 @@
 'use strict';
 
-var jsdom = require('jsdom').jsdom;
+import { jsdom } from 'jsdom';
 
 /**
  * @param {string} [markup] - custom HTML layout into which you'll be rendering your test components

@@ -1,7 +1,7 @@
 'use strict';
 
-var React = require('react');
-require('./fibonacci.less');
+import React from 'react';
+import css from './fibonacci.less';
 
 /**
  * @class Fibonacci

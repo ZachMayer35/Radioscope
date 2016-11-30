@@ -4,14 +4,14 @@ if (process.env.NODE_ENV !== 'development') {
     throw new Error('ERROR: Webpack dev server only works in dev environment');
 }
 
-var chalk = require('chalk');
-var express = require('express');
-var webpack = require('webpack');
-var webpackDevMiddleware = require('webpack-dev-middleware');
-var webpackHotMiddleware = require('webpack-hot-middleware');
+import chalk from 'chalk';
+import express from 'express';
+import webpack from 'webpack';
+import webpackDevMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
 
-var config = require('../../variables');
-var webpackConfig = require('./webpack-config');
+import config from '../../variables';
+import webpackConfig from './webpack-config.babel';
 
 
 var app = express();

@@ -1,7 +1,7 @@
 'use strict';
 
-var getWebpackAssets = require('../get-webpack-assets');
-var React = require('react');
+import getWebpackAssets from '../get-webpack-assets';
+import React from 'react';
 
 var App = React.createClass({
 

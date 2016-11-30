@@ -1,8 +1,8 @@
 'use strict';
 
-var path = require('path');
-var FileWriter = require('./tools/file-writer');
-var config = require('../variables');
+import path from 'path';
+import FileWriter from './tools/file-writer';
+import config from '../variables';
 
 
 var nodemonConfig = {

@@ -2,18 +2,21 @@
 /* globals beforeAll */
 
 // In order for React to use our test DOM we need to require it before requiring React
-require('../utils/test-dom')();
+import testDom from '../utils/test-dom';
+testDom();
 
-var React = require('react');
-var ReactDOM = require('react-dom');
-var expect = require('chai').expect;
-var sinon = require('sinon');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { expect } from 'chai';
+import sinon from 'sinon';
 
-var Fibonacci = require('../../web/client/components/fibonacci');
+import Fibonacci from '../../web/client/components/fibonacci';
+
+import TestUtils from 'react-addons-test-utils';
 
 describe('When Fibonacci Component is displayed it', () => {
 
-    var TestUtils = require('react-addons-test-utils');
+    
     var Simulate = TestUtils.Simulate;
 
     var component;

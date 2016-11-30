@@ -1,8 +1,9 @@
 'use strict';
 
-var path = require('path');
-var chalk = require('chalk');
-require('dotenv').config({ silent: true });
+import path from 'path';
+import chalk from 'chalk';
+import dotenv from 'dotenv';
+dotenv.config({ silent: true });
 
 // This and anything in config.paths must be absolute.
 var ROOT_PATH = global.ROOT_PATH = path.resolve(__dirname);

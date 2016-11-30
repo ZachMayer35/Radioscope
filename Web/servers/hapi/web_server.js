@@ -3,15 +3,17 @@
 // Perform babel transforms defined in .babelrc (ES6, JSX, etc.) on server-side code
 // Note: the options in .babelrc are also used for client-side code
 // because we use a babel loader in webpack config
-require('babel-register');
 
-var config = require('../../variables');
-var path = require('path');
-var Hapi = require('hapi');
-var Inert = require('inert');
-var Vision = require('vision');
-var HapiReactViews = require('hapi-react-views');
-var H2o2 = require('h2o2');
+import babelRegister from 'babel-register';
+
+import config from '../../variables';
+import path from 'path';
+import Hapi from 'hapi';
+import Inert from 'inert';
+import Vision from 'vision';
+import HapiReactViews from 'hapi-react-views';
+import H2o2 from 'h2o2';
+import chalk from 'chalk';
 
 var server = new Hapi.Server({
     connections: {
@@ -116,8 +118,7 @@ server.register(plugins, (err) => {
         });
     }
 
-    // Route requests to /API to the API server.
-    console.log('Routing /api to http://' + config.server.api_host + ":" + config.server.api_port);
+    // Route requests to /API to the API server.    
     server.route({
         method: 'GET',
         path: config.publicPaths.api_root,
@@ -176,7 +177,11 @@ server.register(plugins, (err) => {
         }
     });
 
-    server.start(() => {
-        console.log('Hapi server started!');
+    server.start(() => {        
+        console.log(chalk.green.bold('Web server started!'));
+        console.log('Listening at ' + 
+            chalk.bgGreen.bold(config.server.rootUrl));
+        console.log('Routing /api to ' +
+            chalk.bgBlue.bold('http://' + config.server.api_host + ":" + config.server.api_port));
     });
 });
