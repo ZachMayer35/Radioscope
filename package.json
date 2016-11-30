@@ -14,7 +14,6 @@
     "_api_dev": "start cmd.exe @cmd /k \"cd API&&npm run dev\"",
     "test": "start cmd.exe @cmd /k \"cd Web&&npm test\"&start cmd.exe @cmd /k \"cd API&&npm test\"",
     "jest": "start cmd.exe @cmd /k \"cd Web&&npm run jest\"&start cmd.exe @cmd /k \"cd API&&npm run jest\"",
-    //"postinstall": "start cmd.exe @cmd /k \"cd Web&&npm install&&exit\"&start cmd.exe @cmd /k \"cd API&&npm install&&exit\""
     "postinstall": "cd Web&&npm install&&cd ../API&&npm install"
   },
   "repository": {
