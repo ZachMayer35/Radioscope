@@ -8,13 +8,13 @@
     "node": "^4.4.5"
   },
   "scripts": {
-    "start": "npm run make&&SET NODE_ENV=production&.\\node_modules\\.bin\\nodemon --harmony servers/hapi/api_server.js",
-    "dev": "npm run make_dev&&SET NODE_ENV=production&.\\node_modules\\.bin\\nodemon --harmony servers/hapi/api_server.js",
-    "make": "export NODE_ENV=production&babel-node --harmony node_scripts/make.js",
+    "start": "npm run make&&SET NODE_ENV=production&.\\node_modules\\.bin\\nodemon --harmony servers/hapi/api_server.js --exec babel-node",
+    "dev": "npm run make_dev&&SET NODE_ENV=production&.\\node_modules\\.bin\\nodemon --harmony servers/hapi/api_server.js --exec babel-node",
+    "make": "set NODE_ENV=production&babel-node --harmony node_scripts/make.js",
     "make_dev": "SET NODE_ENV=development&babel-node --harmony node_scripts/make.js",
     "lint": "eslint . --ext .js --quiet",
-    "test": "node node_scripts/test.js --env=jsdom",
-    "jest": "npm run make&&node node_scripts/test.js --env=jsdom --watch"
+    "test": "babel-node node_scripts/test.js --env=jsdom",
+    "jest": "npm run make&&babel-node node_scripts/test.js --env=jsdom --watch"
   },
   "repository": {
     "type": "git",

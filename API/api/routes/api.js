@@ -1,11 +1,10 @@
 'use strict'
-/* global API_PATH */
 
-var util = require('./util');
+import util from './util';
 
-var Fibonacci = require(API_PATH + '/fibonacci');
-var StringsArrays = require(API_PATH + '/stringsArrays');
-var Moderate = require(API_PATH + '/moderate');
+import Fibonacci from '../fibonacci';
+import StringsArrays from '../stringsArrays';
+import Moderate from '../moderate';
 
 var _ROUTES_ = util.RouteBuilder("/api", Fibonacci, StringsArrays, Moderate);
 

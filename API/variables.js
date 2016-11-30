@@ -1,9 +1,9 @@
 'use strict';
 
-require('dotenv').config({ silent:true });
-
-var path = require('path');
-var chalk = require('chalk');
+import path from 'path';
+import chalk from 'chalk';
+import dotenv from 'dotenv';
+dotenv.config({ silent: true });
 
 // This and anything in config.paths must be absolute.
 var ROOT_PATH = global.ROOT_PATH = path.resolve(__dirname);
@@ -18,7 +18,7 @@ var SERVER_HOST = process.env.HOST || '127.0.0.1';
 var SERVER_PORT = process.env.PORT || 8085;
 var SERVER_PROTOCOL = process.env.PROTOCOL || 'http';
 
-if (process.env.NODE_ENV != 'development' && process.env.NODE_ENV != 'production') {    
+if (process.env.NODE_ENV != 'development' && process.env.NODE_ENV != 'production' && process.env.NODE_ENV != 'test') {    
     var errorText = '[' + path.basename(__filename) + '] ERROR: NODE_ENV is not set: ' + process.env.NODE_ENV;
     console.log(chalk.red(errorText));
     throw new Error(errorText);

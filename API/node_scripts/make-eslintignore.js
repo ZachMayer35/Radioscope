@@ -1,7 +1,7 @@
 'use strict';
 
-var path = require('path');
-var FileWriter = require('./tools/file-writer');
+import path from 'path';
+import FileWriter from './tools/file-writer';
 
 var eslintIgnore = [
     '###',

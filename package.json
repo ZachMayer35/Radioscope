@@ -25,11 +25,9 @@
   "bugs": {
     "url": "https://github.com/ZachMayer35/Radioscope/issues"
   },
-  "homepage": "https://github.com/ZachMayer35/Radioscope#readme",  
+  "homepage": "https://github.com/ZachMayer35/Radioscope#readme",
   "devDependencies": {
-    
+    "babel-cli": "^6.18.0"
   },
-  "dependencies": {
-    
-  }
+  "dependencies": {}
 }

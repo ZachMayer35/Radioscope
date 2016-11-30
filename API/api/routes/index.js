@@ -1,5 +1,5 @@
 'use strict'
 
-var api = require('./api');
+import api from'./api';
 
 module.exports = [].concat(api);

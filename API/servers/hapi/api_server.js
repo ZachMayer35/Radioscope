@@ -3,17 +3,17 @@
 // Perform babel transforms defined in .babelrc (ES6, JSX, etc.) on server-side code
 // Note: the options in .babelrc are also used for client-side code
 // because we use a babel loader in webpack config
-require('babel-register');
+import babelRegister from 'babel-register';
 
-var config = require('../../variables');
-var chalk = require('chalk');
-var path = require('path');
-var Hapi = require('hapi');
-var routes = require('../../api/routes');
-const Pack = require('../../package');
-const HapiSwagger = require('hapi-swagger');
-const Inert = require('inert');
-const Vision = require('vision');
+import config from '../../variables';
+import chalk from 'chalk';
+import path from 'path';
+import Hapi from 'hapi';
+import routes from '../../api/routes';
+import Pack from '../../package';
+import HapiSwagger from 'hapi-swagger';
+import Inert from 'inert';
+import Vision from 'vision';
 
 var server = new Hapi.Server({
     connections: {

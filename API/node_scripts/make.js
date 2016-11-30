@@ -1,7 +1,11 @@
 'use strict';
 
-require('./clean');
+import './clean';
 
-require('./make-env')();
-require('./make-eslintignore')();
-require('./make-nodemon-json')();
+import env from './make-env';
+import eslintignore from './make-eslintignore';
+import nodemonJson from './make-nodemon-json';
+
+env();
+eslintignore();
+nodemonJson();

@@ -1,6 +1,6 @@
 'use strict';
 
-var babel = require('babel-core');
+import babel from 'babel-core';
 
 module.exports = {
   process: function(src, filename) {

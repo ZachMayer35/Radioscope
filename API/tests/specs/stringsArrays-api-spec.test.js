@@ -1,10 +1,10 @@
 'use strict';
 
 process.env.NODE_ENV = "production";
-var expect = require('chai').expect;
-var config = require('../../variables');
-var routes = require('../../api/routes');
-var Hapi = require('hapi');
+import { expect } from 'chai';
+import config from '../../variables';
+import routes from '../../api/routes';
+import Hapi from 'hapi';
 
 var server;
 
