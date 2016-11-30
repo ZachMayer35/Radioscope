@@ -40,9 +40,9 @@
     ],
     "moduleNameMapper": {
       "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>\\tests\\config\\jest\\FileStub.js",
-      "^.+\\.css$": "<rootDir>\\tests\\config\\jest\\CSSStub.js",
-      "^.+\\.less$": "<rootDir>\\tests\\config\\jest\\FileStub.js",
-      "^.+\\.scss$": "<rootDir>\\tests\\config\\jest\\CSSStub.js"
+      "^.+\\.css$": "<rootDir>/tests/config/jest/CSSStub.js",
+      "^.+\\.less$": "<rootDir>/tests/config/jest/FileStub.js",
+      "^.+\\.scss$": "<rootDir>/tests/config/jest/CSSStub.js"
     },
     "setupFiles": [
       "<rootDir>/tests/config/polyfills.js"
