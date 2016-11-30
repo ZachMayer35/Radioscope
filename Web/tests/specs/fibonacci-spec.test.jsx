@@ -74,7 +74,7 @@ describe('When Fibonacci Component is displayed it', () => {
     it('should increment N when the `+` button is clicked', (done) => {
         var currentNValue = parseInt(renderedDOMElement.querySelector('.-number.n').textContent);
         expect(currentNValue).to.equal(20);
-        var incrementButton = renderedDOMElement.querySelectorAll('.-button')[0];
+        var incrementButton = renderedDOMElement.querySelectorAll('.btn')[0];
         Simulate.click(incrementButton);
 
         expect(requests.length).to.equal(1);
@@ -94,7 +94,7 @@ describe('When Fibonacci Component is displayed it', () => {
     it('should decrement N when the `-` button is clicked', (done) => {
         var currentNValue = parseInt(renderedDOMElement.querySelector('.-number.n').textContent);
         expect(currentNValue).to.equal(21);
-        var decrementButton = renderedDOMElement.querySelectorAll('.-button')[1];
+        var decrementButton = renderedDOMElement.querySelectorAll('.btn')[1];
         Simulate.click(decrementButton);
 
         expect(requests.length).to.equal(1);
