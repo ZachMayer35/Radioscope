@@ -10,10 +10,10 @@
   "scripts": {
     "start": "npm run make&&SET NODE_ENV=production&.\\node_modules\\.bin\\nodemon --harmony servers/hapi/api_server.js",
     "dev": "npm run make_dev&&SET NODE_ENV=production&.\\node_modules\\.bin\\nodemon --harmony servers/hapi/api_server.js",
-    "make": "SET NODE_ENV=production&node --harmony node_scripts/make.js",
+    "make": "export NODE_ENV=production&node --harmony node_scripts/make.js",
     "make_dev": "SET NODE_ENV=development&node --harmony node_scripts/make.js",
     "lint": "eslint . --ext .js --quiet",
-    "test": "npm run make&&node node_scripts/test.js --env=jsdom",
+    "test": "node node_scripts/test.js --env=jsdom",
     "jest": "npm run make&&node node_scripts/test.js --env=jsdom --watch"
   },
   "repository": {
