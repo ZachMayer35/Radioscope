@@ -128,9 +128,9 @@
     "no-new-object": 1,
     // http://eslint.org/docs/rules/no-restricted-syntax
     "no-spaced-func": 1,
-    "no-trailing-spaces": 1,
+    "no-trailing-spaces": 0,
     "no-unneeded-ternary": 1,
-    "object-curly-spacing": [1, "never"],
+    "object-curly-spacing": [1, "always"],
     "one-var": [2, "never"],
     // http://eslint.org/docs/rules/operator-linebreak
     // http://eslint.org/docs/rules/quote-props

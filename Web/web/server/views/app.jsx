@@ -14,7 +14,7 @@ var App = React.createClass({
                     <script src={getWebpackAssets().app.js}></script>
                 </head>
                 <body>
-                    <div id='appContainer'>This text will be replaced by an app component</div>
+                    <div id='appContainer' className="flex-container">This text will be replaced by an app component</div>
                 </body>
             </html>
         );

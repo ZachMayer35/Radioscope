@@ -1,21 +1,27 @@
+'use strict';
+
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import createLogger from 'redux-logger';
 import { useRouterHistory } from 'react-router';
 
-import fibonacci from '../components/fibonacci/reducer';
+import fibonacci from '../fibonacci/reducer';
 
 const rootReducer = combineReducers({
     fibonacci
 });
 
-const loggerMiddleware = createLogger();
+const middlewares = [thunkMiddleware];
+
+if (process.env.NODE_ENV !== 'test') {
+  const createLogger = require('redux-logger');
+  const logger = createLogger();
+  middlewares.push(logger);
+}
 
 const store = createStore(
 	rootReducer,
 	applyMiddleware(
-		thunkMiddleware,
-		//loggerMiddleware
+		...middlewares
 	));
 
 export default store;
