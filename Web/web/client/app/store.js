@@ -2,12 +2,13 @@
 
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import { useRouterHistory } from 'react-router';
+import { routerReducer } from 'react-router-redux';
 
-import fibonacci from '../fibonacci/reducer';
+import fibonacciReducer from '../fibonacci/reducer';
 
 const rootReducer = combineReducers({
-    fibonacci
+    fibonacci: fibonacciReducer,
+	routing: routerReducer
 });
 
 const middlewares = [thunkMiddleware];

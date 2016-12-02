@@ -9,20 +9,19 @@ import { setNum, fetchFibonacciNumber } from './actions';
 import Nth from './components/Nth';
 import IncDec from './components/IncDec';
 
+
 /**
  * @class Fibonacci
  * @extends ReactComponent
  */
-class Fibonacci extends React.Component {
+class Fibonacci extends React.Component {    
     componentWillMount () {
-        this.props.setNum(this.props.n);
+        this.props.setNum(this.props.n || 10);
         this.props.fetchFibonacciNumber();
     }
     render () {        
         return (
             <div className='Fibonacci flex-item'>
-                <h1 className='-text'>Fibonacci_new</h1>
-                <p className='-text'>Increment N to get the next fibonacci number in the sequence.</p>
                 <Nth />
                 <IncDec />
             </div>
@@ -36,6 +35,10 @@ Fibonacci.propTypes = {
     fetchFibonacciNumber: PropTypes.func.isRequired,
 };
 
+const mapStoreToProps = (store, props) => ({
+    n: props.n || 10
+});
+
 const mapDispatchToProps = (dispatch) => ({
     setNum: (num) => {
         dispatch(setNum(num));
@@ -45,4 +48,4 @@ const mapDispatchToProps = (dispatch) => ({
     }
 });
 
-export default connect(null, mapDispatchToProps)(Fibonacci);
+export default connect(mapStoreToProps, mapDispatchToProps)(Fibonacci);

@@ -86,8 +86,9 @@ server.register(plugins, (err) => {
     server.route({
         method: 'GET',
         path: '/{path*}',
-        handler: (request, reply) => {
-            reply('Hapi catch-all view for /' + request.params.path);
+        handler: {
+            view: 'app'
+            //reply('Hapi catch-all view for /' + request.params.path);
         }
     });
 

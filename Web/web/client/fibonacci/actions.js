@@ -36,4 +36,4 @@ export const fetchFibonacciNumber = () => (
         return fetch(global.API_PATH + '/fibonacci/getNth/' + getState().fibonacci.n)
             .then((response) => response.json())
             .then((response) => dispatch(receiveSingle(response)));
-    });
+});
