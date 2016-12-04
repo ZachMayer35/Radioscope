@@ -5,15 +5,15 @@ import React from 'react';
 import Fibonacci from '../fibonacci/';
 
 class FooPage extends React.Component {
-    render () {        
+    render () {      
         return (
-            <div className='flex-item'>
-                <h1 className='-text'>Foo_Page</h1>
+            <div className='flex-item'>                
                 <p className='-text'>Something foo-like</p>
                 <Fibonacci n={20}/>          
             </div>
         );
     }
 }
+FooPage.pageName = 'Foo_Page';
 
 export default FooPage;

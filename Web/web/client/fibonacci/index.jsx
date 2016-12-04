@@ -7,8 +7,6 @@ import './fibonacci.less';
 import { setNum, fetchFibonacciNumber } from './actions';
 
 import Nth from './components/Nth';
-import IncDec from './components/IncDec';
-
 
 /**
  * @class Fibonacci
@@ -23,7 +21,6 @@ class Fibonacci extends React.Component {
         return (
             <div className='Fibonacci flex-item'>
                 <Nth />
-                <IncDec />
             </div>
         );
     }

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { incrementNum, decrementNum, fetchFibonacciNumber } from '../actions';
 
 const IncDec = (state) => (
-    <div className='btn-group'>
+    <div className='input-group btn-group'>
         <button className='btn btn-primary' onClick={state.incrementNum}><i className='glyphicon glyphicon-plus'/></button>
         <button className='btn btn-primary' onClick={state.decrementNum}><i className='glyphicon glyphicon-minus'/></button>
     </div>
