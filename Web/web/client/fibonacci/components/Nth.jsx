@@ -10,7 +10,7 @@ const Nth = ({ n, f, loading, setN }) => (
     <div className='flex-line'>      
       <div className='input-group col-sm-9 col-xs-6'>
         <div className='input-group-addon'>N</div>
-        <input type='text' className='form-control' value={n} 
+        <input type='text' className='form-control n' value={n} 
         onChange={(e) => (setN(e.target.value))} 
         />
       </div>
@@ -20,7 +20,7 @@ const Nth = ({ n, f, loading, setN }) => (
     </div>
     <div className='input-group'>
       <div className='input-group-addon'>F</div>
-      <input type='text' className='form-control' value={loading ? 'Loading...' : f || 0} 
+      <input type='text' className='form-control f' value={loading ? 'Loading...' : f || 0} 
       disabled 
       />
     </div>

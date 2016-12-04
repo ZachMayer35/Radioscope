@@ -59,7 +59,7 @@ describe('When Fibonacci Component is displayed it', () => {
     
     it('should render the correct N value', (done) => {
         var nValue = store.getState().fibonacci.n;
-        var renderedDOMNumber_N = parseInt(renderedDOMElement.querySelector('.-number.n').textContent);
+        var renderedDOMNumber_N = parseInt(renderedDOMElement.querySelector('.n').value);
 
         expect(renderedDOMNumber_N).to.equal(nValue);
         done();
