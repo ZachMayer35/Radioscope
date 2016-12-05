@@ -4,7 +4,7 @@ import React, { Component, PropTypes } from 'react';
 
 import '../../../assets/components/fibonacci.less';
 
-import Nth from '../../combiners/fibonacci/components/Nth';
+import Nth from '../../combiners/fibonacci/components/nth';
 import Error from '../../combiners/fibonacci/components/error';
 
 const FibonacciNth = ({n}) => (
