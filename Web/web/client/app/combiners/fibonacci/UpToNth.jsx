@@ -1,9 +1,8 @@
 'use strict';
 
-import React from 'react';
 import { connect } from 'react-redux';
-import { setNum, fetchAllFibonacciNumbers } from '../../../actions/fibonacci-actions';
-import UpToNth from '../../../components/common/UpToNth'
+import { setNum, fetchAllFibonacciNumbers } from '../../actions/fibonacci-actions';
+import UpToNth from '../../components/fibonacci/UpToNth';
 
 const mapStateToProps = (state, props) => {
   return { ...state.fibonacci, _props: props };

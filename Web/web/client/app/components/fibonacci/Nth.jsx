@@ -5,14 +5,14 @@ import IncDec from './IncDec';
 
 class Nth extends Component {
   componentWillMount () {
-    if (this.props._props.n !== this.props.n){
+    if (this.props._props.n !== this.props.n) {
       this.props.setN(this.props._props.n);
     }
   }
   render () {
     const { n, f, loading, increment, decrement, setN } = this.props;
     return (
-      <div className='-text'>
+      <div className='flex-item'>
         <div className='flex-line'>      
           <div className='input-group col-sm-9 col-xs-6'>
             <div className='input-group-addon'>N</div>
@@ -31,7 +31,7 @@ class Nth extends Component {
           />
         </div>
       </div>
-    )
+    );
   }
 }
 
@@ -39,10 +39,11 @@ Nth.propTypes = {
   setN: PropTypes.func.isRequired,
   increment: PropTypes.func.isRequired,
   decrement: PropTypes.func.isRequired,
-  n: PropTypes.number.isRequired,
+  n: PropTypes.any.isRequired,
   propN: PropTypes.number,
   f: PropTypes.number.isRequired,
-  loading: PropTypes.bool.isRequired
-}
+  loading: PropTypes.bool.isRequired,
+  _props: PropTypes.any
+};
 
 export default Nth;

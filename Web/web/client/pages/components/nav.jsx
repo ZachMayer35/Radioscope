@@ -9,7 +9,7 @@ const navItemClass = (path, currentPath) => {
         name += ' active';
     }
     return name;
-}
+};
 
 const Nav = ({ currentPath }) => (
     <div className='panel panel-default'>

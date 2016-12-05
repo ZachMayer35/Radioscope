@@ -12,7 +12,7 @@ const initialState = {
 
 const validN = (num) => {
     return num > 0 && num < 1000;
-}
+};
 
 const FibonacciReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -37,12 +37,12 @@ const FibonacciReducer = (state = initialState, action) => {
                 loading: true
             };
         case fib.RECEIVE_FIBONACCI:
-            if(action.f && action.f.error){
+            if (action.f && action.f.error) {
                 return {
                     ...state,
                     error: action.f,
                     loading: false
-                }
+                };
             }
             return {
                 ...state,
@@ -55,12 +55,12 @@ const FibonacciReducer = (state = initialState, action) => {
                 loading: true
             };
         case fib.RECEIVE_ALL_FIBONACCI:
-            if(action.a && action.a.error){
+            if (action.a && action.a.error) {
                 return {
                     ...state,
                     error: action.a,
                     loading: false
-                }
+                };
             }
             return {
                 ...state,
@@ -71,9 +71,9 @@ const FibonacciReducer = (state = initialState, action) => {
             return {
                 ...state,
                 error: null
-            }
+            };
         case fib.RESET: 
-            return initialState
+            return initialState;
         default:
             return state;
     }

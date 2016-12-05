@@ -59,7 +59,6 @@ export const fetchFibonacciNumber = () => (
             .then((response) => dispatch(receiveSingle(response)));
 });
 
-
 export const fetchAllFibonacciNumbers = () => (
     (dispatch, getState) => {    
         dispatch(requestAll());

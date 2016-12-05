@@ -2,14 +2,16 @@
 
 import React from 'react';
 
-import Fibonacci from '../app/components/fibonacci/fibonacci-nth';
+import ErrorMessage from '../app/combiners/fibonacci/ErrorMessage';
+import Nth from '../app/combiners/fibonacci/Nth';
 
 class BarPage extends React.Component {    
     render () {
         return (
-            <div className='flex-item'>                
-                <p className='-text'>Something Bar-like</p>
-                <Fibonacci n={30} />               
+            <div className='flex-container'>                
+                <p className='-text'>Something Bar-like</p>  
+                <ErrorMessage name='FibonacciNth' />              
+                <Nth n={30} />              
             </div>
         );
     }

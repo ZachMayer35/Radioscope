@@ -1,9 +1,8 @@
 'use strict';
 
-import React from 'react';
 import { connect } from 'react-redux';
-import { dismissError } from '../../../actions/fibonacci-actions';
-import ErrorMessage from '../../../components/common/errorMessage'
+import { dismissError } from '../../actions/fibonacci-actions';
+import ErrorMessage from '../../components/common/ErrorMessage';
 
 const mapStateToProps = (state, props) => {
   return { 
