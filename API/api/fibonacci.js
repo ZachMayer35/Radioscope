@@ -92,7 +92,7 @@ Fibonacci.routes = [
             // END SWAGGER DOCS
             validate: {
                 params: {
-                    n: Joi.number().integer().min(0)
+                    n: Joi.number().integer().min(0).max(1000)
                 }
             }
         }

@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import Fibonacci from '../fibonacci/';
+import Fibonacci from '../app/components/fibonacci/fibonacci-nth';
 
 class BarPage extends React.Component {    
     render () {

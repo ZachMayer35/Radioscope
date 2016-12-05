@@ -4,32 +4,34 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import './fibonacci.less';
-import { setNum, fetchFibonacciNumber } from './actions';
+import { setNum, fetchAllFibonacciNumbers } from './actions';
 
-import Nth from './components/Nth';
+import UpToNth from './components/UpToNth';
 
 /**
  * @class Fibonacci
  * @extends ReactComponent
  */
-class Fibonacci extends React.Component {    
+class AllFibonacci extends React.Component {    
     componentWillMount () {
         this.props.setNum(this.props.n || 10);
-        this.props.fetchFibonacciNumber();
+        this.props.fetchAllFibonacciNumbers();
     }
     render () {        
         return (
             <div className='Fibonacci flex-item'>
-                <Nth />
+                NEW!
+                <Error errorName='AllFibonacci' />
+                <UpToNth />
             </div>
         );
     }
 }
 
-Fibonacci.propTypes = {
+AllFibonacci.propTypes = {
     n: PropTypes.number.isRequired,
     setNum: PropTypes.func.isRequired,
-    fetchFibonacciNumber: PropTypes.func.isRequired,
+    fetchAllFibonacciNumbers: PropTypes.func.isRequired,
 };
 
 const mapStoreToProps = (store, props) => ({
@@ -40,9 +42,9 @@ const mapDispatchToProps = (dispatch) => ({
     setNum: (num) => {
         dispatch(setNum(num));
     },
-    fetchFibonacciNumber: () => {
-        dispatch(fetchFibonacciNumber());
+    fetchAllFibonacciNumbers: () => {
+        dispatch(fetchAllFibonacciNumbers());
     }
 });
 
-export default connect(mapStoreToProps, mapDispatchToProps)(Fibonacci);
+export default connect(mapStoreToProps, mapDispatchToProps)(AllFibonacci);

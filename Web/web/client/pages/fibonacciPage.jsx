@@ -2,14 +2,15 @@
 
 import React from 'react';
 
-import Fibonacci from '../fibonacci/';
+import Fibonacci from '../app/components/fibonacci/fibonacci-nth';
 
 class FibonacciPage extends React.Component {
     render () {
+        const { location } = this.props;
         return (
             <div className='flex-item'>                
                 <p className='-text'>Increment N to get the next fibonacci number in the sequence.</p>
-                <Fibonacci n={parseInt(this.props.location.query.n)}/> 
+                <Fibonacci n={parseInt(location.query.n) || 10}/>                
             </div>
         );
     }
@@ -19,10 +20,7 @@ class FibonacciPage extends React.Component {
 }
 FibonacciPage.pageName = 'Fibonacci_Page';
 
-FibonacciPage.propTypes = {
-    location: React.PropTypes.object 
-};
-
+// Get the location props from the parent context.
 FibonacciPage.childContextTypes = {
     location: React.PropTypes.object
 };

@@ -1,7 +1,7 @@
 'use strict';
 
-import { Link } from 'react-router';
 import React, { PropTypes } from 'react';
+import Nav from './components/nav';
 
 class MasterPage extends React.Component {
     render () {
@@ -14,19 +14,7 @@ class MasterPage extends React.Component {
               </div>
               <div className='row'>
                 <div className='col-sm-3 text-center'>
-                    <div className='panel panel-default'>
-                      <ul className='list-group'>
-                        <Link className={this.navItemClass('/')} to='/'>
-                          Home
-                        </Link>
-                        <Link className={this.navItemClass('/Foo')} to='/Foo'>
-                          Foo
-                        </Link>
-                        <Link className={this.navItemClass('/Bar')} to='/Bar'>
-                          Bar
-                        </Link>
-                      </ul>
-                    </div>
+                    <Nav currentPath={this.props.location.pathname} />
                 </div>
                 <div className='col-sm-9'>
                     {this.props.children}
@@ -34,14 +22,7 @@ class MasterPage extends React.Component {
               </div>
             </div>
         );
-    }
-    navItemClass (path) {
-      let name = 'list-group-item';
-      if (this.props.location.pathname === path) {
-        name += ' active';
-      }
-      return name;
-    }
+    }    
 }
 
 MasterPage.propTypes = {

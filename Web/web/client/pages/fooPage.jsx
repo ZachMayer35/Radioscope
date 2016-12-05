@@ -2,14 +2,14 @@
 
 import React from 'react';
 
-import Fibonacci from '../fibonacci/';
+import AllFibonacci from '../app/components/fibonacci/fibonacci-all';
 
 class FooPage extends React.Component {
     render () {      
         return (
             <div className='flex-item'>                
                 <p className='-text'>Something foo-like</p>
-                <Fibonacci n={20}/>          
+                <AllFibonacci n={20}/>          
             </div>
         );
     }
