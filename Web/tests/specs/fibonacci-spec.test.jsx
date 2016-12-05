@@ -12,7 +12,7 @@ import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import Fibonacci from '../../web/client/fibonacci/';
+import Fibonacci from '../../web/client/app/components/fibonacci/fibonacci-nth';
 import store from '../../web/client/app/store';
 
 import TestUtils from 'react-addons-test-utils';
