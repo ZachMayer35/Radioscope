@@ -13,7 +13,8 @@ class FibonacciPage extends React.Component {
             <div className='flex-container'>                
                 <p className='-text'>Increment N to get the next fibonacci number in the sequence.</p>                      
                 <ErrorMessage name='FibonacciNth' />
-                <Nth n={parseInt(location.query.n) || 10} />          
+                <Nth n={parseInt(location.query.n) || 10} />   
+                <Nth n={parseInt(location.query.n) || 10} />               
             </div>
         );
     }

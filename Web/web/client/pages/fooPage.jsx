@@ -11,7 +11,7 @@ class FooPage extends React.Component {
             <div className='flex-container'>                
                 <p className='-text'>Something foo-like</p>
                 <ErrorMessage name='FibonacciAll' />
-                <UpToNth n={20}/>          
+                <UpToNth n={15}/>          
             </div>
         );
     }
