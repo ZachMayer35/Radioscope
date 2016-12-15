@@ -3,18 +3,19 @@
 import React, { PropTypes } from 'react';
 
 import ErrorMessage from '../app/combiners/fibonacci/ErrorMessage';
-import Nth from '../app/combiners/fibonacci/Nth';
+import Fibonacci from '../app/combiners/fibonacci/Nth';
 
 class FibonacciPage extends React.Component {
     render () {
         const { location } = this.props;
-        console.log(JSON.stringify(Nth));
+        console.log(JSON.stringify(Fibonacci));
         return (
             <div className='flex-container'>                
                 <p className='-text'>Increment N to get the next fibonacci number in the sequence.</p>                      
                 <ErrorMessage name='FibonacciNth' />
-                <Nth n={parseInt(location.query.n) || 10} />   
-                <Nth n={parseInt(location.query.n) || 10} />               
+                <Fibonacci n={parseInt(location.query.n) || 10} />   
+                <br/>
+                <Fibonacci n={parseInt(location.query.n) || 10} />               
             </div>
         );
     }
