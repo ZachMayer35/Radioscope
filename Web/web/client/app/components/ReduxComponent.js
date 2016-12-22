@@ -1,5 +1,3 @@
-'use strict';
-
 import { Component } from 'react';
 import { createStore, applyMiddleware } from 'redux';
 import createLogger from 'redux-logger';
@@ -25,13 +23,13 @@ class ReduxComponent extends Component {
     constructor (props) {
         super(props);
 
-        this.syncToReactState = true;
+        this.syncToReactState = false;
         
         // Hold reducer functions.
         this.reducerFunctions = { };
 
         // Hold action generators.
-        this.actions = { };
+        this.actions = (this.actions && typeof this.actions === 'function' ? this.actions() : { });
 
         // Hold action types.
         this.actionTypes = { };
@@ -43,7 +41,7 @@ class ReduxComponent extends Component {
         this.addAction = this.addAction.bind(this);
         this._addActionType = this._addActionType.bind(this);
         this.addReducer = this.addReducer.bind(this);
-        this._reducer = this._reducer.bind(this);
+        this.reducer = this.reducer.bind(this);
         this.createStore = this.createStore.bind(this);
         this._checkStore = this._checkStore.bind(this);
     }
@@ -53,15 +51,12 @@ class ReduxComponent extends Component {
         }
     }
     dispatch (action) {  
-        this._checkStore('dispatch');
-        const previousState = Object.assign({}, this.store.getState());   
-        this.store.dispatch(action);
-        if (JSON.stringify(previousState) !== JSON.stringify(this.store.getState())) {
-            if (this.syncToReactState) {
-                this.setState(this.store.getState());
-            } else {
-                this.setState({ _storeRender: (this.state._storeRender || 0) + 1 });
-            }
+        this._checkStore('dispatch');        
+        this.store.dispatch(action);        
+        if (this.syncToReactState) {
+            this.setState(this.store.getState());
+        } else {
+            this.setState({ _storeRender: (this.state._storeRender || 0) + 1 });
         }
         return action;
     }
@@ -81,7 +76,7 @@ class ReduxComponent extends Component {
         validate(name, fn, 'Reducer', this.reducerFunctions);
         this.reducerFunctions[name] = fn;
     }
-    _reducer (state, action) {
+    reducer (state, action) {
         if (this.reducerFunctions[action.type]) {
             return this.reducerFunctions[action.type](state, action);
         }        
@@ -90,10 +85,10 @@ class ReduxComponent extends Component {
     createStore (initialState, syncToReactState) {
         if (this.store === null) {
             this.store = createStore(
-                            this._reducer,
+                            this.reducer,
                             (initialState || {}),
                             applyMiddleware(
-                                createLogger({ titleFormatter: (action, time) => (`${this.constructor.name} component_action @ ${time} ${action.type}`) })
+                                createLogger({ titleFormatter: (action, time) => (`component_action @ ${time} ${this.constructor.name} ${action.type}`) })
                         ));
             this.syncToReactState = syncToReactState;
         } else {

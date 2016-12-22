@@ -1,0 +1,164 @@
+@import '../variables';
+
+.hierarchy-scope-list {
+    border: solid 1px #ddd;
+    background-color: @input-bg;
+    border-radius: 6px;
+    height: 250px;
+    overflow: auto;
+    padding: 3px;
+    padding-left: 20px;
+}
+
+.scope-hierarchy-list {
+    padding-left: @hierarchy-indent;    
+    line-height: @hierarchy-line-height;
+    font-size: @hierarchy-font-size;
+    span {
+        white-space: nowrap !important;
+    } 
+    &:not(.hierarchy-root){
+        >.scope-hierarchy-node {  
+            &.root {
+                &:last-child {
+                    &:after { 
+                        border-bottom: 1px dashed #999;
+                        height: (@hierarchy-line-height + (@tree-vertical-padding));
+                        width: (@hierarchy-indent - 4);
+                    }
+                    &:before {
+                        border-bottom: none;   
+                    }
+                }
+            }
+            &:after {
+                border-left: 1px dashed #999;                            
+                height: ~'calc(100% - 1px)';
+                width: 0px;
+                top: (2 - (@hierarchy-line-height / 2));
+                content: '';
+                position: absolute;
+                left: (0 - @hierarchy-indent);
+                z-index: 1;
+                pointer-events: none;
+            }
+        }
+    }    
+    &.hierarchy-root {
+        padding-left: 0px;
+        >.scope-hierarchy-node {
+            &:before {
+                border-bottom: none !important;
+            }
+        }
+    }  
+    >.scope-hierarchy-node {
+        position: relative;        
+        &.selected {  
+            &:not(.open) {
+                >.nameContainer {                    
+                    font-style: italic;
+                    font-weight: normal;
+                }
+            }
+            &.leaf {
+                >.nameContainer {
+                    font-weight: bold;
+                    font-style: normal;
+                }
+            }
+        }
+        &.favorite-selected {  
+            &:not(.open) {
+                >.nameContainer {
+                    font-style: italic;
+                    font-weight: normal;
+                }
+            }
+            &.leaf {
+                >.nameContainer {
+                    font-weight: bold;
+                    font-style: normal;
+                }
+            }
+        }
+        &.favorite {            
+            >.nameContainer {
+                &:after {
+                    font-family: 'Glyphicons Halflings';
+                    content: '\e007' !important;
+                    color: #ccc !important;
+                    left: (0 - @hierarchy-indent);
+                    font-size: 1.3rem;
+                }
+            }
+        }
+        >.nameContainer {
+            cursor: pointer;
+            height: @hierarchy-line-height;
+        }
+        &.root {            
+            padding-left: 0px;
+            >.nameContainer {
+                margin-left: (0 - (@hierarchy-indent - (@hierarchy-font-size / 2)));
+                padding-left: (@hierarchy-indent + (@hierarchy-font-size / 2));
+            }
+            >.scope-hierarchy-list {
+                &.collapse {
+                    border-left: none;
+                    display: none;
+                }
+                >.scope-hierarchy-node {
+                    &:not(.root){
+                        &:before {
+                            color: #999;
+                            border-top: 1px dashed #999;
+                            top: (@hierarchy-line-height / 2 + @tree-vertical-padding);
+                            width: (@hierarchy-indent + 10);
+                            height: 0;
+                            content: '';
+                            position: absolute;
+                            left: (0 - @hierarchy-indent);
+                            z-index: 1;
+                            pointer-events: none;
+                        }
+                    }
+                }
+            }
+            &.open {
+                &:before {  
+                    content: '\e082';                   
+                }
+            }  
+            &:before {
+                font-family: 'Glyphicons Halflings';
+                content: '\e081';
+                color: @btn-primary-bg;
+                position: absolute;
+                left: 0px;
+                z-index:20;
+                pointer-events: none;
+                border-bottom: 1px dashed #999;   
+                width: (@hierarchy-indent - (@hierarchy-font-size / 2));
+                text-indent: (@hierarchy-indent - (@hierarchy-font-size / 2) + 1);                 
+                height: 0px;
+                left: (0 - @hierarchy-indent); // -20px
+                padding-right:0px;
+                padding-bottom: (@hierarchy-line-height / 2);
+                text-align: right;
+            }
+            &.no-children {
+                &.open {
+                    &:before {
+                        color: #ccc;
+                    }
+                }  
+                &:before {
+                    color: #ccc;
+                }
+            }
+        }        
+        padding-left: @hierarchy-font-size;      
+        padding-top: @tree-vertical-padding;
+    }
+}

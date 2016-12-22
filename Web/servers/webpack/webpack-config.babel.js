@@ -66,7 +66,7 @@ if (process.env.NODE_ENV === 'development') {
         entry: {
             app: [APP_ENTRY, WEBPACK_HOT_ENTRY]
         },
-        devtool: 'cheap-module-eval-source-map', // Generate source maps (more or less efficiently)
+        devtool: 'cheap-inline-source-map', // Generate source maps (more or less efficiently)
         module: {
             preLoaders: [
                 {
