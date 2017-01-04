@@ -7,21 +7,6 @@ import dictionary from '../data/dictionary';
 
 var logPrefix = '[' + path.basename(__filename) + '] ';
 
-// TODO: Move this into a database and query that instead.
-const dictionary2 = {
-	a: 'a',
-  i: 'i',
-  is: 'is',
-  so: 'so',
-  this: 'this',
-  we: 'we',
-  awe: 'awe',
-  saw: 'saw',
-  me: 'me',
-  some: 'some',
-  awesome: 'awesome'
-};
-
 const Hard = {
     'splitString' : (str) => { // Find all words given a string with whitespace and punctuation removed.
       const sentenceBuilder = (cache, targetLength, sentence = [], sentences = []) => {
