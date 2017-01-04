@@ -16,7 +16,7 @@
     "make_dev": "SET NODE_ENV=development&babel-node --harmony node_scripts/make.js",
     "make": "SET NODE_ENV=production&babel-node --harmony node_scripts/make.js",
     "lint": "eslint . --ext .js --ext .jsx --quiet",
-    "test": "babel-node node_scripts/test.js --env=jsdom",
+    "test": "babel-node node_scripts/test.js --env=jsdom --coverage",
     "jest": "babel-node node_scripts/test.js --env=jsdom --watch"
   },
   "repository": {

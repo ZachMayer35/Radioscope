@@ -18,12 +18,6 @@ var SERVER_HOST = process.env.HOST || '127.0.0.1';
 var SERVER_PORT = process.env.PORT || 8085;
 var SERVER_PROTOCOL = process.env.PROTOCOL || 'http';
 
-if (process.env.NODE_ENV != 'development' && process.env.NODE_ENV != 'production' && process.env.NODE_ENV != 'test') {    
-    var errorText = '[' + path.basename(__filename) + '] ERROR: NODE_ENV is not set: ' + process.env.NODE_ENV;
-    console.log(chalk.red(errorText));
-    throw new Error(errorText);
-}
-
 var config = {
     publicPaths: {
         api: '/' + API_PATH + '/',

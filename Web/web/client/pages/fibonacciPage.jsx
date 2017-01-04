@@ -3,19 +3,23 @@
 import React, { PropTypes } from 'react';
 
 import ErrorMessage from '../app/combiners/fibonacci/ErrorMessage';
-import Fibonacci from '../app/combiners/fibonacci/Nth';
+import Nth from '../app/combiners/fibonacci/Nth';
+import UpToNth from '../app/combiners/fibonacci/UpToNth';
 
 class FibonacciPage extends React.Component {
     render () {
         const { location } = this.props;
-        console.log(JSON.stringify(Fibonacci));
         return (
-            <div className='flex-container'>                
+            <div className='flex-container'>      
+                <p className='-text'>Fibonacci Controls</p>    
+                <h3>Get Nth</h3>                  
                 <p className='-text'>Increment N to get the next fibonacci number in the sequence.</p>                      
-                <ErrorMessage name='FibonacciNth' />
-                <Fibonacci n={parseInt(location.query.n) || 10} />   
+                <ErrorMessage name='Fibonacci' />
+                <Nth n={parseInt(location.query.n) || 10} />                    
                 <br/>
-                <Fibonacci n={parseInt(location.query.n) || 10} />               
+                <h3>Get Up To Nth</h3>       
+                <p className='-text'>Set N to see all the fibonacci numbers in the sequence.</p>                      
+                <UpToNth n={parseInt(location.query.n) || 10}/>
             </div>
         );
     }
@@ -23,7 +27,7 @@ class FibonacciPage extends React.Component {
         return { location: this.props.location };
     }
 }
-FibonacciPage.pageName = 'Fibonacci_Page';
+FibonacciPage.pageName = 'Fibonacci';
 
 // Get the location props from the parent context.
 FibonacciPage.childContextTypes = {

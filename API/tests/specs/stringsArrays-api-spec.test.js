@@ -105,6 +105,21 @@ describe('When StringsArrays API is running it', () => {
             done();
         });
     });
+    it('should correctly tell that the string "abcd" is NOT a permutation of "def" at /api/StringsArrays/3/abcd/def', (done) => {        
+        var requestOpts = {
+            method: 'GET',
+            url: '/api/stringsarrays/3/abcd/def',
+            headers: {
+                'host': 'localhost'
+            }
+        };
+
+        server.inject(requestOpts, (res) => {          
+            expect(res.statusCode).to.equal(200);
+            expect(res.result).to.equal(false);
+            done();
+        });
+    });
     /* End Region */
 
     /* Region: Strings Arrays 6 */

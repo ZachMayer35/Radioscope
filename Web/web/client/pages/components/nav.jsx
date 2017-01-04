@@ -15,13 +15,13 @@ const Nav = ({ currentPath }) => (
     <div className='panel panel-default'>
         <ul className='list-group'>
         <Link className={navItemClass('/', currentPath)} to='/'>
-            Home
+            Fibonacci
         </Link>
-        <Link className={navItemClass('/Foo', currentPath)} to='/Foo'>
-            Foo
+        <Link className={navItemClass('/Strings', currentPath)} to='/Strings'>
+            Strings
         </Link>
-        <Link className={navItemClass('/Bar', currentPath)} to='/Bar'>
-            Bar
+        <Link className={navItemClass('/Misc', currentPath)} to='/Misc'>
+            Misc
         </Link>
         </ul>
     </div>

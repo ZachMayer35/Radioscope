@@ -42,7 +42,7 @@ var StringsArrays = {
     },
     "3" : (one, two) => { // Determine if two strings are permutations of eachother
         var returnFlag = true;
-        if(one.length !== two.length){
+        if (one.length !== two.length) {
             returnFlag = false;
         } else {
             var arr1 = one.split('').sort();

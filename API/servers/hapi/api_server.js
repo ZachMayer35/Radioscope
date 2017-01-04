@@ -54,7 +54,7 @@ server.register(plugins, (err) => {
         method: 'GET',
         path: '/',
         handler: (request, reply) => {
-            server.inject('/documentation', function (res) {
+            server.inject('/documentation', (res) => {
                 reply(res.payload);
             });
         }
@@ -64,7 +64,7 @@ server.register(plugins, (err) => {
         method: 'GET',
         path: config.publicPaths.api_root,
         handler: (request, reply) => {
-            server.inject('/documentation', function (res) {
+            server.inject('/documentation', (res) => {
                 reply(res.payload);
             });
         }

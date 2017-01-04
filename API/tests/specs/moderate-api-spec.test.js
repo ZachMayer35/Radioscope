@@ -23,7 +23,7 @@ describe('When Moderate API is running it', () => {
         server.route(routes);       
     }); 
 
-    /* Region: Strings Arrays 1 */
+    /* Region: Moderate 1 */
     it('should swap the two numbers passed to /api/moderate/1/9/4', (done) => {        
         var requestOpts = {
             method: 'GET',
@@ -40,5 +40,5 @@ describe('When Moderate API is running it', () => {
             done();
         });
     });
-    
+    /* End Region */
 });

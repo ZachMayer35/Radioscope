@@ -1,16 +1,16 @@
-'use strict'
+'use strict';
 
-import path from 'path'
-import chalk from 'chalk'
-import Joi from 'joi'
+import path from 'path';
+import chalk from 'chalk';
+import Joi from 'joi';
 
 var logPrefix = '[' + path.basename(__filename) + '] ';
 
 var Moderate = {
-    "1" : (one, two) => { // Swap a number in place without temporary variables
+    '1' : (one, two) => { // Swap a number in place without temporary variables
         one = one - two;
         two = two + one;
-        one = two - one
+        one = two - one;
         console.log(chalk.green(logPrefix + 'Swaped two numbers (' + one + ' and ' + two + ') in place'));
         return {
             one: one,
@@ -20,13 +20,13 @@ var Moderate = {
 };
 
 Moderate.routes = [
-    { 
-        method: 'GET', 
-        path: '/moderate/1/{num1}/{num2}', 
+    {
+        method: 'GET',
+        path: '/moderate/1/{num1}/{num2}',
         handler: (request, reply) => {
             var one = request.params.num1;
             var two = request.params.num2;
-            reply(Moderate["1"](one, two));
+            reply(Moderate['1'](one, two));
         },
         config: {            
             // SWAGGER DOCS

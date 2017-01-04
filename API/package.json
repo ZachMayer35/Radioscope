@@ -13,8 +13,8 @@
     "make": "set NODE_ENV=production&babel-node --harmony node_scripts/make.js",
     "make_dev": "SET NODE_ENV=development&babel-node --harmony node_scripts/make.js",
     "lint": "eslint . --ext .js --quiet",
-    "test": "babel-node node_scripts/test.js --env=jsdom",
-    "jest": "npm run make&&babel-node node_scripts/test.js --env=jsdom --watch"
+    "test": "babel-node node_scripts/test.js --env=jsdom --coverage",
+    "jest": "npm run make&&babel-node node_scripts/test.js --env=jsdom --watch --coverage"
   },
   "repository": {
     "type": "git",

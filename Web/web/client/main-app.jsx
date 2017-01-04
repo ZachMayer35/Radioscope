@@ -9,8 +9,8 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import store from './app/store';
 
 import FibonacciPage from './pages/fibonacciPage';
-import FooPage from './pages/fooPage';
-import BarPage from './pages/barPage';
+import StringsPage from './pages/stringsPage';
+import MiscPage from './pages/miscPage';
 import MasterPage from './pages/masterPage';
 import path from 'path';
 
@@ -26,8 +26,8 @@ ReactDOM.render(
         <Router history={history}>
         <Route path='/' component={MasterPage}>
             <IndexRoute component={FibonacciPage}/>
-            <Route path='foo' component={FooPage}/>
-            <Route path='bar' component={BarPage}/>
+            <Route path='Strings' component={StringsPage}/>
+            <Route path='Misc' component={MiscPage}/>
         </Route>
         </Router>
     </Provider>,
