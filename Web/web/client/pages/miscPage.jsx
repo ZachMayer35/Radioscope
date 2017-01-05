@@ -9,19 +9,24 @@ class MiscPage extends React.Component {
     constructor (props) {
         super(props);
         this.state = {
-            selection: {}
-        }
+            listSelection: {},
+            treeSelection: {}
+        };
 
-        this.selectThing = this.selectThing.bind(this);
+        this.selectListItem = this.selectListItem.bind(this);
+        this.selectTreeItem = this.selectTreeItem.bind(this);
     }
     render () {
         return (
             <div className='flex-container'>
                 <p className='-text'>Misc Control Playground</p>                
                 <br/>
-                <div className='row'>
+                <div className='row'>                    
                     <div className='col-xs-6'>
+                        <h3>Filter List</h3>
+                        <p className='-text'>A control for filtering and selecting in a list.</p>                        
                         <FilterList
+                            onSelectionChanged={this.selectListItem}
                             list={[
                                 { id: '1', name: 'Thing 1' },
                                 { id: '2', name: 'Thing 2' },
@@ -35,9 +40,18 @@ class MiscPage extends React.Component {
                                 { id: '10', name: 'Thing 10' }, 
                             ]}
                             />
+                        <hr/>
+                        <p className='-text'>
+                            <strong>Current Selection: </strong>
+                            <span>{this.state.listSelection.name}</span>
+                        </p>
+                        <pre>{JSON.stringify(this.state.listSelection, null, 2)}</pre>
                     </div>
                     <div className='col-xs-6'>
+                        <h3>Filter Tree</h3>
+                        <p className='-text'>A control for filtering and selecting in a tree.</p>    
                         <HierarchyList 
+                            onSelectionChanged={this.selectTreeItem}
                             nodes={[
                                 { id: '1', name: 'Hierarchy 10', favorite: false, children: [
                                     { id: '1.1', name: 'Child 10', favorite: false, },
@@ -69,13 +83,22 @@ class MiscPage extends React.Component {
                                 { id: '4', name: 'Hierarchy 43', favorite: true }
                             ]}
                             />
+                        <hr/>
+                        <p className='-text'>
+                            <strong>Current Selection: </strong>
+                            <span>{this.state.treeSelection.path}</span>
+                        </p>
+                        <pre>{JSON.stringify(this.state.treeSelection, null, 2)}</pre>
                     </div>
                 </div>
             </div>
         );
     }
-    selectThing (item) {
-        this.setState({ selection: item });
+    selectListItem (item) {
+        this.setState({ listSelection: item });
+    }
+    selectTreeItem (item) {
+        this.setState({ treeSelection: item });
     }
 }
 MiscPage.pageName = 'Miscellaneous Controls';

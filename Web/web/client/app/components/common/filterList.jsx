@@ -54,7 +54,8 @@ class FilterList extends ReduxComponent {
     this.dispatch(this.actions.FILTER(filter));
   }
   filterList () {
-    const { list, selection } = this.props;
+    const { list } = this.props;
+    const selection = this.getSelection();
     const filter = this.store.getState().filter;
     if (filter && filter.length > 0) {
       return list.filter(a => (a.name.toLowerCase().indexOf(filter.toLowerCase()) >= 0 || (selection && a.id === selection.id)));

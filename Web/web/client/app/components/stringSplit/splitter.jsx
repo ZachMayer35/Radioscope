@@ -7,32 +7,33 @@ import ErrorMessage from '../common/errorMessage';
 
 const REQUEST_SPLIT = 'REQUEST_SPLIT';
 const RECEIVE_SPLIT = 'RECEIVE_SPLIT';
-const SET_STR = 'SET_STR';
 const SELECT = 'SELECT';
 const CLEAR_ERROR = 'CLEAR_ERROR';
+const SET_INPUT_ERROR = 'SET_INPUT_ERROR';
 
 class Splitter extends ReduxComponent {
   constructor (props) {
     super(props);
     this.state = {
-      str: '',
       sentences: [],
       selected: {},
       error: {},
-      loading: false
+      loading: false,
+      inputError: null // string
     };
     this.createStore(this.state);
-    this.addAction(SET_STR, (str) => ({ type: SET_STR, str }));
     this.addAction(SELECT, (selected) => ({ type: SELECT, selected }));
     this.addAction(CLEAR_ERROR, () => ({ type: CLEAR_ERROR }));
+    this.addAction(SET_INPUT_ERROR, (msg) => ({ type: SET_INPUT_ERROR, msg }));
     this.addAction(REQUEST_SPLIT, () => ({ type: REQUEST_SPLIT }));    
     this.addAction(RECEIVE_SPLIT, (str, response) => ({ type: RECEIVE_SPLIT, str, response }));    
     
-    this.addReducer(SET_STR, (state, action) => ({ ...state, str: action.str }));
     this.addReducer(SELECT, (state, action) => ({ ...state, selected: action.selected }));
     this.addReducer(CLEAR_ERROR, (state) => ({ ...state, error: {} }));
+    this.addReducer(SET_INPUT_ERROR, (state, action) => ({ ...state, inputError: action.msg }));
     this.addReducer(REQUEST_SPLIT, (state) => ({ ...state, loading: true }));
     this.addReducer(RECEIVE_SPLIT, (state, action) => {
+      console.log(action.response);
       return Array.isArray(action.response) ? 
               action.response.length > 0 ?
                 { ...state, loading: false, str: action.str, sentences: action.response.map((s, i) => ({ id: action.str.value + i.toString(), name: s })), error: {} } :
@@ -47,22 +48,22 @@ class Splitter extends ReduxComponent {
     this.clearError = this.clearError.bind(this);
   }
   render () {
-    const { str, sentences, loading, selected, error } = this.store.getState();
+    const { sentences, loading, selected, error, inputError } = this.store.getState();
     return (
       <div>
         <ErrorMessage name='StringSplitter' 
-                      error={error.error}
-                      message={error.message} 
+                      error={error.message ? error.error : error.statusCode}
+                      message={error.message || error.error} 
                       dismiss={this.clearError} 
                       />
         <div className='stringSplitter filter-list'>
-          <div className='form-group'>
+          <div className={inputError ? 'form-group has-error' : 'form-group'}>
             <div className='input-group'>
               <input type='text'
                     ref={(input) => { this.StrInput = input; }}
-                    className='form-control' 
-                    placeholder='Try: thisisawesome' 
-                    value={str}
+                    className={'form-control'}
+                    title={inputError}
+                    placeholder={inputError ? inputError + ' Try: thisisawesome' : 'Try: thisisawesome'}                     
                     onChange={this.handleChange}
                     onKeyUp={this.trySubmit}
                     />
@@ -88,7 +89,9 @@ class Splitter extends ReduxComponent {
     this.dispatch(this.actions.SELECT(selected));
   }
   handleChange (e) {
-    this.dispatch(this.actions.SET_STR(e.target.value));
+    if (this.store.getState().inputError) {
+      this.dispatch(this.actions.SET_INPUT_ERROR(null));
+    }
   }
   trySubmit (e) {
     if (e.key === 'Enter') {
@@ -97,10 +100,14 @@ class Splitter extends ReduxComponent {
   }
   splitString () {
     const { dispatch, StrInput, actions } = this;
-    dispatch(actions.REQUEST_SPLIT());
-    return fetch(global.API_PATH + '/hard/splitString/' + StrInput.value)
-          .then((response) => response.json())
-          .then((response) => dispatch(actions.RECEIVE_SPLIT(StrInput.value, response)));
+    if(StrInput.value) {
+      dispatch(actions.REQUEST_SPLIT());
+      return fetch(global.API_PATH + '/hard/splitString/' + StrInput.value)
+            .then((response) => response.json())
+            .then((response) => dispatch(actions.RECEIVE_SPLIT(StrInput.value, response)));
+    } else {
+      dispatch(actions.SET_INPUT_ERROR('Input Required.'));
+    }
   }
 }
 

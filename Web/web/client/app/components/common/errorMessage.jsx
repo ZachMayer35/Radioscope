@@ -20,7 +20,7 @@ class ErrorMessage extends Component {
                 <h4 className='modal-title'>Error: {error}</h4>
               </div>
               <div className='modal-body panel-body'>
-                <p>{message.slice(message.indexOf('[') + 1, message.length - 1)}</p>
+                <p>{message.indexOf('[') >= 0 ? message.slice(message.indexOf('[') + 1, message.length - 1) : message}</p>
               </div>
             </div>
           </div>

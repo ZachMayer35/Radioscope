@@ -126,7 +126,8 @@ HierarchyList.propTypes = {
   toggleExpand: PropTypes.func,
   expanded: PropTypes.bool,
   getHierarchy: PropTypes.func,
-  changeSelection: PropTypes.func
+  changeSelection: PropTypes.func,
+  onSelectionChanged: PropTypes.func
 }
 
 export default HierarchyList;
