@@ -9,33 +9,55 @@ class SWAPIPage extends React.Component {
     constructor (props) {
         super(props);
         this.state = {
-            currentPerson: {}
+            currentPerson: {},
+            loading: false,
+            currentId: 1
         }
         this.getPerson = this.getPerson.bind(this);
-        this.getPerson(1);
+        this.setCurrentId = this.setCurrentId.bind(this);    
+        this.trySubmit = this.trySubmit.bind(this);        
+    }
+    componentDidMount () { 
+        this.getPerson();
     }
     render () {
         const { currentPerson } = this.state;
-        const getPerson = this.getPerson;
+        const setCurrentId = this.setCurrentId;
         return (
-            <div className='col-xs-12'>
+            <div className='flex-container'>
                 <p className='-text'>SWAPI Playground</p>
-                <input className='form-control' type='text' onChange={(e) => { getPerson(e.target.value); }} ></input>
+                <div className='input-group'>
+                    <input className='form-control' type='text' value={this.state.currentId} onChange={(e) => { setCurrentId(e.target.value); }} onKeyUp={this.trySubmit}></input>
+                    <div className='input-group-addon btn' onClick={this.getPerson}>Get Person...</div>
+                </div>
                 <hr />
                 <div className='row'>                    
                     <div className='col-xs-12'>
                         <pre>
-                            {JSON.stringify(currentPerson, null, 2)}
+                            {this.state.loading ? 'Loading...' : JSON.stringify(currentPerson, null, 2)}
                         </pre>
                     </div>
                 </div>
             </div>
         );
     }
-    getPerson (id) {
-        fetch('http://swapi.co/api/people/' + id)
-            .then((response) => response.json())
-            .then((response) => { this.setState({currentPerson: response}); this.forceUpdate(); });
+    trySubmit (e) {
+        if (e.key === 'Enter'){
+            this.getPerson();
+        }
+    }
+    setCurrentId (id) {
+        this.setState({ currentId: id });
+    }
+    getPerson () {
+        if(!this.state.loading) {            
+            if( this.state.currentId && parseInt(this.state.currentId) > 0 ){
+                this.setState({ loading: true });
+                fetch('http://swapi.co/api/people/' + this.state.currentId)
+                    .then((response) => response.json())
+                    .then((response) => { this.setState({ currentPerson: response, loading: false }); });
+            }
+        }
     }
 
 }
