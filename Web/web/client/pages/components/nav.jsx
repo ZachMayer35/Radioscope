@@ -22,6 +22,9 @@ const Nav = ({ currentPath }) => (
         </Link>
         <Link className={navItemClass('/Misc', currentPath)} to='/Misc'>
             Misc
+        </Link> 
+        <Link className={navItemClass('/Swapi', currentPath)} to='/Swapi'>
+            SWAPI
         </Link>
         </ul>
     </div>

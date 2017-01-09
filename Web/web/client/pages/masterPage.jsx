@@ -7,7 +7,7 @@ class MasterPage extends React.Component {
   render () {
     const { location, children } = this.props;
     return (
-      <div className='container-fluid'>
+      <div className='container'>
         <div className='row'>
           <div className='col-xs-12 header text-center'>
             <h1>Radioscope</h1>           

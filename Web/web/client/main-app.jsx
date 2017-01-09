@@ -11,6 +11,7 @@ import store from './app/store';
 import FibonacciPage from './pages/fibonacciPage';
 import StringsPage from './pages/stringsPage';
 import MiscPage from './pages/miscPage';
+import SWAPIPage from './pages/swapi';
 import MasterPage from './pages/masterPage';
 import path from 'path';
 
@@ -28,6 +29,7 @@ ReactDOM.render(
             <IndexRoute component={FibonacciPage}/>
             <Route path='Strings' component={StringsPage}/>
             <Route path='Misc' component={MiscPage}/>
+            <Route path='swapi' component={SWAPIPage}/>
         </Route>
         </Router>
     </Provider>,

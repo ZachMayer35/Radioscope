@@ -8,7 +8,7 @@ import FileWriter from './tools/file-writer';
 import ip from 'quick-local-ip';
 
 var HOST = process.env.NODE_ENV === 'development' ? 'localhost' : ip.getLocalIP4();
-var PORT = process.env.NODE_ENV === 'development' ? '8080' : '80';
+var PORT = process.env.NODE_ENV === 'development' ? '8080' : '8080';
 
 var env = [
     '###',
