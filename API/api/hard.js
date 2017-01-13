@@ -20,7 +20,7 @@ const Hard = {
           for (let x = 0; x < words.length; x++) {     
             sentenceBuilder(cache, targetLength, sentence.concat([words[x]]), sentences);
           }
-        }    
+        }
         return sentences;
       };
 
