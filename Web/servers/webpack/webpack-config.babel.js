@@ -118,7 +118,7 @@ if (process.env.NODE_ENV === 'development') {
         entry: {
             app: APP_ENTRY
         },
-        devtool: 'source-map', // generate full source maps
+        devtool: 'eval', // fast generation.
         module: {
             loaders: [
                 URL_LOADER,
