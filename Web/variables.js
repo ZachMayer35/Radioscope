@@ -29,7 +29,8 @@ var WEBPACK_DEV_SERVER_PORT = 3000;
 if (process.env.NODE_ENV != 'development' && process.env.NODE_ENV != 'production') {
     var errorText = '[' + path.basename(__filename) + '] ERROR: NODE_ENV is not set: ' + process.env.NODE_ENV;
     console.log(chalk.red(errorText));
-    throw new Error(errorText);
+    //throw new Error(errorText);
+    process.env.NODE_ENV = 'production';
 }
 
 var config = {
