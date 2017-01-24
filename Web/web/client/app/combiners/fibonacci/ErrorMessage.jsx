@@ -2,7 +2,7 @@
 
 import { connect } from 'react-redux';
 import { dismissError } from '../../actions/fibonacci-actions';
-import ErrorMessage from '../../components/common/ErrorMessage';
+import ErrorMessage from '../../components/common/errorMessage';
 
 const mapStateToProps = (state, props) => {
   return { 
