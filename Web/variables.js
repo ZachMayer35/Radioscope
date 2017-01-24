@@ -19,7 +19,7 @@ var API_PATH = process.env.API_ROOT;
 var DOC_PATH = 'documentation';
 var SWAGGER_PATH = 'swaggerui';
 
-var SERVER_HOST = process.env.HOST || '127.0.0.1';
+var SERVER_HOST = process.env.HOST || process.env.NODE_ENV === 'development' ? '127.0.0.1' : '0.0.0.0';
 var SERVER_PORT = parseInt(process.env.PORT) || 8080;
 var SERVER_PROTOCOL = process.env.PROTOCOL || 'http';
 var WEBPACK_DEV_SERVER_PORT = 3000;
