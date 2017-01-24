@@ -54,7 +54,7 @@ var webpackConfig = {
         new AssetsWebpackPlugin({
             filename: config.webpack.assetsFilename,
             path: config.webpack.assetsPath,
-            prettyPrint: true
+            prettyPrint: false
         })
     ]
 };
@@ -118,7 +118,7 @@ if (process.env.NODE_ENV === 'development') {
         entry: {
             app: APP_ENTRY
         },
-        devtool: 'eval', // fast generation.
+        devtool: 'cheap-module-source-map', // fast generation.
         module: {
             loaders: [
                 URL_LOADER,
