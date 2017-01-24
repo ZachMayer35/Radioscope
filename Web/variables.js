@@ -15,7 +15,7 @@ var WEB_SERVER_DIRNAME = 'web/server';
 var WEB_ROOT_DIRNAME = 'public';
 var ASSETS_DIRNAME = 'static';
 var BUILD_DIRNAME = 'static/build';
-var API_PATH = process.env.API_ROOT;
+var API_PATH = process.env.API_ROOT || 'api';
 var DOC_PATH = 'documentation';
 var SWAGGER_PATH = 'swaggerui';
 
@@ -57,7 +57,7 @@ var config = {
             'favicon.ico'
         ],
         host: SERVER_HOST,
-        api_host: process.env.API_HOST || SERVER_HOST,
+        api_host: process.env.API_HOST || 'localhost',
         port: SERVER_PORT,
         api_port: process.env.API_PORT || 29957,
         protocol: SERVER_PROTOCOL,

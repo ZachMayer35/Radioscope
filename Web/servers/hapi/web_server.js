@@ -83,14 +83,14 @@ server.register(plugins, (err) => {
     );
 
     // Catch-all
-    server.route({
+   /* server.route({
         method: 'GET',
         path: '/{path*}',
         handler: {
             view: 'app'
             //reply('Hapi catch-all view for /' + request.params.path);
         }
-    });
+    });*/
 
     // App
     server.route({

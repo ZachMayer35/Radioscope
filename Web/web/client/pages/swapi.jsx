@@ -53,7 +53,7 @@ class SWAPIPage extends React.Component {
         if(!this.state.loading) {            
             if( this.state.currentId && parseInt(this.state.currentId) > 0 ){
                 this.setState({ loading: true });
-                fetch('http://swapi.co/api/people/' + this.state.currentId)
+                fetch('https' + '://swapi.co/api/people/' + this.state.currentId)
                     .then((response) => response.json())
                     .then((response) => { this.setState({ currentPerson: response, loading: false }); });
             }
