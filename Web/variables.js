@@ -59,7 +59,7 @@ var config = {
         host: SERVER_HOST,
         api_host: process.env.API_HOST || SERVER_HOST,
         port: SERVER_PORT,
-        api_port: process.env.API_PORT || SERVER_PORT + 5,
+        api_port: process.env.API_PORT || 29957,
         protocol: SERVER_PROTOCOL,
         rootUrl: SERVER_PROTOCOL + '://' + SERVER_HOST + ':' + SERVER_PORT
     },
