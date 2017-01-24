@@ -8,7 +8,7 @@
     "node": "^4.4.5"
   },
   "scripts": {
-    "start": "start cmd.exe @cmd /k \"cd Web&&npm start\"&npm run _api",
+    "start": "npm run _api&cd Web&&npm start",
     "dev": "start cmd.exe @cmd /k \"cd Web&&npm run dev\"&npm run _api_dev",
     "_api": "start cmd.exe @cmd /k \"cd API&&npm start\"",
     "_api_dev": "start cmd.exe @cmd /k \"cd API&&npm run dev\"",
