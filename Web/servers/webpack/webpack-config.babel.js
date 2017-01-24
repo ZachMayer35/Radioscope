@@ -32,6 +32,7 @@ var URL_LOADER = {
 }
 
 var webpackConfig = {
+    resolveLoader: { root: path.join(__dirname, '../../node_modules') },
     resolve: {
         // Webpack tries to append these extensions when you require(moduleName)
         // The empty extension allows specifying the extension in a require call, e.g. require('./main-app.css')
@@ -62,7 +63,7 @@ var webpackConfig = {
 
 if (process.env.NODE_ENV === 'development') {
 
-    Object.assign(webpackConfig, {
+    Object.assign(webpackConfig, {        
         entry: {
             app: [APP_ENTRY, WEBPACK_HOT_ENTRY]
         },
