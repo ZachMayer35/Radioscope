@@ -2,6 +2,7 @@
 A JavaScript run-time visualizer with head-to-head code fighting.
 
 [![Build Status](https://travis-ci.org/ZachMayer35/Radioscope.svg?branch=master)](https://travis-ci.org/ZachMayer35/Radioscope)
+[![Heroku](http://heroku-badge.herokuapp.com/?app=secret-springs-57491&style=flat&svg=1&root=/api)](http://secret-springs-57491.herokuapp.com)
 
 ## Usage
 
