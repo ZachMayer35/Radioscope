@@ -58,7 +58,7 @@ var config = {
             'favicon.ico'
         ],
         host: SERVER_HOST,
-        api_host: process.env.API_HOST || '0.0.0.0',
+        api_host: process.env.API_HOST || 'localhost',
         port: SERVER_PORT,
         api_port: process.env.API_PORT || 29957,
         protocol: SERVER_PROTOCOL,

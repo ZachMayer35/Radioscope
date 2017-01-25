@@ -136,6 +136,7 @@ server.register(plugins, (err) => {
         path: config.publicPaths.api + '{path*}',
         handler: {
             proxy: {
+                protocol: config.server.protocol,
                 host: config.server.api_host,
                 port: config.server.api_port,
                 passThrough: true
@@ -148,6 +149,7 @@ server.register(plugins, (err) => {
         path: config.publicPaths.docs + '{path*}',
         handler: {
             proxy: {
+                protocol: config.server.protocol,
                 host: config.server.api_host,
                 port: config.server.api_port,
                 passThrough: true
@@ -160,6 +162,7 @@ server.register(plugins, (err) => {
         path: config.publicPaths.swagger + '{path*}',
         handler: {
             proxy: {
+                protocol: config.server.protocol,
                 host: config.server.api_host,
                 port: config.server.api_port,
                 passThrough: true
@@ -171,6 +174,7 @@ server.register(plugins, (err) => {
         path: '/swagger.json',
         handler: {
             proxy: {
+                protocol: config.server.protocol,
                 host: config.server.api_host,
                 port: config.server.api_port,
                 passThrough: true
