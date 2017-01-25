@@ -82,15 +82,15 @@ server.register(plugins, (err) => {
         }
     );
 
-    // Catch-all
-   /* server.route({
+    // Catch-all. Required for Deep Linking to the SPA.
+    server.route({
         method: 'GET',
         path: '/{path*}',
         handler: {
             view: 'app'
             //reply('Hapi catch-all view for /' + request.params.path);
         }
-    });*/
+    });
 
     // App
     server.route({
