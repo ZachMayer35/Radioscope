@@ -15,7 +15,7 @@
     "build": "./Web/node_modules/.bin/webpack -p --config Web/servers/webpack/webpack-config.babel.js",
     "test": "cd Web&&npm test&&cd ../API&&npm test",
     "jest": "start cmd.exe @cmd /k \"cd Web&&npm run jest\"&start cmd.exe @cmd /k \"cd API&&npm run jest\"",
-    "postinstall": "cd Web&&npm install&&npm run build&&cd ../API&&npm install"
+    "postinstall": "cd Web&&npm install --only=production&&npm run build&&cd ../API&&npm install --only=production"
   },
   "repository": {
     "type": "git",
