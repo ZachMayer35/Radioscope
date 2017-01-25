@@ -80,12 +80,12 @@ Fibonacci.routes = [
     { 
         method: 'GET', 
         path: '/fibonacci/getNth/{n}',
-        id: '/fibonacci/getNth/',
         handler: (request, reply) => {
             var n = request.params.n;
             reply(Fibonacci.getNth(n));
         },       
-        config: {
+        config: {            
+            id: '/fibonacci/getNth/',
             // SWAGGER DOCS
             description: 'Get Nth Fibonacci Number',
             notes: 'Returns the Nth fibonacci number',

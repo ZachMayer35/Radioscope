@@ -44,8 +44,8 @@ const generateQueueForRoute = function (path, schema, handler) {
 
 const generateQueuesForRoutes = function (routeObjects) {
   routeObjects.forEach((route) => {
-    if (route.id) {
-      generateQueueForRoute(route.id, route.validate, route.handler);
+    if (route.config.id) {
+      generateQueueForRoute(route.config.id, route.validate, route.handler);
     }
   });
 };
