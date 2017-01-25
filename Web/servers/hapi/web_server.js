@@ -187,6 +187,6 @@ server.register(plugins, (err) => {
         console.log('Listening at ' + 
             chalk.bgGreen.bold(config.server.rootUrl));
         console.log('Routing /api to ' +
-            chalk.bgBlue.bold('http://' + config.server.api_host + ":" + config.server.api_port));
+            chalk.bgBlue.bold(config.server.protocol + '://' + config.server.api_host + ':' + config.server.api_port));
     });
 });

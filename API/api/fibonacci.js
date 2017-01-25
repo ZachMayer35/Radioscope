@@ -39,7 +39,7 @@ var Fibonacci = {
 Fibonacci.routes = [
     { 
         method: 'GET', 
-        path: '/fibonacci/{n}', 
+        path: '/fibonacci/{n}',
         handler: (request, reply) => {
             var n = request.params.n;
             reply(Fibonacci.getUpToN(n));
@@ -79,7 +79,8 @@ Fibonacci.routes = [
     },
     { 
         method: 'GET', 
-        path: '/fibonacci/getNth/{n}', 
+        path: '/fibonacci/getNth/{n}',
+        queueName: '/fibonacci/getNth/',
         handler: (request, reply) => {
             var n = request.params.n;
             reply(Fibonacci.getNth(n));
