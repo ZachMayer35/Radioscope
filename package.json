@@ -12,7 +12,7 @@
     "dev": "start cmd.exe @cmd /k \"cd Web&&npm run dev\"&npm run _api_dev",
     "_api": "start cmd.exe @cmd /k \"cd API&&npm start\"",
     "_api_dev": "start cmd.exe @cmd /k \"cd API&&npm run dev\"",
-    "build": ".\\Web\\node_modules\\.bin\\webpack -p --config Web/servers/webpack/webpack-config.babel.js",
+    "build": "Web/node_modules/.bin/webpack -p --config Web/servers/webpack/webpack-config.babel.js",
     "test": "cd Web&&npm test&&cd ../API&&npm test",
     "jest": "start cmd.exe @cmd /k \"cd Web&&npm run jest\"&start cmd.exe @cmd /k \"cd API&&npm run jest\"",
     "postinstall": "cd Web&&npm install&&cd ../&&npm run build&&cd API&&npm install"
