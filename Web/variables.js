@@ -34,6 +34,7 @@ if (process.env.NODE_ENV != 'development' && process.env.NODE_ENV != 'production
 }
 
 var config = {
+    env: process.env,
     publicPaths: {
         assets: '/' + ASSETS_DIRNAME + '/',
         build: '/' + BUILD_DIRNAME + '/',

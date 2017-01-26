@@ -43,6 +43,9 @@ var webpackConfig = {
         filename: config.webpack.outputFilename, // Bundle filename pattern
         path: config.paths.build  // Put bundle files in this directory (Note: dev server does not generate bundle files)
     },
+    node: {
+        fs: 'empty'
+    },
     plugins: [
         //new SlowWebpackPlugin({delay: 2000}),
         new webpack.optimize.OccurenceOrderPlugin(),

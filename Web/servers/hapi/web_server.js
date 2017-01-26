@@ -125,61 +125,58 @@ server.register(plugins, (err) => {
         port: config.server.api_port,
         passThrough: true
     };
-    let proxyHandler = {
-        proxy: proxyConfig
-    }
-    if (process.env.CLOUDAMQP_URL) {
-        proxyHandler = function(request, reply) {
-            if (!process.env.CLOUDAMQP_URL) { // MQ_RPC
-                const path = request.headers.queuename.toLowerCase();
-                const message = request.params;                
-                if(!path) {
-                    throw new Error('In RPC Mode, Fetch calls require a queuename header');
-                }
-                const amqp = require('amqplib');
-                const url = process.env.CLOUDAMQP_URL || 'amqp://localhost'; // Heroku supplied AMQP url or localhost.
+    const proxyHandler = function (request, reply) {
+        if (config.env.CLOUDAMQP_URL) { // MQ_RPC
+            const queueName = request.headers.queuename.toLowerCase();
+            const message = request.params;                
+            if (!queueName) {
+                throw new Error('In RPC Mode, Fetch calls require a queuename header');
+            }
+            const amqp = require('amqplib');
+            const url = process.env.CLOUDAMQP_URL || 'amqp://localhost'; // Heroku supplied AMQP url or localhost.
 
-                const generateUuid = function() {
-                    return Math.random().toString() +
-                            Math.random().toString() +
-                            Math.random().toString();
-                };
+            const generateUuid = function () {
+                return Math.random().toString() +
+                        Math.random().toString() +
+                        Math.random().toString();
+            };
 
-                amqp.connect('amqp://localhost').then((conn) => {
-                    return conn.createChannel().then((ch) => {
-                        return new Promise((resolve) => {
-                            const corrId = generateUuid();
-                            const maybeAnswer = function (msg) {
-                                if (msg.properties.correlationId === corrId) {
-                                    resolve(msg.content);
-                                }
+            amqp.connect(url).then((conn) => {
+                return conn.createChannel().then((ch) => {
+                    return new Promise((resolve) => {
+                        const corrId = generateUuid();
+                        const maybeAnswer = function (msg) {
+                            if (msg.properties.correlationId === corrId) {
+                                resolve(msg.content);
                             }
+                        }
 
-                            let ok = ch.assertQueue('', {exclusive: true})
-                                .then(function(qok) { return qok.queue; });
+                        let ok = ch.assertQueue('', { exclusive: true })
+                            .then((qok) => (qok.queue));
 
-                            ok = ok.then(function(queue) {
-                                return ch.consume(queue, maybeAnswer, {noAck: true})
-                                    .then(function() { return queue; });
-                            });
+                        ok = ok.then((queue) => {
+                            return ch.consume(queue, maybeAnswer, { noAck: true })
+                                .then(() => (queue));
+                        });
 
-                            ok = ok.then((queue) => {
-                                console.log(` [x] Requesting ${path} message: ${JSON.stringify(message)}`);
-                                ch.sendToQueue(path, new Buffer(JSON.stringify(message)), {
-                                    correlationId: corrId, replyTo: queue
-                                });
+                        ok = ok.then((queue) => {
+                            console.log(` [x] Requesting ${queueName} message: ${JSON.stringify(message)}`);
+                            ch.sendToQueue(queueName, new Buffer(JSON.stringify(message)), {
+                                correlationId: corrId, replyTo: queue
                             });
                         });
-                    }).then((_reply) => {                        
-                        console.log(` [.] Got ${path} message: ${_reply}`);
-                        reply(_reply);
-                    }).finally(() => { conn.close(); });
-                }).catch(console.warn);
-            } else { // WEB API
-                return reply.proxy(proxyConfig);
-            }
+                    });
+                }).then((_reply) => {                        
+                    console.log(` [.] Got ${queueName} message: ${_reply}`);
+                    reply(_reply);
+                }).finally(() => { 
+                    conn.close(); 
+                });
+            }).catch(console.warn);
+        } else { // WEB API
+            return reply.proxy(proxyConfig);
         }
-    }
+    };
 
     // Route requests to /API to the API server.    
     server.route({

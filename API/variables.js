@@ -19,6 +19,7 @@ var SERVER_PORT =  process.env.PORT || '29957';
 var SERVER_PROTOCOL = process.env.PROTOCOL || process.env.NODE_ENV === 'development' ? 'http' : 'https';
 
 var config = {
+    env: process.env,
     publicPaths: {
         api: '/' + API_PATH + '/',
         api_root: '/' + API_PATH,

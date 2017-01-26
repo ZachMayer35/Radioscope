@@ -6,7 +6,7 @@ import routes from '../../api/routes';
 import fetch from 'isomorphic-fetch';
 import config from '../../variables';
 
-const url = process.env.CLOUDAMQP_URL || 'amqp://localhost'; // Heroku supplied AMQP url or localhost.
+const url = config.env.CLOUDAMQP_URL || 'amqp://localhost'; // Heroku supplied AMQP url or localhost.
 
 const generateQueueForRoute = function (path, schema, handler) {
   amqp.connect(url).then((conn) => {
@@ -24,18 +24,13 @@ const generateQueueForRoute = function (path, schema, handler) {
                         {correlationId: msg.properties.correlationId});
           ch.ack(msg);
         };
-        //validate msg.content
+
         console.log(`fetching ${config.server.rootUrl}/api/${JSON.parse(msg.content).path}`);
         fetch(`${config.server.rootUrl}/api/${JSON.parse(msg.content).path}`)
           .then((response) => response.json())
-          .then((response) => { _reply(response); });
-        //handler(msg.content, _reply);
-        /*const err = joi.validate(msg.content, schema, {});
-        if (err) {
-          _reply(err);
-        } else {
-          handler(msg.content, _reply);
-        }*/
+          .then((response) => {
+            _reply(response);
+          });
       };
 
       let ok = ch.assertQueue(q, {durable: false});
