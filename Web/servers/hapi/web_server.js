@@ -128,7 +128,7 @@ server.register(plugins, (err) => {
     let proxyHandler = {
         proxy: proxyConfig
     }
-    if (!process.env.CLOUDAMQP_URL) {
+    if (process.env.CLOUDAMQP_URL) {
         proxyHandler = function(request, reply) {
             if (!process.env.CLOUDAMQP_URL) { // MQ_RPC
                 const path = request.headers.queuename.toLowerCase();
