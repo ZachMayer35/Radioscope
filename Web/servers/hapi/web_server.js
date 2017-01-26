@@ -14,6 +14,7 @@ import Vision from 'vision';
 import HapiReactViews from 'hapi-react-views';
 import H2o2 from 'h2o2';
 import chalk from 'chalk';
+import fetch from 'isomorphic-fetch';
 
 var server = new Hapi.Server({
     connections: {
@@ -206,6 +207,16 @@ server.register(plugins, (err) => {
         path: '/swagger.json',
         handler: proxyHandler
     });
+
+    server.route({
+        method: 'GET',
+        path: '/sw/' + '{path*}',
+        handler: (request, reply) => {
+            fetch(`https://swapi.co/${request.params.path}?format=json`)
+                .then((response) => response.json())
+                .then((response) => reply(response));
+        }
+    })
 
     server.start(() => {        
         console.log(chalk.green.bold('Web server started!'));

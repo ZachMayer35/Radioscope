@@ -2,7 +2,6 @@
 
 import getWebpackAssets from '../get-webpack-assets';
 import React from 'react';
-import config from '../../../variables';
 
 var App = React.createClass({
     render: function () {
@@ -14,8 +13,7 @@ var App = React.createClass({
                     <title>Test Demo</title>                    
                 </head>
                 <body>                
-                    <div id='appContainer' className='flex-container container'>This text will be replaced by an app component</div>
-                    <pre>{JSON.stringify(config.env, null, 2)}</pre>
+                    <div id='appContainer' className='flex-container container'>This text will be replaced by an app component</div>                    
                 </body>
                 <script async src={getWebpackAssets().app.js}></script>
             </html>
