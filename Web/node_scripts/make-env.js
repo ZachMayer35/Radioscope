@@ -18,7 +18,7 @@ var env = [
     'PORT=' + PORT,
     'API_ROOT=api',
     'API_HOST=' + HOST,
-    'API_PORT=8085'
+    'API_PORT=29957'
 ];
 
 

@@ -15,6 +15,7 @@
     "dev": "start cmd.exe @cmd /k \"npm run webpack\"&npm run web_dev",
     "make_dev": "SET NODE_ENV=development&babel-node --harmony node_scripts/make.js",
     "make": "SET NODE_ENV=production&babel-node --harmony node_scripts/make.js",
+    "clean": "babel-node --harmony node_scripts/clean.js",
     "lint": "eslint . --ext .js --ext .jsx --quiet",
     "test": "babel-node node_scripts/test.js --env=jsdom --coverage",
     "jest": "babel-node node_scripts/test.js --env=jsdom --watch"

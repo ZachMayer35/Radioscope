@@ -39,12 +39,13 @@ var Fibonacci = {
 Fibonacci.routes = [
     { 
         method: 'GET', 
-        path: '/fibonacci/{n}', 
+        path: '/fibonacci/{n}',
         handler: (request, reply) => {
             var n = request.params.n;
             reply(Fibonacci.getUpToN(n));
         },
-        config: {            
+        config: {       
+            id: '/fibonacci/',
             // SWAGGER DOCS
             description: 'Get Fibonacci Numbers',
             notes: 'Returns a list of fibonacci numbers up to "n" same as /getUpToN',
@@ -65,6 +66,7 @@ Fibonacci.routes = [
             reply(Fibonacci.getUpToN(n));
         },        
         config: {
+            id: '/fibonacci/getUpToN/',
             // SWAGGER DOCS
             description: 'Get Fibonacci Up to N',
             notes: 'Returns a list of fibonacci numbers up to "n"',
@@ -79,12 +81,13 @@ Fibonacci.routes = [
     },
     { 
         method: 'GET', 
-        path: '/fibonacci/getNth/{n}', 
-        handler: (request, reply) => {
+        path: '/fibonacci/getNth/{n}',
+        handler: (request, reply) => {            
             var n = request.params.n;
             reply(Fibonacci.getNth(n));
         },       
-        config: {
+        config: {            
+            id: '/fibonacci/getNth/',
             // SWAGGER DOCS
             description: 'Get Nth Fibonacci Number',
             notes: 'Returns the Nth fibonacci number',

@@ -8,10 +8,11 @@
     "node": "^4.4.5"
   },
   "scripts": {
-    "start": "npm run make&&SET NODE_ENV=production&.\\node_modules\\.bin\\nodemon --harmony servers/hapi/api_server.js --exec babel-node",
-    "dev": "npm run make_dev&&SET NODE_ENV=production&.\\node_modules\\.bin\\nodemon --harmony servers/hapi/api_server.js --exec babel-node",
+    "start": "npm run make&&SET NODE_ENV=production&.\\node_modules\\.bin\\nodemon --harmony servers/server_picker.js --exec babel-node",
+    "dev": "npm run make_dev&&SET NODE_ENV=production&.\\node_modules\\.bin\\nodemon --harmony servers/server_picker.js --exec babel-node",
     "make": "set NODE_ENV=production&babel-node --harmony node_scripts/make.js",
     "make_dev": "SET NODE_ENV=development&babel-node --harmony node_scripts/make.js",
+    "clean": "babel-node --harmony node_scripts/clean.js",
     "lint": "eslint . --ext .js --quiet",
     "test": "babel-node node_scripts/test.js --env=jsdom --coverage",
     "jest": "npm run make&&babel-node node_scripts/test.js --env=jsdom --watch --coverage"
@@ -41,6 +42,7 @@
     "testEnvironment": "node"
   },
   "dependencies": {
+    "amqplib": "^0.5.1",
     "babel-core": "^6.3.17",
     "babel-eslint": "^4.1.6",
     "babel-loader": "^6.2.0",
@@ -52,22 +54,23 @@
     "chai": "^3.5.0",
     "chalk": "^1.1.1",
     "dotenv": "^2.0.0",
+    "eslint": "^1.1.0",
+    "eslint-loader": "^1.0.0",
+    "eslint-plugin-react": "^3.2.2",
     "hapi": "^15.0.2",
     "hapi-swagger": "^7.4.0",
     "ignore-styles": "^1.2.0",
     "inert": "^3.2.0",
+    "isomorphic-fetch": "^2.2.1",
     "jest": "^17.0.3",
     "joi": "^9.0.4",
     "jsdom": "^8.1.0",
     "mocha": "^2.4.5",
+    "nodemon": "^1.8.1",
     "quick-local-ip": "^1.0.7",
     "rimraf": "^2.4.4",
     "sinon": "^1.17.6",
     "vision": "^4.0.1",
-    "whatwg-fetch": "^2.0.1",
-    "eslint": "^1.1.0",
-    "eslint-loader": "^1.0.0",
-    "eslint-plugin-react": "^3.2.2",
-    "nodemon": "^1.8.1"
+    "whatwg-fetch": "^2.0.1"
   }
 }

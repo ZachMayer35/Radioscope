@@ -2,7 +2,7 @@
 A JavaScript run-time visualizer with head-to-head code fighting.
 
 [![Build Status](https://travis-ci.org/ZachMayer35/Radioscope.svg?branch=master)](https://travis-ci.org/ZachMayer35/Radioscope)
-[![Heroku](http://heroku-badge.herokuapp.com/?app=secret-springs-57491&style=flat&svg=1&root=/api)](http://secret-springs-57491.herokuapp.com)
+[![Heroku](http://heroku-badge.herokuapp.com/?app=secret-springs-57491&style=flat&svg=1&root=/strings)](http://secret-springs-57491.herokuapp.com)
 
 ## Usage
 
@@ -15,7 +15,7 @@ A JavaScript run-time visualizer with head-to-head code fighting.
 
 * `npm run dev`
 * [http://localhost:8080](http://localhost:8080) Web Server
-* [http://localhost:8085](http://localhost:8085) API Server
+* [http://localhost:29957](http://localhost:29957) API Server
 * HMR works on JSX and CSS files in the /web/client/ directory currently. Other files may cause Hapi to restart.
 * nodemon watches for changes to other files and will restart the web and api servers as needed.
 * If any one process needs to be restarted use `npm run web_dev` or `npm run api` or `npm run webpack`
@@ -24,7 +24,7 @@ A JavaScript run-time visualizer with head-to-head code fighting.
 
 * `npm start` builds the webpack bundle and starts the web server and api server
 * http://[HOST_NAME]:80 Web Server
-* http://[HOST_NAME]:8085 API Server
+* http://[HOST_NAME]:29957 API Server
 
 ### Tests
 

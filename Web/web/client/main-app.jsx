@@ -27,6 +27,7 @@ ReactDOM.render(
         <Router history={history}>
         <Route path='/' component={MasterPage}>
             <IndexRoute component={FibonacciPage}/>
+            <Route path='Home' component={FibonacciPage}/>
             <Route path='Strings' component={StringsPage}/>
             <Route path='Misc' component={MiscPage}/>
             <Route path='swapi' component={SWAPIPage}/>

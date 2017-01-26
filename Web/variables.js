@@ -20,8 +20,8 @@ var DOC_PATH = 'documentation';
 var SWAGGER_PATH = 'swaggerui';
 
 var SERVER_HOST = process.env.HOST || process.env.NODE_ENV === 'development' ? '127.0.0.1' : '0.0.0.0';
-var SERVER_PORT = parseInt(process.env.PORT) || 8080;
-var SERVER_PROTOCOL = process.env.PROTOCOL || 'https';
+var SERVER_PORT = process.env.PORT || 8080;
+var SERVER_PROTOCOL = process.env.PROTOCOL || process.env.NODE_ENV === 'development' ? 'http' : 'https';
 var WEBPACK_DEV_SERVER_PORT = 3000;
 
 // process.env object contains environment variables passed to the node.js process.
@@ -60,7 +60,7 @@ var config = {
         host: SERVER_HOST,
         api_host: process.env.API_HOST || 'localhost',
         port: SERVER_PORT,
-        api_port: process.env.API_PORT || 29957,
+        api_port: process.env.API_PORT || '29957',
         protocol: SERVER_PROTOCOL,
         rootUrl: SERVER_PROTOCOL + '://' + SERVER_HOST + ':' + SERVER_PORT
     },

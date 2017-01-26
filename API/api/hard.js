@@ -63,6 +63,7 @@ Hard.routes = [
             reply(Hard.splitString(str));
         },
         config: {
+            id: '/hard/splitstring/',
             // SWAGGER DOCS
             description: 'Hard SplitString',
             notes: 'Find all words in a string with spaces and punctuation removed. Try "thisisawesome"',

@@ -54,7 +54,7 @@ export const reset = () => ({
 export const fetchFibonacciNumber = () => (
     (dispatch, getState) => {    
         dispatch(requestSingle());
-        return fetch(global.API_PATH + '/fibonacci/getNth/' + getState().fibonacci.n)
+        return fetch(`${global.API_PATH}/fibonacci/getNth/${getState().fibonacci.n}`, { headers: { queuename: '/fibonacci/getNth/' } })
             .then((response) => response.json())
             .then((response) => dispatch(receiveSingle(response)));
 });
@@ -62,7 +62,7 @@ export const fetchFibonacciNumber = () => (
 export const fetchAllFibonacciNumbers = () => (
     (dispatch, getState) => {    
         dispatch(requestAll());
-        return fetch(global.API_PATH + '/fibonacci/getUpToN/' + getState().fibonacci.n)
+        return fetch(`${global.API_PATH}/fibonacci/getUpToN/${getState().fibonacci.n}`, { headers: { queuename: '/fibonacci/getUpToN/' } })
             .then((response) => response.json())
             .then((response) => dispatch(receiveAll(response)));
 });
