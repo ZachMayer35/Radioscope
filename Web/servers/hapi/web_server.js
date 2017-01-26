@@ -119,67 +119,95 @@ server.register(plugins, (err) => {
         });
     }
 
+    const proxyConfig = {
+        protocol: config.server.protocol,
+        host: config.server.api_host,
+        port: config.server.api_port,
+        passThrough: true
+    };
+    let proxyHandler = {
+        proxy: proxyConfig
+    }
+    if (!process.env.CLOUDAMQP_URL) {
+        proxyHandler = function(request, reply) {
+            if (!process.env.CLOUDAMQP_URL) { // MQ_RPC
+                const path = request.headers.queuename.toLowerCase();
+                const message = request.params;                
+                if(!path) {
+                    throw new Error('In RPC Mode, Fetch calls require a queuename header');
+                }
+                const amqp = require('amqplib');
+                const url = process.env.CLOUDAMQP_URL || 'amqp://localhost'; // Heroku supplied AMQP url or localhost.
+
+                const generateUuid = function() {
+                    return Math.random().toString() +
+                            Math.random().toString() +
+                            Math.random().toString();
+                };
+
+                amqp.connect('amqp://localhost').then((conn) => {
+                    return conn.createChannel().then((ch) => {
+                        return new Promise((resolve) => {
+                            const corrId = generateUuid();
+                            const maybeAnswer = function (msg) {
+                                if (msg.properties.correlationId === corrId) {
+                                    resolve(msg.content);
+                                }
+                            }
+
+                            let ok = ch.assertQueue('', {exclusive: true})
+                                .then(function(qok) { return qok.queue; });
+
+                            ok = ok.then(function(queue) {
+                                return ch.consume(queue, maybeAnswer, {noAck: true})
+                                    .then(function() { return queue; });
+                            });
+
+                            ok = ok.then((queue) => {
+                                console.log(` [x] Requesting ${path} message: ${JSON.stringify(message)}`);
+                                ch.sendToQueue(path, new Buffer(JSON.stringify(message)), {
+                                    correlationId: corrId, replyTo: queue
+                                });
+                            });
+                        });
+                    }).then((_reply) => {                        
+                        console.log(` [.] Got ${path} message: ${_reply}`);
+                        reply(_reply);
+                    }).finally(() => { conn.close(); });
+                }).catch(console.warn);
+            } else { // WEB API
+                return reply.proxy(proxyConfig);
+            }
+        }
+    }
+
     // Route requests to /API to the API server.    
     server.route({
         method: 'GET',
         path: config.publicPaths.api_root,
-        handler: {
-            proxy: {
-                host: config.server.api_host,
-                port: config.server.api_port,
-                passThrough: true
-            }
-        }
+        handler: proxyHandler
     });
     server.route({
         method: 'GET',
         path: config.publicPaths.api + '{path*}',
-        handler: {
-            proxy: {
-                protocol: config.server.protocol,
-                host: config.server.api_host,
-                port: config.server.api_port,
-                passThrough: true
-            }
-        }
+        handler: proxyHandler
     });
     // Route requests to /documentation to the API server.
     server.route({
         method: 'GET',
         path: config.publicPaths.docs + '{path*}',
-        handler: {
-            proxy: {
-                protocol: config.server.protocol,
-                host: config.server.api_host,
-                port: config.server.api_port,
-                passThrough: true
-            }
-        }
+        handler: proxyHandler
     });
     // Route requests to /swaggerui to the API server which hosts swagger docs.
     server.route({
         method: 'GET',
         path: config.publicPaths.swagger + '{path*}',
-        handler: {
-            proxy: {
-                protocol: config.server.protocol,
-                host: config.server.api_host,
-                port: config.server.api_port,
-                passThrough: true
-            }
-        }
+        handler: proxyHandler
     });
     server.route({
         method: 'GET',
         path: '/swagger.json',
-        handler: {
-            proxy: {
-                protocol: config.server.protocol,
-                host: config.server.api_host,
-                port: config.server.api_port,
-                passThrough: true
-            }
-        }
+        handler: proxyHandler
     });
 
     server.start(() => {        

@@ -15,8 +15,8 @@ var DOC_PATH = 'documentation';
 var SWAGGER_PATH = 'swaggerui';
 
 var SERVER_HOST = process.env.HOST || process.env.NODE_ENV === 'development' ? '127.0.0.1' : '127.0.0.1';
-var SERVER_PORT = process.env.NODE_ENV === 'development' ? process.env.PORT : '29957';
-var SERVER_PROTOCOL = process.env.PROTOCOL || 'https';
+var SERVER_PORT =  process.env.PORT || '29957';
+var SERVER_PROTOCOL = process.env.PROTOCOL || process.env.NODE_ENV === 'development' ? 'http' : 'https';
 
 var config = {
     publicPaths: {

@@ -102,7 +102,7 @@ class Splitter extends ReduxComponent {
     const { dispatch, StrInput, actions } = this;
     if(StrInput.value) {
       dispatch(actions.REQUEST_SPLIT());
-      return fetch(global.API_PATH + '/hard/splitString/' + StrInput.value)
+      return fetch(`${global.API_PATH}/hard/splitString/${StrInput.value}`, { headers: { queuename: '/hard/splitString/' }})
             .then((response) => response.json())
             .then((response) => dispatch(actions.RECEIVE_SPLIT(StrInput.value, response)));
     } else {

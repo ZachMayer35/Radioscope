@@ -8,10 +8,11 @@
     "node": "^4.4.5"
   },
   "scripts": {
-    "start": "npm run make&&SET NODE_ENV=production&.\\node_modules\\.bin\\nodemon --harmony servers/hapi/api_server.js --exec babel-node",
-    "dev": "npm run make_dev&&SET NODE_ENV=production&.\\node_modules\\.bin\\nodemon --harmony servers/hapi/api_server.js --exec babel-node",
+    "start": "npm run make&&SET NODE_ENV=production&.\\node_modules\\.bin\\nodemon --harmony servers/server_picker.js --exec babel-node",
+    "dev": "npm run make_dev&&SET NODE_ENV=production&.\\node_modules\\.bin\\nodemon --harmony servers/server_picker.js --exec babel-node",
     "make": "set NODE_ENV=production&babel-node --harmony node_scripts/make.js",
     "make_dev": "SET NODE_ENV=development&babel-node --harmony node_scripts/make.js",
+    "clean": "babel-node --harmony node_scripts/clean.js",
     "lint": "eslint . --ext .js --quiet",
     "test": "babel-node node_scripts/test.js --env=jsdom --coverage",
     "jest": "npm run make&&babel-node node_scripts/test.js --env=jsdom --watch --coverage"
@@ -60,6 +61,7 @@
     "hapi-swagger": "^7.4.0",
     "ignore-styles": "^1.2.0",
     "inert": "^3.2.0",
+    "isomorphic-fetch": "^2.2.1",
     "jest": "^17.0.3",
     "joi": "^9.0.4",
     "jsdom": "^8.1.0",
