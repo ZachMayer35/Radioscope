@@ -78,3 +78,5 @@ server.register(plugins, (err) => {
             chalk.bgGreen.bold(config.server.rootUrl));
     });
 });
+
+export default server;
