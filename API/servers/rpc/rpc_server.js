@@ -8,11 +8,8 @@ import config from '../../variables';
 
 const url = config.env.CLOUDAMQP_URL || 'amqp://localhost'; // Heroku supplied AMQP url or localhost.
 
-const generateQueueForRoute = function (path, schema, handler) {
+const generateQueueForRoute = function (path) {
   amqp.connect(url).then((conn) => {
-    process.once('SIGINT', () => { 
-      conn.close();
-    });
     return conn.createChannel().then((ch) => {
       const q = path;
       const reply = function (msg) {
@@ -48,10 +45,11 @@ const generateQueueForRoute = function (path, schema, handler) {
 const generateQueuesForRoutes = function (routeObjects) {
   routeObjects.forEach((route) => {
     if (route.config.id) {
-      generateQueueForRoute(route.config.id.toLowerCase(), route.validate, route.handler);
+      generateQueueForRoute(route.config.id.toLowerCase());
     }
   });
 };
 
 // Start.
+console.log('Generating Queues for Routes.');
 generateQueuesForRoutes(routes);
