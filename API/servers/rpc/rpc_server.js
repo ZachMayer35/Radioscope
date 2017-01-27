@@ -24,7 +24,6 @@ const generateQueueForRoute = function (path, api) {
         };
         console.log(`fetching ${config.server.rootUrl}/api/${JSON.parse(msg.content).path}`);
         api.inject(`/api/${JSON.parse(msg.content).path}`, (res) => {
-          console.log(res);
           _reply(res.result);
         });
       };
