@@ -62,7 +62,7 @@ server.register(plugins, (err) => {
             directory: {
                 path: config.paths.assets,
                 index: false,
-                listing: false,
+                listing: true,
                 showHidden: false
             }
         }
