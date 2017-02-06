@@ -31,6 +31,7 @@ ReactDOM.render(
             <Route path='Strings' component={StringsPage}/>
             <Route path='Misc' component={MiscPage}/>
             <Route path='swapi' component={SWAPIPage}/>
+            <Route path='swapi/:personId' component={SWAPIPage} />
         </Route>
         </Router>
     </Provider>,

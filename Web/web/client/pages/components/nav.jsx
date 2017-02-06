@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 
 const navItemClass = (path, currentPath) => {
     let name = 'list-group-item';
-    if (currentPath === path) {
+    if ((currentPath.toLowerCase().indexOf(path.toLowerCase()) === 0 && path.length > 1) || currentPath.toLowerCase() === path.toLowerCase()) {
         name += ' active';
     }
     return name;
@@ -23,7 +23,7 @@ const Nav = ({ currentPath }) => (
         <Link className={navItemClass('/Misc', currentPath)} to='/Misc'>
             Misc
         </Link> 
-        <Link className={navItemClass('/Swapi', currentPath)} to='/Swapi'>
+        <Link className={navItemClass('/Swapi', currentPath)} to='/Swapi/20'>
             SWAPI
         </Link>
         </ul>

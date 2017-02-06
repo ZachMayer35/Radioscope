@@ -1,17 +1,17 @@
 'use strict';
 
-import React from 'react';
-
-import FilterList from '../app/components/common/filterList';
-import HierarchyList from '../app/components/common/hierarchyList';
+import React, { PropTypes } from 'react';
+import store from '../app/store';
+import { push } from 'react-router-redux';
 
 class SWAPIPage extends React.Component {
     constructor (props) {
         super(props);
+        console.log(`SWAPI PARAMS: ${JSON.stringify(props.params)}`)
         this.state = {
             currentPerson: {},
             loading: false,
-            currentId: 1
+            currentId: (props.params || {}).personId || 1
         }
         this.getPerson = this.getPerson.bind(this);
         this.setCurrentId = this.setCurrentId.bind(this);    
@@ -19,6 +19,13 @@ class SWAPIPage extends React.Component {
     }
     componentDidMount () { 
         this.getPerson();
+    }    
+    componentWillReceiveProps (nextProps) {
+        console.log(JSON.stringify(nextProps));
+        if ((nextProps.params || {}).personId !== this.state.currentId) {
+            this.setState({ currentId: nextProps.params.personId });
+            this.getPerson();
+        }
     }
     render () {
         const { currentPerson } = this.state;
@@ -43,6 +50,7 @@ class SWAPIPage extends React.Component {
     }
     trySubmit (e) {
         if (e.key === 'Enter'){
+            store.dispatch(push(`/Swapi/${this.state.currentId}`));
             this.getPerson();
         }
     }
@@ -50,17 +58,23 @@ class SWAPIPage extends React.Component {
         this.setState({ currentId: id });
     }
     getPerson () {
-        if(!this.state.loading) {            
-            if( this.state.currentId && parseInt(this.state.currentId) > 0 ){
+        if (!this.state.loading) {            
+            if (this.state.currentId && parseInt(this.state.currentId) > 0) {
                 this.setState({ loading: true });
                 fetch(`/sw/api/people/${this.state.currentId}/?format=json`)
                     .then((response) => response.json())
-                    .then((response) => { this.setState({ currentPerson: response, loading: false }); });
+                    .then((response) => { 
+                        this.setState({ currentPerson: response, loading: false });                         
+                    });
             }
         }
     }
 
 }
 SWAPIPage.pageName = 'SWAPI';
+
+SWAPIPage.propTypes = {
+    params: PropTypes.any
+};
 
 export default SWAPIPage;
