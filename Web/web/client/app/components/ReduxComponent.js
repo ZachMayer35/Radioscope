@@ -1,6 +1,7 @@
+'use strict';
+
 import { Component } from 'react';
 import { createStore, applyMiddleware } from 'redux';
-import createLogger from 'redux-logger';
 
 const ReduxComponentException = function (message) {
    this.message = message;
@@ -84,12 +85,20 @@ class ReduxComponent extends Component {
     }
     createStore (initialState, syncToReactState) {
         if (this.store === null) {
+            const middlewares = [];
+            // only show redux logs in development or test.
+            if (['development', 'test'].indexOf(process.env.NODE_ENV) >= 0) {
+                const createLogger = require('redux-logger');                
+                middlewares.push(
+                    createLogger({ 
+                        titleFormatter: (action, time) => (`component_action @ ${time} ${this.constructor.name} ${action.type}`) 
+                    })
+                );
+            }
             this.store = createStore(
                             this.reducer,
                             (initialState || {}),
-                            applyMiddleware(
-                                createLogger({ titleFormatter: (action, time) => (`component_action @ ${time} ${this.constructor.name} ${action.type}`) })
-                        ));
+                            applyMiddleware(...middlewares));
             this.syncToReactState = syncToReactState;
         } else {
             throw new ReduxComponentException('Store has already been created for this component');
