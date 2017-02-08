@@ -14,7 +14,8 @@ const rootReducer = combineReducers({
 
 const middlewares = [thunkMiddleware, routerMiddleware(browserHistory)];
 
-if (process.env.NODE_ENV !== 'test') {
+// only show redux logs in development or test.
+if (['development', 'test'].indexOf(process.env.NODE_ENV) >= 0) {
 	const createLogger = require('redux-logger');
 	const logger = createLogger();
 	middlewares.push(logger);
