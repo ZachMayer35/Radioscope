@@ -2,6 +2,7 @@
 A JavaScript run-time visualizer with head-to-head code fighting.
 
 [![Build Status](https://travis-ci.org/ZachMayer35/Radioscope.svg?branch=master)](https://travis-ci.org/ZachMayer35/Radioscope)
+[![Coverage Status](https://coveralls.io/repos/github/ZachMayer35/Radioscope/badge.svg?branch=master)](https://coveralls.io/github/ZachMayer35/Radioscope?branch=master)
 [![Heroku](http://heroku-badge.herokuapp.com/?app=radioscope&style=flat&svg=1&root=/strings)](http://radioscope.herokuapp.com)
 
 ## Usage
