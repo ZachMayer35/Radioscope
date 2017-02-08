@@ -14,7 +14,8 @@
     "_api_dev": "start cmd.exe @cmd /k \"cd API&&npm run dev\"",
     "build": "./Web/node_modules/.bin/webpack -p --config Web/servers/webpack/webpack-config.babel.js",
     "test": "cd Web&&npm test&&cd ../API&&npm test",
-    "jest": "start cmd.exe @cmd /k \"cd Web&&npm run jest\"&start cmd.exe @cmd /k \"cd API&&npm run jest\"",
+    "jest": "start cmd.exe @cmd /k \"cd Web&&npm run jest\"&start cmd.exe @cmd /k \"cd API&&npm run jest\"",    
+    "coveralls": "cat ./web/coverage/lcov.info | coveralls&&cat ./api/coverage/lcov.info | coveralls",
     "postinstall": "cd Web&&npm install&&npm run build&&cd ../API&&npm install"
   },
   "repository": {
@@ -33,6 +34,7 @@
   },
   "devDependencies": {
     "coveralls": "^2.11.16",
+    "istanbul": "^0.4.5",
     "mocha-lcov-reporter": "^1.2.0"
   }
 }
