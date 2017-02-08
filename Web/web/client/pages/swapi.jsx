@@ -6,8 +6,7 @@ import { push } from 'react-router-redux';
 
 class SWAPIPage extends React.Component {
     constructor (props) {
-        super(props);
-        console.log(`SWAPI PARAMS: ${JSON.stringify(props.params)}`)
+        super(props);        
         this.state = {
             currentPerson: {},
             loading: false,
@@ -20,8 +19,7 @@ class SWAPIPage extends React.Component {
     componentDidMount () { 
         this.getPerson();
     }    
-    componentWillReceiveProps (nextProps) {
-        console.log(JSON.stringify(nextProps));
+    componentWillReceiveProps (nextProps) {        
         if ((nextProps.params || {}).personId !== this.state.currentId) {
             this.setState({ currentId: nextProps.params.personId });
             this.getPerson();
