@@ -10,8 +10,10 @@
   "scripts": {
     "start": "npm run _api&cd Web&&npm start",
     "dev": "start cmd.exe @cmd /k \"cd Web&&npm run dev\"&npm run _api_dev",
+    "dev_mq": "start cmd.exe @cmd /k \"cd Web&&SET AMQP=true&&npm run dev\"&npm run _api_dev_mq",
     "_api": "start cmd.exe @cmd /k \"cd API&&npm start\"",
     "_api_dev": "start cmd.exe @cmd /k \"cd API&&npm run dev\"",
+    "_api_dev_mq": "start cmd.exe @cmd /k \"cd API&&SET AMQP=true&&npm run dev\"",
     "build": "./Web/node_modules/.bin/webpack -p --config Web/servers/webpack/webpack-config.babel.js",
     "test": "cd Web&&npm test&&cd ../API&&npm test",
     "jest": "start cmd.exe @cmd /k \"cd Web&&npm run jest\"&start cmd.exe @cmd /k \"cd API&&npm run jest\"",    

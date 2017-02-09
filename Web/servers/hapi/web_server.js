@@ -127,7 +127,7 @@ server.register(plugins, (err) => {
         passThrough: true
     };
     const proxyHandler = function (request, reply) {
-        if (config.env.CLOUDAMQP_URL) { // MQ_RPC
+        if (config.env.CLOUDAMQP_URL || config.env.AMQP) { // MQ_RPC
             const queueName = request.headers.queuename.toLowerCase();
             const message = request.params;                
             if (!queueName) {
