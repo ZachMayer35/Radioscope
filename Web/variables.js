@@ -56,7 +56,8 @@ var config = {
     server: {
         publicFiles: [
             'robots.txt',
-            'favicon.ico'
+            'favicon.ico',
+            'loaderio-6d86d2d1be83cd41a37297b5f4a02830'
         ],
         host: SERVER_HOST,
         api_host: process.env.API_HOST || 'localhost',
