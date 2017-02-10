@@ -26,6 +26,9 @@ const Nav = ({ currentPath }) => (
         <Link className={navItemClass('/Swapi', currentPath)} to='/Swapi/20'>
             SWAPI
         </Link>
+        <Link className={navItemClass('/Monaco', currentPath)} to='/Monaco'>
+            Monaco
+        </Link>
         </ul>
     </div>
 );

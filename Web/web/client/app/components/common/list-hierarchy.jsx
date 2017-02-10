@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import ReduxComponent from '../ReduxComponent';
+import Loader from './loader';
 
 const TOGGLE_HIERARCHY_NODE = 'TOGGLE_HIERARCHY_NODE';
 const SETUP_HIERARCHY = 'SETUP_HIERARCHY';
@@ -35,15 +36,14 @@ class ListHierarchy extends ReduxComponent {
       this.dispatch(this.actions.SETUP_HIERARCHY(propNodes, selectedNode));
     } 
   }
-  render() {
+  render () {
     const { onSelect, rootName, selectedNode, isFetching } = this.props;
     const { nodes, metadata } = this.store.getState();
     const classN = `scope-hierarchy-list ${rootName || ''}`;
-    if (!isFetching) {
-      return (
+    const list = (
         <div className={classN}> 
           {nodes && nodes.length > 0 ?
-            nodes.map(node => (
+            nodes.map((node) => (
               <div className={this.getClassName(node)} key={node.id} >
                 <div className='nameContainer' onClick={e => { this.handleClick(e, node); } }>
                   <span>{node.name}</span>
@@ -56,16 +56,12 @@ class ListHierarchy extends ReduxComponent {
               </div>
             )) : null}
         </div>
-      );
-    }
+      );    
     return (
-      <div style={{ height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <div style={{ resize: 'both' }} className='loader'>
-        </div>
-      </div>
+      <Loader loading={isFetching} element={list} />
     );
   }
-  getClassName(node) {  
+  getClassName (node) {  
     const metadata = this.store.getState().metadata;    
     let className = node.children ?
       metadata[node.key] && metadata[node.key].open === true ?

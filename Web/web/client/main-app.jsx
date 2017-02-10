@@ -12,6 +12,7 @@ import FibonacciPage from './pages/fibonacciPage';
 import StringsPage from './pages/stringsPage';
 import MiscPage from './pages/miscPage';
 import SWAPIPage from './pages/swapi';
+import MonacoPage from './pages/monaco';
 import MasterPage from './pages/masterPage';
 import path from 'path';
 
@@ -31,6 +32,7 @@ ReactDOM.render(
             <Route path='Strings' component={StringsPage}/>
             <Route path='Misc' component={MiscPage}/>
             <Route path='swapi' component={SWAPIPage}/>
+            <Route path='monaco' component={MonacoPage}/>
             <Route path='swapi/:personId' component={SWAPIPage} />
         </Route>
         </Router>

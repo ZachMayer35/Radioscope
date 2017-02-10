@@ -68,6 +68,17 @@ server.register(plugins, (err) => {
         }
     });
 
+    // Serve all files from the assets directory
+    // Note: in production this also serves webpack bundles
+    console.log(config.paths.build + '\\vs');
+    server.route({
+        method: 'GET',
+        path: '/vs/' + '{path*}',
+        handler: function (request, reply) {
+            return reply().redirect(config.publicPaths.build + request.path).permanent();
+        }
+    });
+
     // Serve white-listed files from the webRoot directory
     config.server.publicFiles.forEach(
         (filename) => {

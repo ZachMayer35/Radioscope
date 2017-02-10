@@ -3,7 +3,6 @@
 import React, { PropTypes } from 'react';
 import store from '../app/store';
 import { push } from 'react-router-redux';
-import Loader from '../app/components/common/loader';
 
 class SWAPIPage extends React.Component {
     constructor (props) {
@@ -40,7 +39,7 @@ class SWAPIPage extends React.Component {
                 <div className='row'>                    
                     <div className='col-xs-12'>
                         <pre>
-                            <Loader loading={this.state.loading} element={<div>{JSON.stringify(currentPerson, null, 2)}</div>} />
+                            {this.state.loading ? 'Loading...' : JSON.stringify(currentPerson, null, 2)}
                         </pre>
                     </div>
                 </div>

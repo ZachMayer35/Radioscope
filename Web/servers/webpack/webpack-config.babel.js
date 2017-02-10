@@ -3,6 +3,7 @@
 import path from 'path';
 import webpack from 'webpack';
 import AssetsWebpackPlugin from 'assets-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 import config from '../../variables';
 
 
@@ -58,7 +59,13 @@ var webpackConfig = {
             filename: config.webpack.assetsFilename,
             path: config.webpack.assetsPath,
             prettyPrint: false
-        })
+        }),
+        new CopyWebpackPlugin([
+            {
+                from: 'node_modules/monaco-editor/min/vs',
+                to: 'vs',
+            }
+        ])
     ]
 };
 
@@ -66,7 +73,7 @@ var webpackConfig = {
 
 if (process.env.NODE_ENV === 'development') {
 
-    Object.assign(webpackConfig, {        
+    Object.assign(webpackConfig, {
         entry: {
             app: [APP_ENTRY, WEBPACK_HOT_ENTRY]
         },
