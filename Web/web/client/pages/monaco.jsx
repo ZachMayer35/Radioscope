@@ -10,7 +10,7 @@ class MonacoPage extends Component {
         this.state = { 
             loading: true,
             log: [],
-            code: `alert('hello world!');`
+            code: `console.log('hello world!');`
         };    
         this.tempEditorDidMount = this.tempEditorDidMount.bind(this);
         this.runCode = this.runCode.bind(this);
