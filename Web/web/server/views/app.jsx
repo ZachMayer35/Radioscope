@@ -24,7 +24,7 @@ var App = React.createClass({
                     height={80}
                     direction="right"
                     />
-                <div id='appContainer' className='flex-container container'>
+                <div id='appContainer' className='flex-container container'>                    
                     <div style={{ height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <div style={{ resize: 'both' }} className='loader'>
                         </div>

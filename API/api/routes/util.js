@@ -18,6 +18,7 @@ const routeBuilder = function () {
                 var _route = objRoutes.slice(i, i + 1)[0];
                 _route.path = prefix + _route.path;
                 routes.push(_route);
+                console.log(chalk.green(`${logPrefix} Build Route for (${_route.path})`));
             });
         }
     });

@@ -8,24 +8,40 @@ class MonacoPage extends Component {
     constructor (props) {
         super(props);        
         this.state = { 
-            loading: true
+            loading: true,
+            log: [],
+            code: `alert('hello world!');`
         };    
         this.tempEditorDidMount = this.tempEditorDidMount.bind(this);
+        this.runCode = this.runCode.bind(this);
+        this.onChange = this.onChange.bind(this);
     }
     componentDidMount () {
 
     }
     render () {
-        const editor = (<MonacoEditor 
-                            width='100%'
-                            height='500'
-                            language='javascript'
-                            theme='vs-dark'
-                            value={`alert('hello world!');`}
-                            options={{ selectOnLineNumbers: true }}
-                            onChange={this.onChange}
-                            editorDidMount={this.editorDidMount}
-                            />);
+        const { code, log } = this.state;
+        const runCode = this.runCode;
+        const editor = (
+            <div>
+                <MonacoEditor 
+                width='100%'
+                height='500'
+                language='javascript'
+                theme='vs-dark'
+                value={code}
+                options={{ selectOnLineNumbers: true }}
+                onChange={this.onChange}
+                editorDidMount={this.editorDidMount}
+                />
+                <br />
+                <button className='btn btn-danger pull-right' onClick={runCode}>RUN</button>
+                <br />
+                <h3>Console Output</h3>
+                <pre>{JSON.stringify(log, null, 2)}</pre>
+            </div>
+                            
+        );
         return (
             <div className='flex-container'>
                 <p className='-text'>Monaco Editor</p>
@@ -38,8 +54,16 @@ class MonacoPage extends Component {
             </div>
         );
     }
+    runCode () {
+        fetch(`${global.API_PATH}/run/js/${this.state.code}`, { headers: { queuename: '/run/js/' } })
+            .then((response) => response.json())
+            .then((response) => {
+                this.setState({ log: [...this.state.log, ...response] });
+            });
+    }
     onChange (newValue, e) {
         console.log('onChange', newValue, e);
+        this.setState({ code: newValue });
     }
     editorDidMount (editor, monaco) {
         editor.focus();
