@@ -1,7 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
-import ErrorMessage from '../app/components/common/ErrorMessage';
+import ErrorMessage from '../app/components/common/errorMessage';
 import MonacoEditor from './components/monacoEditor';
 import Loader from '../app/components/common/loader';
 
