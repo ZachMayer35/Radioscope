@@ -53,6 +53,15 @@
             "port": 5858,
             "sourceMaps": false,
             "outDir": null
+        },
+        {
+            "type": "chrome",
+            "request": "attach",
+            "name": "Attach To Chrome",
+            "url": "http://localhost:8080",
+            "webRoot": "${workspaceRoot}/Web",
+            "port": 9222,
+            "sourceMaps": true
         }
     ]
 }
