@@ -10,6 +10,7 @@ class MonacoPage extends Component {
         super(props);        
         this.state = { 
             loading: true,
+            fetching: false,
             log: [],
             error: {},
             code: 
@@ -70,6 +71,15 @@ output("Original Unchanged: " + arr);`
         const runCode = this.runCode;
         const clearError = this.clearError;
         const clearConsole = this.clearConsole;
+        const output = (
+            <div>
+                {
+                    log.map((line) => (
+                        <span>{line}<br /></span>
+                    ))
+                }
+            </div>
+        );
         const editor = (
             <div>
                 <MonacoEditor 
@@ -99,11 +109,7 @@ output("Original Unchanged: " + arr);`
                 </div>
                 <br/>
                 <pre>
-                    {
-                        log.map((line) => (
-                            <span>{line}<br /></span>
-                        ))
-                    }
+                    <Loader loading={this.state.fetching} element={output} />
                 </pre>
             </div>
                             
@@ -132,12 +138,13 @@ output("Original Unchanged: " + arr);`
         this.setState({ log: [] });
     }
     runCode () {
+        this.setState({ fetching: true });
         fetch(`${global.API_PATH}/run/js`, { method: 'POST', body: JSON.stringify({ code: btoa(this.state.code) }), headers: { queuename: '/run/js' } })
             .then((response) => response.json())
             .then((response) => {
                 response.statusCode && response.statusCode !== '200' ? 
-                    this.setState({ error: response }) :
-                    this.setState({ log: [...this.state.log, ...response] });
+                    this.setState({ error: response, fetching: false  }) :
+                    this.setState({ log: [...this.state.log, ...response], fetching: false });
             });
     }
     onChange (newValue, e) {
