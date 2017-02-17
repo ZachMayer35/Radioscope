@@ -19,8 +19,8 @@ var Run = {
             }
         }     
         try {
-            vm.runInNewContext(codeStr, {
-                require: require,
+            vm.runInNewContext(`'use strict';${codeStr}`, {
+                require,
                 console: newConsole
             });
         } catch (ex) {

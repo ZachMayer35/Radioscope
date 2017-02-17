@@ -13,8 +13,7 @@ class MonacoPage extends Component {
             log: [],
             error: {},
             code: 
-`'use strict';
-
+`
 let unsorted_array = ["b", "c", "a", "d", "i", "g", "f", "e", "h"];
 var arr = unsorted_array.slice(0);
 
@@ -84,10 +83,21 @@ output("Original Unchanged: " + arr);`
                 editorDidMount={this.editorDidMount}
                 />
                 <br />
-                <button className='btn btn-danger pull-right' onClick={runCode}>RUN</button>
-                <br />
-                <h3>Console Output</h3>
-                <button className='btn btn-default pull-right' onClick={clearConsole}>Clear Console</button>
+                <div className='row'>
+                    <div className='col-xs-12'>
+                        <button className='btn btn-danger pull-right' onClick={runCode}>RUN</button>
+                    </div>
+                </div>
+                <br/>
+                <div className='row'>
+                    <div className='col-xs-6'>
+                        <span className='h3'>Console Output</span>
+                    </div>
+                    <div className='col-xs-6'>
+                        <button className='btn btn-default pull-right' onClick={clearConsole}>Clear Console</button>                        
+                    </div>
+                </div>
+                <br/>
                 <pre>
                     {
                         log.map((line) => (
