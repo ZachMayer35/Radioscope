@@ -15,6 +15,7 @@ import HapiReactViews from 'hapi-react-views';
 import H2o2 from 'h2o2';
 import chalk from 'chalk';
 import fetch from 'isomorphic-fetch';
+import util from 'util';
 
 var server = new Hapi.Server({
     connections: {
@@ -140,7 +141,9 @@ server.register(plugins, (err) => {
     const proxyHandler = function (request, reply) {
         if (config.env.CLOUDAMQP_URL || config.env.AMQP) { // MQ_RPC
             const queueName = request.headers.queuename.toLowerCase();
-            const message = request.params;                
+            const method = request.method.toUpperCase();
+            console.log(`method: ${method}`);
+            let message = method === 'GET' ? { ...request.params, method } : { payload: { ...JSON.parse(request.payload) }, method };
             if (!queueName) {
                 throw new Error('In RPC Mode, Fetch calls require a queuename header');
             }
@@ -198,6 +201,11 @@ server.register(plugins, (err) => {
     });
     server.route({
         method: 'GET',
+        path: config.publicPaths.api + '{path*}',
+        handler: proxyHandler
+    });
+    server.route({
+        method: 'POST',
         path: config.publicPaths.api + '{path*}',
         handler: proxyHandler
     });

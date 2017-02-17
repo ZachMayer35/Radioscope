@@ -4,6 +4,7 @@ import path from 'path';
 import chalk from 'chalk';
 import Joi from 'joi';
 import vm from 'vm';
+import atob from 'atob';
 
 var logPrefix = '[' + path.basename(__filename) + ']';
 
@@ -32,22 +33,24 @@ var Run = {
 
 Run.routes = [
     {
-        method: 'GET', // TODO: Convert to POST. Gotta get the message queues to respect posts...
-        path: '/run/js/{codeStr}',
+        method: 'POST', // TODO: Convert to POST. Gotta get the message queues to respect posts...
+        path: '/run/js',
         handler: (request, reply) => {
-            var code = decodeURI(request.params.codeStr);
+            //var code = decodeURI(request.params.codeStr);
+            //reply(Run.js(code)); atob
+            const code = atob(request.payload.code);
             reply(Run.js(code));
         },
-        config: {     
-            id: '/run/js/',
+        config: {
+            id: '/run/js',
             // SWAGGER DOCS
             description: 'Run JS',
             notes: 'Run a JS string as code in a VM context.',
             tags: ['api', 'Run', 'JS', 'get'],
             // END SWAGGER DOCS
             validate: {
-                params: {
-                    codeStr: Joi.string().max(1000)
+                payload: {
+                    code: Joi.string().max(10000)
                 }
             }
         }

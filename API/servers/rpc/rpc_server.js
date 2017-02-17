@@ -2,6 +2,7 @@
 
 import amqp from 'amqplib';
 import joi from 'joi';
+import chalk from 'chalk';
 import routes from '../../api/routes';
 import fetch from 'isomorphic-fetch';
 import config from '../../variables';
@@ -15,15 +16,28 @@ const generateQueueForRoute = function (path, api) {
       const q = path;
       const reply = function (msg) {
         console.log(` [.] ${path} message: ${msg.content}`);
-        const _reply = function (response) {          
-          console.log(` [x] Responded with message: ${response}`);
+        const _reply = function (response) {   
+          typeof response === 'string' ? 
+            console.log(` [x] Responded with message: ${response}`) : 
+            console.log(` [x] Responded with message: ${JSON.stringify(response)}`);
           ch.sendToQueue(msg.properties.replyTo,
                         new Buffer(JSON.stringify(response)),
                         {correlationId: msg.properties.correlationId});
           ch.ack(msg);
         };
-        console.log(`fetching ${config.server.rootUrl}/api/${JSON.parse(msg.content).path}`);
-        api.inject(`/api/${JSON.parse(msg.content).path}`, (res) => {
+        const thinger = Object.assign({}, msg, {content: null});
+        console.log(chalk.red(`msg content raw: ${JSON.stringify(thinger)}`));
+        console.log(`fetching ${config.server.rootUrl}/api${msg.fields.routingKey}`);
+        const method = JSON.parse(msg.content).method;
+        const req = {
+          method,
+          url: method === 'GET' ? `/api/${JSON.parse(msg.content).path}` : `/api${msg.fields.routingKey}`
+        };
+        if (method === 'POST') {
+          req.payload = JSON.parse(msg.content).payload;
+        }
+
+        api.inject(req, (res) => {
           _reply(res.result);
         });
       };
