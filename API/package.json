@@ -43,6 +43,7 @@
   },
   "dependencies": {
     "amqplib": "^0.5.1",
+    "atob": "^2.0.3",
     "babel-core": "^6.3.17",
     "babel-eslint": "^4.1.6",
     "babel-loader": "^6.2.0",

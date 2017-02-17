@@ -16,7 +16,7 @@ var env = [
     'HOST=' + HOST,
     'PORT=29957',
     'API_ROOT=api',
-    'AMQP=true'
+    'AMQP=false'
 ];
 
 

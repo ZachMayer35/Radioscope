@@ -19,7 +19,7 @@ var env = [
     'API_ROOT=api',
     'API_HOST=' + HOST,
     'API_PORT=29957',
-    'AMQP=true'
+    'AMQP=false'
 ];
 
 

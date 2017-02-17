@@ -136,10 +136,10 @@ server.register(plugins, (err) => {
         protocol: config.server.protocol,
         host: config.server.api_host,
         port: config.server.api_port,
-        passThrough: true
+        passThrough: true,
     };
     const proxyHandler = function (request, reply) {
-        if (config.env.CLOUDAMQP_URL || config.env.AMQP) { // MQ_RPC
+        if (config.env.CLOUDAMQP_URL || config.env.AMQP == 'true') { // MQ_RPC
             const queueName = request.headers.queuename.toLowerCase();
             const method = request.method.toUpperCase();
             console.log(`method: ${method}`);
@@ -207,7 +207,12 @@ server.register(plugins, (err) => {
     server.route({
         method: 'POST',
         path: config.publicPaths.api + '{path*}',
-        handler: proxyHandler
+        handler: proxyHandler,
+        config: {
+            payload: {
+                parse: false
+            }
+        }
     });
     // Route requests to /documentation to the API server.
     server.route({
