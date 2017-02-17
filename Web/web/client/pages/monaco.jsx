@@ -14,8 +14,7 @@ class MonacoPage extends Component {
             log: [],
             error: {},
             code: 
-`
-let unsorted_array = ["b", "c", "a", "d", "i", "g", "f", "e", "h"];
+`let unsorted_array = ["b", "c", "a", "d", "i", "g", "f", "e", "h"];
 var arr = unsorted_array.slice(0);
 
 function merge(left, right){
@@ -74,43 +73,39 @@ output("Original Unchanged: " + arr);`
         const output = (
             <div>
                 {
-                    log.map((line) => (
-                        <span>{line}<br /></span>
+                    log.map((line, i) => (
+                        <span key={i}>{line}<br /></span>
                     ))
                 }
             </div>
         );
         const editor = (
             <div>
-                <MonacoEditor 
-                width='100%'
-                height='500'
-                language='javascript'
-                theme='vs-dark'
-                value={code}
-                options={{ selectOnLineNumbers: true }}
-                onChange={this.onChange}
-                editorDidMount={this.editorDidMount}
-                />
-                <br />
                 <div className='row'>
-                    <div className='col-xs-12'>
-                        <button className='btn btn-danger pull-right' onClick={runCode}>RUN</button>
+                    <div className='col-md-12' style={{ marginBottom: '10px' }}>
+                        <button className='btn btn-danger pull-left' onClick={runCode}>RUN</button>
+                        <button className='btn btn-default pull-right' onClick={clearConsole}>Clear Console</button>
                     </div>
-                </div>
-                <br/>
-                <div className='row'>
-                    <div className='col-xs-6'>
-                        <span className='h3'>Console Output</span>
+                </div>      
+                <div className='row'> 
+                    <div className='col-md-6'>
+                        <MonacoEditor 
+                        width='100%'
+                        height='500'
+                        language='javascript'
+                        theme='vs-dark'
+                        value={code}
+                        options={{ selectOnLineNumbers: true }}
+                        onChange={this.onChange}
+                        editorDidMount={this.editorDidMount}
+                        />
                     </div>
-                    <div className='col-xs-6'>
-                        <button className='btn btn-default pull-right' onClick={clearConsole}>Clear Console</button>                        
-                    </div>
-                </div>
-                <br/>
-                <pre>
-                    <Loader loading={this.state.fetching} element={output} />
-                </pre>
+                    <div className='col-md-6'>
+                        <pre style={{ height: '500px', overflowY: 'auto', overflowX: 'none', whiteSpace: 'word-wrap' }}>
+                            <Loader loading={this.state.fetching} element={output} />
+                        </pre>
+                    </div>  
+                </div>              
             </div>
                             
         );
@@ -138,6 +133,7 @@ output("Original Unchanged: " + arr);`
         this.setState({ log: [] });
     }
     runCode () {
+        this.clearConsole();
         this.setState({ fetching: true });
         fetch(`${global.API_PATH}/run/js`, { method: 'POST', body: JSON.stringify({ code: btoa(this.state.code) }), headers: { queuename: '/run/js' } })
             .then((response) => response.json())
