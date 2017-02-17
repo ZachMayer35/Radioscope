@@ -13,7 +13,9 @@ class MonacoPage extends Component {
             log: [],
             error: {},
             code: 
-`let unsorted_array = ["b", "c", "a", "d", "i", "g", "f", "e", "h"];
+`'use strict';
+
+let unsorted_array = ["b", "c", "a", "d", "i", "g", "f", "e", "h"];
 var arr = unsorted_array.slice(0);
 
 function merge(left, right){
