@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import ErrorMessage from '../app/components/common/errorMessage';
 import MonacoEditor from './components/monacoEditor';
 import Loader from '../app/components/common/loader';
+import stream from 'stream';
 
 class MonacoPage extends Component {
     constructor (props) {
@@ -11,7 +12,10 @@ class MonacoPage extends Component {
         this.state = { 
             loading: true,
             fetching: false,
+            streaming: false,
             log: [],
+            editor: null,
+            monaco: null,
             error: {},
             code: 
 `let unsorted_array = ["b", "c", "a", "d", "i", "g", "f", "e", "h"];
@@ -47,20 +51,20 @@ function mergeSort(items){
     return merge(mergeSort(left), mergeSort(right));
 }
 
-let output = function(str){
-    console.log(str);
-}
-
-output("MergeSort");
-output("Original: " + arr);
-output("Merge_Sort: " + mergeSort(arr));
-output("Original Unchanged: " + arr);`
+console.log("MergeSort");
+console.log("Original: " + arr);
+console.log("Merge_Sort: " + mergeSort(arr));
+console.log("Original Unchanged: " + arr);`
         };    
         this.tempEditorDidMount = this.tempEditorDidMount.bind(this);
         this.runCode = this.runCode.bind(this);
         this.onChange = this.onChange.bind(this);
         this.clearError = this.clearError.bind(this);
         this.clearConsole = this.clearConsole.bind(this);
+        this.pump = this.pump.bind(this);
+        this.trace = this.trace.bind(this);
+        this.clearTrace = this.trace.bind(this);
+        this.editorDidMount = this.editorDidMount.bind(this);
     }
     componentDidMount () {
 
@@ -71,12 +75,8 @@ output("Original Unchanged: " + arr);`
         const clearError = this.clearError;
         const clearConsole = this.clearConsole;
         const output = (
-            <div>
-                {
-                    log.map((line, i) => (
-                        <span key={i}>{line}<br /></span>
-                    ))
-                }
+            <div>  
+                <span>{log}</span>
             </div>
         );
         const editor = (
@@ -90,12 +90,13 @@ output("Original Unchanged: " + arr);`
                 <div className='row'> 
                     <div className='col-md-6'>
                         <MonacoEditor 
+                        ref={(input) => { this.Monaco = input; }}
                         width='100%'
                         height='500'
                         language='javascript'
                         theme='vs-dark'
                         value={code}
-                        options={{ selectOnLineNumbers: true }}
+                        options={{ selectOnLineNumbers: true, folding: true }}
                         onChange={this.onChange}
                         editorDidMount={this.editorDidMount}
                         />
@@ -130,17 +131,73 @@ output("Original Unchanged: " + arr);`
         this.setState({ error: {} });
     }
     clearConsole () {
-        this.setState({ log: [] });
+        this.setState({ log: [] });        
+    }
+    trace (lineNum) {
+        console.log(`Line Num: ${lineNum}`);
+        const { editor, monaco } = this.state;
+        if (editor && monaco) {
+            console.log('setSelection');
+            if (!editor.isFocused()) {
+                editor.focus();
+            }
+            editor.revealLineInCenterIfOutsideViewport(lineNum);
+            editor.setSelection(new monaco.Range(lineNum, 1, (lineNum + 1), -1));
+        }
+    }
+    clearTrace () {
+        const { editor, monaco } = this.state;
+        if (editor && monaco) {
+            const pos = editor.getPosition();
+            editor.setSelection(new monaco.Range(pos.lineNumber, pos.column, pos.lineNumber, pos.column));
+        }
+    }
+    pump (reader) {
+        const pump = this.pump;
+        if (!this.state.streaming) {
+            reader.cancel();
+        }
+        reader.read().then((result) => {
+          if (result.done) {
+            console.log('DONE STREAMING!');
+            setTimeout(() => { this.clearTrace(); }, 1000);
+            return null;
+          }
+
+          let chunk = (new Buffer(result.value, 'ascii')).toString('utf-8');
+          let chunks = [];        
+          if (chunk.indexOf('%') >= 0) {
+            chunk = chunk.replace('%', '');
+            this.setState({ streaming: false });
+          }
+          // update.
+          try {
+            chunks = chunk.split('|');
+            chunks.forEach((c) => {
+                if (c[0] === ':') {
+                    // highlight line
+                    const lineNum = parseInt(atob(c.replace(':', '')));                    
+                    this.trace(lineNum);
+                } else {
+                    this.setState({ log: this.state.log + atob(c), fetching: false });
+                }
+            });            
+          } catch (ex) {
+            console.log(ex);
+          }
+          //console.log(reader);
+          setTimeout(() => pump(reader), 0);
+        });
     }
     runCode () {
         this.clearConsole();
         this.setState({ fetching: true });
-        fetch(`${global.API_PATH}/run/js`, { method: 'POST', body: JSON.stringify({ code: btoa(this.state.code) }), headers: { queuename: '/run/js' } })
-            .then((response) => response.json())
+        const pump = this.pump;
+        fetch(`${global.API_PATH}/run/js`, { method: 'POST', body: JSON.stringify({ code: btoa(this.state.code) }), headers: { queuename: '/run/js' } })            
             .then((response) => {
-                response.statusCode && response.statusCode !== '200' ? 
-                    this.setState({ error: response, fetching: false  }) :
-                    this.setState({ log: [...this.state.log, ...response], fetching: false });
+                this.setState({ streaming: true });
+                console.log('STARTED STREAMING!');
+                return pump(response.body.getReader());                
             });
     }
     onChange (newValue, e) {
@@ -148,6 +205,7 @@ output("Original Unchanged: " + arr);`
         this.setState({ code: newValue });
     }
     editorDidMount (editor, monaco) {
+        this.setState({ editor, monaco });
         editor.focus();
     }
     tempEditorDidMount () {

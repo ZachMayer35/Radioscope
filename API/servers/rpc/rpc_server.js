@@ -16,9 +16,9 @@ const generateQueueForRoute = function (path, api) {
       const q = path;
       const reply = function (msg) {
         console.log(` [.] ${path} message: ${msg.content}`);
-        const _reply = function (response) {   
-          typeof response === 'string' ? 
-            console.log(` [x] Responded with message: ${response}`) : 
+        const _reply = function (response) {
+          typeof response === 'string' ?
+            console.log(` [x] Responded with message: ${response}`) :
             console.log(` [x] Responded with message: ${JSON.stringify(response)}`);
           ch.sendToQueue(msg.properties.replyTo,
                         new Buffer(JSON.stringify(response)),

@@ -139,9 +139,10 @@ server.register(plugins, (err) => {
         passThrough: true,
     };
     const proxyHandler = function (request, reply) {
-        if (config.env.CLOUDAMQP_URL || config.env.AMQP == 'true') { // MQ_RPC
+        if (config.env.CLOUDAMQP_URL || config.env.AMQP === 'true') { // MQ_RPC
             const queueName = request.headers.queuename.toLowerCase();
             const method = request.method.toUpperCase();
+            const stream = request.headers.streaming ? true : false; // explicit boolean for truthy check.
             console.log(`method: ${method}`);
             let message = method === 'GET' ? { ...request.params, method } : { payload: { ...JSON.parse(request.payload) }, method };
             if (!queueName) {
@@ -156,17 +157,26 @@ server.register(plugins, (err) => {
                         Math.random().toString();
             };
 
+            const receiveMsg = function(_queueName, _reply) {
+                console.log(` [.] Got ${_queueName} message: ${_reply}`);
+                reply(_reply);
+            };
+
             amqp.connect(url).then((conn) => {
                 return conn.createChannel().then((ch) => {
                     return new Promise((resolve) => {
                         const corrId = generateUuid();
                         const maybeAnswer = function (msg) {
                             if (msg.properties.correlationId === corrId) {
-                                resolve(msg.content);
+                                if (!stream || msg.content === 'EOF') {
+                                    resolve(msg.content);
+                                } else {
+                                    receiveMsg(queueName, msg.content);
+                                }
                             }
-                        }
+                        };
 
-                        let ok = ch.assertQueue('', { exclusive: true })
+                        let ok = ch.assertQueue('', { exclusive: true, autoDelete: true })
                             .then((qok) => (qok.queue));
 
                         ok = ok.then((queue) => {
@@ -181,9 +191,8 @@ server.register(plugins, (err) => {
                             });
                         });
                     });
-                }).then((_reply) => {                        
-                    console.log(` [.] Got ${queueName} message: ${_reply}`);
-                    reply(_reply);
+                }).then((_reply) => {
+                    receiveMsg(queueName, _reply);
                 }).finally(() => { 
                     conn.close(); 
                 });
