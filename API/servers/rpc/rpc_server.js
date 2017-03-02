@@ -29,6 +29,7 @@ const generateQueueForRoute = function (path, api) {
         console.log(chalk.red(`msg content raw: ${JSON.stringify(thinger)}`));
         console.log(`fetching ${config.server.rootUrl}/api${msg.fields.routingKey}`);
         const method = JSON.parse(msg.content).method;
+        // check request for stream...
         const req = {
           method,
           url: method === 'GET' ? `/api/${JSON.parse(msg.content).path}` : `/api${msg.fields.routingKey}`

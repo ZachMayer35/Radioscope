@@ -18,11 +18,10 @@ class MonacoPage extends Component {
             monaco: null,
             error: {},
             code: 
-`let unsorted_array = ["b", "c", "a", "d", "i", "g", "f", "e", "h"];
-var arr = unsorted_array.slice(0);
+`const unsorted_array = ["b", "c", "a", "d", "i", "g", "f", "e", "h"];
 
-function merge(left, right){
-    var result  = [],
+const merge = (left, right) => {
+    let result  = [],
         il      = 0,
         ir      = 0;
 
@@ -37,24 +36,24 @@ function merge(left, right){
     return result.concat(left.slice(il)).concat(right.slice(ir));
 }
 
-function mergeSort(items){
+const mergeSort = (items) => {
 
     // Terminal case: 0 or 1 item arrays don't need sorting
     if (items.length < 2) {
         return items;
     }
 
-    var middle = Math.floor(items.length / 2),
-        left    = items.slice(0, middle),
-        right   = items.slice(middle);
+    const middle = Math.floor(items.length / 2),
+          left   = items.slice(0, middle),
+          right  = items.slice(middle);
 
     return merge(mergeSort(left), mergeSort(right));
 }
 
 console.log("MergeSort");
-console.log("Original: " + arr);
-console.log("Merge_Sort: " + mergeSort(arr));
-console.log("Original Unchanged: " + arr);`
+console.log("Original: " + unsorted_array);
+console.log("Merge_Sort: " + mergeSort(unsorted_array));
+console.log("Original Unchanged: " + unsorted_array);`
         };    
         this.tempEditorDidMount = this.tempEditorDidMount.bind(this);
         this.runCode = this.runCode.bind(this);
@@ -63,7 +62,7 @@ console.log("Original Unchanged: " + arr);`
         this.clearConsole = this.clearConsole.bind(this);
         this.pump = this.pump.bind(this);
         this.trace = this.trace.bind(this);
-        this.clearTrace = this.trace.bind(this);
+        this.clearTrace = this.clearTrace.bind(this);
         this.editorDidMount = this.editorDidMount.bind(this);
     }
     componentDidMount () {
@@ -134,10 +133,8 @@ console.log("Original Unchanged: " + arr);`
         this.setState({ log: [] });        
     }
     trace (lineNum) {
-        console.log(`Line Num: ${lineNum}`);
         const { editor, monaco } = this.state;
         if (editor && monaco) {
-            console.log('setSelection');
             if (!editor.isFocused()) {
                 editor.focus();
             }
@@ -159,7 +156,6 @@ console.log("Original Unchanged: " + arr);`
         }
         reader.read().then((result) => {
           if (result.done) {
-            console.log('DONE STREAMING!');
             setTimeout(() => { this.clearTrace(); }, 1000);
             return null;
           }
@@ -196,7 +192,6 @@ console.log("Original Unchanged: " + arr);`
         fetch(`${global.API_PATH}/run/js`, { method: 'POST', body: JSON.stringify({ code: btoa(this.state.code) }), headers: { queuename: '/run/js' } })            
             .then((response) => {
                 this.setState({ streaming: true });
-                console.log('STARTED STREAMING!');
                 return pump(response.body.getReader());                
             });
     }

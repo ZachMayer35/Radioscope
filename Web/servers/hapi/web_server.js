@@ -15,7 +15,7 @@ import HapiReactViews from 'hapi-react-views';
 import H2o2 from 'h2o2';
 import chalk from 'chalk';
 import fetch from 'isomorphic-fetch';
-import util from 'util';
+import stream from 'stream';
 
 var server = new Hapi.Server({
     connections: {
@@ -142,7 +142,15 @@ server.register(plugins, (err) => {
         if (config.env.CLOUDAMQP_URL || config.env.AMQP === 'true') { // MQ_RPC
             const queueName = request.headers.queuename.toLowerCase();
             const method = request.method.toUpperCase();
-            const stream = request.headers.streaming ? true : false; // explicit boolean for truthy check.
+            const streaming = request.headers.streaming ? true : false; // explicit boolean for truthy check.
+            let outputStream = null;
+            let streamStarted = false;
+            if (streaming) {
+                outputStream = new stream.Readable();
+                outputStream._read = () => {}; // noop
+                // reply(null, outputStream).header('transfer-encoding', '');
+                // setTimeout(() => Run.js(code, outputStream), 0);
+            }
             console.log(`method: ${method}`);
             let message = method === 'GET' ? { ...request.params, method } : { payload: { ...JSON.parse(request.payload) }, method };
             if (!queueName) {
@@ -157,9 +165,13 @@ server.register(plugins, (err) => {
                         Math.random().toString();
             };
 
-            const receiveMsg = function(_queueName, _reply) {
+            const receiveMsg = function (_queueName, _reply, replyStream) {
                 console.log(` [.] Got ${_queueName} message: ${_reply}`);
-                reply(_reply);
+                if (replyStream && !streamStarted) {
+                    reply(null, outputStream).header('transfer-encoding', '');
+                } else {
+                    reply(_reply);
+                }
             };
 
             amqp.connect(url).then((conn) => {
@@ -168,10 +180,12 @@ server.register(plugins, (err) => {
                         const corrId = generateUuid();
                         const maybeAnswer = function (msg) {
                             if (msg.properties.correlationId === corrId) {
-                                if (!stream || msg.content === 'EOF') {
+                                if (!streaming || (streaming && msg.content === '%')) { // not streaming, or streaming and EOF.
                                     resolve(msg.content);
                                 } else {
-                                    receiveMsg(queueName, msg.content);
+                                    receiveMsg(queueName, null, true);
+                                    streamStarted = true;
+                                    outputStream.push(msg.content);
                                 }
                             }
                         };
