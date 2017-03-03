@@ -163,7 +163,7 @@ console.log("Original Unchanged: " + unsorted_array);`
           let chunk = (new Buffer(result.value, 'ascii')).toString('utf-8');
           let chunks = [];        
           if (chunk.indexOf('%') >= 0) {
-            chunk = chunk.replace('%', '');
+            chunk = chunk.replace('%', btoa('Done!'));
             this.setState({ streaming: false });
           }
           // update.
@@ -189,10 +189,10 @@ console.log("Original Unchanged: " + unsorted_array);`
         this.clearConsole();
         this.setState({ fetching: true });
         const pump = this.pump;
-        fetch(`${global.API_PATH}/run/js`, { method: 'POST', body: JSON.stringify({ code: btoa(this.state.code) }), headers: { queuename: '/run/js' } })            
+        fetch(`${global.API_PATH}/run/js`, { method: 'POST', body: JSON.stringify({ code: btoa(this.state.code) }), headers: { queuename: '/run/js', streaming: true } })            
             .then((response) => {
                 this.setState({ streaming: true });
-                return pump(response.body.getReader());                
+                return pump(response.body.getReader());
             });
     }
     onChange (newValue, e) {

@@ -142,10 +142,11 @@ server.register(plugins, (err) => {
         if (config.env.CLOUDAMQP_URL || config.env.AMQP === 'true') { // MQ_RPC
             const queueName = request.headers.queuename.toLowerCase();
             const method = request.method.toUpperCase();
-            const streaming = request.headers.streaming ? true : false; // explicit boolean for truthy check.
+            const streaming = request.headers.streaming ? true : false; // explicit boolean for truthy check.            
             let outputStream = null;
             let streamStarted = false;
             if (streaming) {
+                console.log('Creating Stream');
                 outputStream = new stream.Readable();
                 outputStream._read = () => {}; // noop
                 // reply(null, outputStream).header('transfer-encoding', '');
@@ -165,51 +166,67 @@ server.register(plugins, (err) => {
                         Math.random().toString();
             };
 
-            const receiveMsg = function (_queueName, _reply, replyStream) {
-                console.log(` [.] Got ${_queueName} message: ${_reply}`);
+            const receiveMsg = function (_queueName, _reply, replyStream) {                
                 if (replyStream && !streamStarted) {
+                    console.log('REPLY STREAMED');
                     reply(null, outputStream).header('transfer-encoding', '');
-                } else {
+                } else if (!replyStream) {
+                    console.log('REPLY NOT STREAMED');
                     reply(_reply);
                 }
+                console.log(` [.] Got ${_queueName} message: ${_reply}`);
             };
 
             amqp.connect(url).then((conn) => {
                 return conn.createChannel().then((ch) => {
-                    return new Promise((resolve) => {
+                    //return new Promise((resolve) => {
                         const corrId = generateUuid();
                         const maybeAnswer = function (msg) {
                             if (msg.properties.correlationId === corrId) {
-                                if (!streaming || (streaming && msg.content === '%')) { // not streaming, or streaming and EOF.
-                                    resolve(msg.content);
-                                } else {
-                                    receiveMsg(queueName, null, true);
+                                console.log(`%? ${msg.content.toString('utf-8') === '%'}`);
+                                if (!streaming) { // not streaming, or streaming and EOF.
+                                    receiveMsg(queueName, msg.content, false);
+                                    conn.close();
+                                } else {                                    
+                                    receiveMsg(queueName, msg.content, true);
                                     streamStarted = true;
                                     outputStream.push(msg.content);
-                                }
+                                    if (streaming && msg.content.toString('utf-8') === '%') {
+                                        conn.close();
+                                    }
+                                }                                
                             }
                         };
 
-                        let ok = ch.assertQueue('', { exclusive: true, autoDelete: true })
+                        let ok = ch.assertQueue('', { exclusive: true, autoDelete: !streaming })
                             .then((qok) => (qok.queue));
-
+                        let q = null;
                         ok = ok.then((queue) => {
-                            return ch.consume(queue, maybeAnswer, { noAck: true })
-                                .then(() => (queue));
+                            // return ch.consume(queue, maybeAnswer, { noAck: true })
+                            //     .then(() => (queue));
+                            q = queue;
+                            return ch.consume(queue, maybeAnswer, { noAck: true });
                         });
 
                         ok = ok.then((queue) => {
-                            console.log(` [x] Requesting ${queueName} message: ${JSON.stringify(message)}`);
+                            console.log(` [x] Requesting ${queueName} message: ${JSON.stringify(message)}`);                            
                             ch.sendToQueue(queueName, new Buffer(JSON.stringify(message)), {
-                                correlationId: corrId, replyTo: queue
+                                correlationId: corrId, 
+                                replyTo: q,
+                                headers: { streaming }
                             });
                         });
                     });
-                }).then((_reply) => {
-                    receiveMsg(queueName, _reply);
-                }).finally(() => { 
-                    conn.close(); 
-                });
+                // }).then((_reply) => {
+                //     if (streamStarted) {
+                //         streamStarted = false;
+                //         console.log('STREAM CLOSED');                       
+                //     } else {
+                //         receiveMsg(queueName, _reply);
+                //     }
+                // }).finally(() => { 
+                //     conn.close(); 
+                // });
             }).catch(console.warn);
         } else { // WEB API
             return reply.proxy(proxyConfig);

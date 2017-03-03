@@ -59,7 +59,7 @@
     "eslint": "^1.1.0",
     "eslint-loader": "^1.0.0",
     "eslint-plugin-react": "^3.2.2",
-    "hapi": "^15.0.2",
+    "hapi": "^16.1.0",
     "hapi-swagger": "^7.4.0",
     "ignore-styles": "^1.2.0",
     "inert": "^3.2.0",

@@ -13,7 +13,7 @@ var logPrefix = '[' + path.basename(__filename) + ']';
 
 var Run = {
     'js' : (codeStr, outputStream) => { // Run a JS string as code in a VM context.
-        console.log(chalk.green(`${logPrefix} Ran JS code (${codeStr})`));
+        //console.log(chalk.green(`${logPrefix} Ran JS code (${codeStr})`));
         const output = [];
         const sleep = function (milliseconds) {
             var start = new Date().getTime();
@@ -28,7 +28,7 @@ var Run = {
                 output.push(msg);
                 const stack = new Error().stack;
                 const lineNum = stack.split('at ')[2].split(':')[1];
-                sleep(1000);
+                sleep(2000);
                 console.log(chalk.yellow(`${lineNum}: ${msg}`));
                 outputStream.push(`${':' + btoa(lineNum)}|${btoa(msg + '\n')}|`);
             }
@@ -51,14 +51,14 @@ var Run = {
 
 Run.routes = [
     {
-        method: 'POST', // TODO: Convert to POST. Gotta get the message queues to respect posts...
+        method: 'POST',
         path: '/run/js',
         handler: (request, reply) => {
             const code = atob(request.payload.code, reply);
             let outputStream = new stream.Readable();
             outputStream._read = () => {}; // noop
-            reply(null, outputStream).header('transfer-encoding', '');
             setTimeout(() => Run.js(code, outputStream), 0);
+            reply(null, outputStream);//.header('transfer-encoding', '');
         },
         config: {
             id: '/run/js',
