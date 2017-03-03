@@ -45,6 +45,7 @@ const generateQueueForRoute = function (path, api) {
               ackd = true;
             }
           });
+          return { header: ()=>{} };
         };
         const thinger = Object.assign({}, msg, {content: null});
         console.log(chalk.red(`msg content raw: ${JSON.stringify(thinger)}`));
@@ -60,11 +61,12 @@ const generateQueueForRoute = function (path, api) {
           req.payload = JSON.parse(msg.content).payload;
         }
         // check request for stream...
-        if (streaming) {          
-          api.table()[0].table.find((route) => (route.path === req.url)).settings.handler(req, (body, res) => {
-            console.log('RESPONDING...');                        
+        if (streaming) {    
+          const reply = function (body, res) {
+            console.log('RESPONDING...');        
             return readStream(res);
-          });
+          };
+          api.table()[0].table.find((route) => (route.path === req.url)).settings.handler(req, reply);
         } else {
           api.inject(req, (res) => {
             _reply(res.result, true);

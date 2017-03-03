@@ -58,7 +58,7 @@ Run.routes = [
             let outputStream = new stream.Readable();
             outputStream._read = () => {}; // noop
             setTimeout(() => Run.js(code, outputStream), 0);
-            reply(null, outputStream);//.header('transfer-encoding', '');
+            reply(null, outputStream).header('transfer-encoding', '');
         },
         config: {
             id: '/run/js',
