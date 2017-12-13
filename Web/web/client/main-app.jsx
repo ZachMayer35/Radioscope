@@ -8,6 +8,7 @@ import { syncHistoryWithStore } from 'react-router-redux';
 
 import store from './app/store';
 
+import AuthPage from './pages/authPage';
 import FibonacciPage from './pages/fibonacciPage';
 import StringsPage from './pages/stringsPage';
 import MiscPage from './pages/miscPage';
@@ -23,11 +24,13 @@ import './assets/main.less';
 // Create an enhanced history that syncs navigation events with the store
 const history = syncHistoryWithStore(browserHistory, store);
 
+
 ReactDOM.render(
     <Provider store={store}>    
         <Router history={history}>
         <Route path='/' component={MasterPage}>
             <IndexRoute component={FibonacciPage}/>
+            <Route path='auth' component={AuthPage} />
             <Route path='Home' component={FibonacciPage}/>
             <Route path='Strings' component={StringsPage}/>
             <Route path='Misc' component={MiscPage}/>
