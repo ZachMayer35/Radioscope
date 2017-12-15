@@ -14,6 +14,10 @@ import Pack from '../../package';
 import HapiSwagger from 'hapi-swagger';
 import Inert from 'inert';
 import Vision from 'vision';
+import axios from 'axios';
+import { route_config } from '../../config';
+import jwt from 'hapi-auth-jwt2';
+import jwksRsa  from 'jwks-rsa';
 
 var server = new Hapi.Server({
     connections: {
@@ -39,8 +43,21 @@ var swagger_options = {
 var plugins = [
     { register: Inert }, // enables serving static files (file and directory handlers). Required for Swagger
     { register: Vision }, // enables rendering views with custom engines (view handler). Required for Swagger
-    { register: HapiSwagger, options: swagger_options } // enables swagger API documentation
+    { register: HapiSwagger, options: swagger_options }, // enables swagger API documentation
+    { register: jwt }
 ];
+
+var validate = function (decoded, request, callback) {
+    // do your checks to see if the token is valid 
+    if (!decoded.sub || !decoded.sub.split('|')[1]) {
+        console.log(chalk.red('Unauthorized User'));
+        return callback(null, false);
+    }
+    else {
+        console.log(chalk.green(`Authorized User ID: ${decoded.sub.split('|')[1]}`))
+        return callback(null, true);
+    }
+};
 
 server.register(plugins, (err) => {
 
@@ -48,6 +65,23 @@ server.register(plugins, (err) => {
         console.error(err);
         return;
     }
+    server.auth.strategy('jwt', 'jwt', 'required', {
+        complete: true,
+        // verify the access token against the
+        // remote Auth0 JWKS 
+        key: jwksRsa.hapiJwt2Key({
+          cache: true,
+          rateLimit: true,
+          jwksRequestsPerMinute: 5,
+          jwksUri: `https://generictest35.auth0.com/.well-known/jwks.json`
+        }),
+        verifyOptions: {
+          audience: 'mufc9w7SiOb3A5SbxEAQgGJtwJgwsya9',
+          issuer: `https://generictest35.auth0.com/`,
+          algorithms: ['RS256']
+        },
+        validateFunc: validate
+      });
 
     // Default Route. Redirects to /documentation
     server.route({
@@ -57,7 +91,8 @@ server.register(plugins, (err) => {
             server.inject('/documentation', (res) => {
                 reply(res.payload);
             });
-        }
+        },
+        config: route_config
     });
     // Default /API Route. Redirects to /documentation
     server.route({
@@ -67,10 +102,10 @@ server.register(plugins, (err) => {
             server.inject('/documentation', (res) => {
                 reply(res.payload);
             });
-        }
+        },
+        config: route_config
     });
-
-    server.route(routes);
+    server.route(routes.map((route) => ({...route, config: {...route_config, ...route.config}})));
 
     server.start(() => {
         console.log(chalk.green.bold('API and Documentation server started!'));

@@ -7,6 +7,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 
 import store from './app/store';
+import * as userActions from './app/actions/user-actions';
 
 import AuthPage from './pages/authPage';
 import FibonacciPage from './pages/fibonacciPage';
@@ -24,6 +25,15 @@ import './assets/main.less';
 // Create an enhanced history that syncs navigation events with the store
 const history = syncHistoryWithStore(browserHistory, store);
 
+if (localStorage.getItem('access_token') && 
+    localStorage.getItem('id_token') && 
+    localStorage.getItem('expires_at')) {
+    store.dispatch(userActions.login({
+        accessToken: localStorage.getItem('access_token'),
+        idToken: localStorage.getItem('id_token'),
+        expiresAt: localStorage.getItem('expires_at')
+    }));
+}
 
 ReactDOM.render(
     <Provider store={store}>    
