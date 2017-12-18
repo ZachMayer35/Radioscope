@@ -19,6 +19,8 @@ import { route_config } from '../../config';
 import jwt from 'hapi-auth-jwt2';
 import jwksRsa  from 'jwks-rsa';
 
+import db from '../../mongo';
+
 var server = new Hapi.Server({
     connections: {
         router: {

@@ -2,6 +2,7 @@ import auth0 from 'auth0-js';
 //import { AUTH_CONFIG } from './auth0-variables';
 import store from './store';
 import * as userActions from './actions/user-actions';
+import axios from 'axios';
 
 export default class Auth {
   auth0 = new auth0.WebAuth({
@@ -21,7 +22,7 @@ export default class Auth {
   }
 
   login() {
-    this.auth0.authorize();
+    this.auth0.authorize({scope: 'openid profile'});
   }
 
   handleAuthentication() {
@@ -41,6 +42,9 @@ export default class Auth {
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
+    axios.get(`${global.API_PATH}/user/id`, {headers: {'Authorization': `Bearer ${authResult.idToken}`}}).then(res => {
+      axios.post(`${global.API_PATH}/user/updateProfile`, {accessToken: authResult.accessToken}, {headers: {'Authorization': `Bearer ${authResult.idToken}`}});  
+    })
     store.dispatch(userActions.login({
         ...authResult,
         expiresAt
