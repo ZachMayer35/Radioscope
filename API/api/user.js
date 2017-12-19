@@ -10,16 +10,50 @@ var logPrefix = '[' + path.basename(__filename) + '] ';
 
 const User = {
     'id' : (credentials) => { // Get Logged-in user ID
-      const userId = credentials.sub.split('|')[1];
+      const userId = credentials.sub;
       if (userId) {
-        console.log(chalk.green(logPrefix + 'Auth (' + credentials + ') succeeded'));
+        console.log(chalk.green(`${logPrefix} get user id ('${userId}') succeeded`));
       } else {
-        console.log(chalk.red(logPrefix + 'Auth (' + credentials + ') failed'));
+        console.log(chalk.red(`${logPrefix} get user id ('${JSON.stringify(credentials)}') failed`));
       }
       return {userId};
     },
-    'addUser' : (user) => {
-        return user;
+    'createUpdate' : async function(request) {
+        let OIDProfile = await axios.get('https://generictest35.auth0.com/userinfo', {headers: {'Authorization': `Bearer ${request.payload.accessToken}`}});
+        let appProfile = await UserProfile.findOne({id: request.auth.credentials.sub});
+        let profile;
+        let OIDname = OIDProfile.data.name.match(RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) ? 
+                        OIDProfile.data.nickname :
+                        OIDProfile.data.name;
+        if (!appProfile) {
+            profile = new UserProfile({
+                id: request.auth.credentials.sub,
+                name: OIDname,
+                profile: OIDProfile.data
+            });
+        } else {
+            profile = appProfile;
+            profile.profile = OIDProfile.data;
+            profile.name = OIDname;
+        }
+        let response;
+        try {
+            response = profile.save();
+            console.log(chalk.green(`${logPrefix} Create/Update User Profile ('${JSON.stringify(profile._id)}') succeeded`));
+        } catch (e) {
+            console.log(chalk.green(`${logPrefix} Create/Update User Profile ('${JSON.stringify(request.auth.credentials.sub)}') failed`));
+            response = e.message;
+        }
+        return response;
+    },
+    'getUserProfile': async function(userId) {
+        const profile = await UserProfile.findOne({id: userId});
+        if (profile) {
+            console.log(chalk.green(`${logPrefix} Get Profile ('${profile._id}') succeeded`));
+        } else {
+            console.log(chalk.green(`${logPrefix} Get Profile ('${userId}') failed`));
+        }
+        return profile;
     }
 };
 
@@ -28,17 +62,7 @@ User.routes = [
         method: 'GET',
         path: '/user/id',
         handler: (request, reply) => {
-            let profile = new UserProfile({
-                id: request.auth.credentials.sub,
-                name: 'TBD',
-                profile: {}
-            });
-            profile.save((e, p) => {
-                if(e){
-                    console.log(chalk.red(e));                    
-                }
-                reply(User.id(request.auth.credentials)).header("Authorization", request.headers.authorization);
-            });
+            reply(User.id(request.auth.credentials)).header('Authorization', request.headers.authorization);
         },
         config: {
             auth: 'jwt',
@@ -52,25 +76,16 @@ User.routes = [
     },
     {
         method: 'POST',
-        path: '/user/updateProfile',
+        path: '/user/createupdate',
         handler: (request, reply) => {
-            console.log(request.payload);
-            const accessToken = request.payload.accessToken;
-            axios.get('https://generictest35.auth0.com/userinfo', {headers: {'Authorization': `Bearer ${accessToken}`}}).then(res => {
-                console.log(res.data);
-                UserProfile.findOneAndUpdate({id: request.auth.credentials.sub}, {name: res.data.name, profile: res.data}, (e, profile) => {
-                    reply(profile).header('Authorization', request.headers.authorization);
-                })
-            }).catch(ex => {
-                console.log(ex.message);
-            });            
+            reply(User.createUpdate(request)).header('Authorization', request.headers.authorization);
         },
         config: {
             auth: 'jwt',
-            id: '/User/UpdateProfile/',
+            id: '/User/CreateUpdate/',
             // SWAGGER DOCS
-            description: 'Update User Profile from OpenId Profile',
-            notes: 'Get the authenticated user\'s profile from their openId profile',
+            description: 'Create or Update a user/profile',
+            notes: 'Get the authenticated user\'s id from their auth token and update their profile',
             tags: ['api', 'User', 'post'],
             // END SWAGGER DOCS
         }
@@ -78,13 +93,8 @@ User.routes = [
     {
         method: 'GET',
         path: '/user/profile',
-        handler: (request, reply) => {            
-            UserProfile.findOne({id: request.auth.credentials.sub}, null, (e, p) => {
-                if(e){
-                    console.log(chalk.red(e));                    
-                }
-                reply(p).header("Authorization", request.headers.authorization);
-            });
+        handler: (request, reply) => {
+            reply(User.getUserProfile(request.auth.credentials.sub)).header('Authorization', request.headers.authorization);
         },
         config: {
             auth: 'jwt',

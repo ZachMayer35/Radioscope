@@ -11,47 +11,48 @@ export default class Auth {
     redirectUri: 'http://localhost:8080/auth', //AUTH_CONFIG.callbackUrl,
     audience: `https://generictest35.auth0.com/userinfo`,
     responseType: 'token id_token',
-    scope: 'openid'
+    scope: 'openid profile'
   });
 
-  constructor() {
+  constructor () {
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
     this.handleAuthentication = this.handleAuthentication.bind(this);
     this.isAuthenticated = this.isAuthenticated.bind(this);
   }
 
-  login() {
-    this.auth0.authorize({scope: 'openid profile'});
+  login () {
+    this.auth0.authorize();
   }
 
-  handleAuthentication() {
+  handleAuthentication () {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
       } else if (err) {
         console.log(err);
-        alert(`Error: ${err.error}. Check the console for further details.`);
       }
     });
   }
 
-  setSession(authResult) {
+  setSession (authResult) {
     // Set the time that the access token will expire at
     let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
-    axios.get(`${global.API_PATH}/user/id`, {headers: {'Authorization': `Bearer ${authResult.idToken}`}}).then(res => {
-      axios.post(`${global.API_PATH}/user/updateProfile`, {accessToken: authResult.accessToken}, {headers: {'Authorization': `Bearer ${authResult.idToken}`}});  
-    })
-    store.dispatch(userActions.login({
-        ...authResult,
-        expiresAt
-    }));
+    axios.post(`${global.API_PATH}/user/createUpdate`, 
+                authResult, 
+                { headers: { 'Authorization': `Bearer ${authResult.idToken}`}}).then(res => {
+        store.dispatch(userActions.login({
+            ...authResult,
+            profile: res.data,
+            expiresAt
+        }));
+    });
   }
 
-  logout() {
+  logout () {
     // Clear access token and ID token from local storage
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
@@ -60,10 +61,23 @@ export default class Auth {
     store.dispatch(userActions.logout());
   }
 
-  isAuthenticated() {
+  isAuthenticated () {
     // Check whether the current time is past the 
     // access token's expiry time
     let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     return expiresAt ? new Date().getTime() < expiresAt : false;
+  }
+
+  checkSession () {
+    this.auth0.checkSession({
+      audience: 'https://generictest35.auth0.com/userinfo',
+      scope: 'openid profile'
+    }, (err, authResult) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      this.setSession(authResult);
+    });
   }
 }

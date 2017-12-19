@@ -5,7 +5,7 @@ const actions = require('../actions/user-actions.js');
 const initialState = {
     name: null,
     email: null,
-    accessToken: localStorage.getItem('access_ oken') || null,
+    accessToken: localStorage.getItem('access_token') || null,
     idToken: localStorage.getItem('id_token') || null,
     expiresAt: localStorage.getItem('expires_at') || null,
     loading: localStorage.getItem('loading') || false
@@ -24,7 +24,8 @@ const UserReducer = (state = initialState, action) => {
                 loading: false,
                 accessToken: action.accessToken,
                 idToken: action.idToken,
-                expiresAt: action.expiresAt
+                expiresAt: action.expiresAt,
+                profile: action.profile
             };
         case actions.USER_LOGOUT:
             return {
@@ -32,7 +33,8 @@ const UserReducer = (state = initialState, action) => {
                 loading: false,
                 accessToken: null,
                 idToken: null,
-                expiresAt: null
+                expiresAt: null,
+                profile: null
             };
         default:
             return state;

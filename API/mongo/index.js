@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
 import chalk from 'chalk';
 
-mongoose.connect('mongodb://localhost/radioscope/');
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost/radioscope', {useMongoClient: true});
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'));
-db.once('open', function callback() {
+db.once('open', () => {
     console.log(chalk.green('Connection with database succeeded.'));
-    
 });
 
 export default db;
