@@ -37,7 +37,7 @@ export default class Auth {
 
   setSession (authResult) {
     // Set the time that the access token will expire at
-    let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
+    let expiresAt = authResult.expiresAt || JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
@@ -46,7 +46,7 @@ export default class Auth {
                 { headers: { 'Authorization': `Bearer ${authResult.idToken}`}}).then(res => {
         store.dispatch(userActions.login({
             ...authResult,
-            profile: res.data,
+            profile: res.data.profile,
             expiresAt
         }));
     });
@@ -69,14 +69,18 @@ export default class Auth {
   }
 
   checkSession () {
-    this.auth0.checkSession({
+    this.auth0.renewAuth({
+      domain: 'generictest35.auth0.com', //AUTH_CONFIG.domain,
+      clientID: 'mufc9w7SiOb3A5SbxEAQgGJtwJgwsya9', //AUTH_CONFIG.clientId,
       audience: 'https://generictest35.auth0.com/userinfo',
-      scope: 'openid profile'
+      redirectUri: 'http://localhost:8080/authSilent',
+      usePostMessage: true
     }, (err, authResult) => {
       if (err) {
         console.log(err);
         return;
       }
+      console.log(authResult);
       this.setSession(authResult);
     });
   }

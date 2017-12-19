@@ -10,6 +10,7 @@ import store from './app/store';
 import * as userActions from './app/actions/user-actions';
 
 import AuthPage from './pages/authPage';
+import AuthSilent from './pages/authSilent';
 import FibonacciPage from './pages/fibonacciPage';
 import StringsPage from './pages/stringsPage';
 import MiscPage from './pages/miscPage';
@@ -17,6 +18,8 @@ import SWAPIPage from './pages/swapi';
 import MonacoPage from './pages/monaco';
 import MasterPage from './pages/masterPage';
 import path from 'path';
+
+import Auth from './app/auth';
 
 global.API_PATH = global.API_PATH || path.join(__dirname, '/../api');
 
@@ -28,11 +31,13 @@ const history = syncHistoryWithStore(browserHistory, store);
 if (localStorage.getItem('access_token') && 
     localStorage.getItem('id_token') && 
     localStorage.getItem('expires_at')) {
-    store.dispatch(userActions.login({
+    const authObj =  {
         accessToken: localStorage.getItem('access_token'),
         idToken: localStorage.getItem('id_token'),
         expiresAt: localStorage.getItem('expires_at')
-    }));
+    };
+    const auth = new Auth();
+    auth.setSession(authObj);
 }
 
 ReactDOM.render(
@@ -41,6 +46,7 @@ ReactDOM.render(
         <Route path='/' component={MasterPage}>
             <IndexRoute component={FibonacciPage}/>
             <Route path='auth' component={AuthPage} />
+            <Route path='authSilent' component={AuthSilent} />
             <Route path='Home' component={FibonacciPage}/>
             <Route path='Strings' component={StringsPage}/>
             <Route path='Misc' component={MiscPage}/>

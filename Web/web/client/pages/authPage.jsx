@@ -2,7 +2,6 @@
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router';
 import Auth from '../app/auth';
 import Loader from '../app/components/common/loader';
 
