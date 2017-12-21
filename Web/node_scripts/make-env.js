@@ -19,7 +19,11 @@ var env = [
     'API_ROOT=api',
     'API_HOST=' + HOST,
     'API_PORT=29957',
-    'AMQP=false'
+    'AMQP=false',
+    'AUTH0_CLIENT_ID=mufc9w7SiOb3A5SbxEAQgGJtwJgwsya9',
+    'AUTH0_CLIENT_SECRET=',
+    'AUTH0_DOMAIN=generictest35.auth0.com',
+    'AUTH0_CALLBACK_URL=http://localhost:8080/auth',
 ];
 
 

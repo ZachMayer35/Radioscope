@@ -1,86 +1,111 @@
-import auth0 from 'auth0-js';
+'use strict';
+
+import Auth0Lock from 'auth0-lock';
+import Auth0 from 'auth0-js';
 //import { AUTH_CONFIG } from './auth0-variables';
 import store from './store';
 import * as userActions from './actions/user-actions';
 import axios from 'axios';
 
-export default class Auth {
-  auth0 = new auth0.WebAuth({
-    domain: 'generictest35.auth0.com', //AUTH_CONFIG.domain,
-    clientID: 'mufc9w7SiOb3A5SbxEAQgGJtwJgwsya9', //AUTH_CONFIG.clientId,
-    redirectUri: 'http://localhost:8080/auth', //AUTH_CONFIG.callbackUrl,
-    audience: `https://generictest35.auth0.com/userinfo`,
+class Auth {
+  authLock = new Auth0Lock(process.env.AUTH0_CLIENT_ID, process.env.AUTH0_DOMAIN, {
+      oidcConformant: true,
+      autoclose: true,
+      auth: {
+        redirectUrl: `${window.location.origin}/auth`,
+        responseType: 'token id_token',
+        params: {
+            scope: 'openid profile'
+        }
+      }
+  });
+
+  authSdk = new Auth0.WebAuth({
+    domain: process.env.AUTH0_DOMAIN, // || 'generictest35.auth0.com', //AUTH_CONFIG.domain,
+    clientID: process.env.AUTH0_CLIENT_ID, //'mufc9w7SiOb3A5SbxEAQgGJtwJgwsya9', //AUTH_CONFIG.clientId,
     responseType: 'token id_token',
     scope: 'openid profile'
   });
 
-  constructor () {
+  constructor (router) {
+    this.router = router;
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
-    this.handleAuthentication = this.handleAuthentication.bind(this);
-    this.isAuthenticated = this.isAuthenticated.bind(this);
+    this.checkForAuth = this.checkForAuth.bind(this);
+    this.checkSession = this.checkSession.bind(this);
+
+    this.authLock.on('authenticated', (authResult) => {
+      this.setSession(authResult);
+    });
+  }
+
+  checkForAuth () {
+    const authObj =  {
+        accessToken: localStorage.getItem('access_token'),
+        idToken: localStorage.getItem('id_token'),
+        expiresAt: localStorage.getItem('expires_at')
+    };
+    if (authObj.idToken && authObj.accessToken && authObj.expiresAt) {
+        if (authObj.expiresAt - Date.now() < 0){
+            this.logout();
+        }
+        if (!store.getState().user.loggedIn) {
+            this.setSession(authObj);
+        }
+    }
+    return authObj;
   }
 
   login () {
-    this.auth0.authorize();
+    window.localStorage.setItem('authRedirect', window.location.pathname)
+    this.authLock.show();
   }
-
-  handleAuthentication () {
-    this.auth0.parseHash((err, authResult) => {
-      if (authResult && authResult.accessToken && authResult.idToken) {
-        this.setSession(authResult);
-      } else if (err) {
-        console.log(err);
-      }
-    });
-  }
-
-  setSession (authResult) {
-    // Set the time that the access token will expire at
-    let expiresAt = authResult.expiresAt || JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
-    localStorage.setItem('access_token', authResult.accessToken);
-    localStorage.setItem('id_token', authResult.idToken);
-    localStorage.setItem('expires_at', expiresAt);
-    axios.post(`${global.API_PATH}/user/createUpdate`, 
-                authResult, 
-                { headers: { 'Authorization': `Bearer ${authResult.idToken}`}}).then(res => {
-        store.dispatch(userActions.login({
-            ...authResult,
-            profile: res.data.profile,
-            expiresAt
-        }));
-    });
-  }
-
   logout () {
-    // Clear access token and ID token from local storage
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
-    
     store.dispatch(userActions.logout());
   }
 
-  isAuthenticated () {
-    // Check whether the current time is past the 
-    // access token's expiry time
-    let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-    return expiresAt ? new Date().getTime() < expiresAt : false;
+  setSession (authResult, updateProfile = true) {
+    localStorage.setItem('access_token', authResult.accessToken);
+    localStorage.setItem('id_token', authResult.idToken);
+    localStorage.setItem('expires_at', authResult.expiresAt || JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime()));
+    if (updateProfile) {
+      axios.post(`${global.API_PATH}/user/createUpdate`, 
+                  authResult, 
+                  { headers: { 'Authorization': `Bearer ${authResult.idToken}`}}).then(res => {
+          store.dispatch(userActions.login({
+              ...authResult,
+              profile: res.data.profile
+          }));
+          const redirect = window.localStorage.getItem('authRedirect');
+          if (redirect && this.router) {
+              window.localStorage.removeItem('authRedirect');
+              this.router.replace(redirect);
+          }
+      });
+    } else {
+      store.dispatch(userActions.refresh({
+        ...authResult
+      }));
+    }
   }
 
   checkSession () {
-    return this.auth0.renewAuth({
-      domain: 'generictest35.auth0.com', //AUTH_CONFIG.domain,
-      clientID: 'mufc9w7SiOb3A5SbxEAQgGJtwJgwsya9', //AUTH_CONFIG.clientId,
-      audience: 'https://generictest35.auth0.com/userinfo',
-      redirectUri: 'http://localhost:8080/authSilent',
+    return this.authSdk.renewAuth({
+      //audience: `https://${process.env.AUTH0_DOMAIN}/userinfo`,
+      redirectUri: `${window.location.origin}/authSilent`,
       usePostMessage: true
     }, (err, authResult) => {
       if (err) {
         console.log(err);
+        this.logout();
       }
       console.log(authResult);
-      this.setSession(authResult);
+      this.setSession(authResult, false);
     });
   }
 }
+
+export default Auth;

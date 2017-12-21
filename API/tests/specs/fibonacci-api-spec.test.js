@@ -20,7 +20,7 @@ describe('When Fibonacci API is running it', () => {
                 reply('Hapi catch-all view for /' + request.params.path);
             }
         });
-        server.route(routes);       
+        server.route(routes.filter((r) => (r.config.auth === undefined)));
     }); 
     
     it('should provide the Nth Fibonacci Number at api/fibonacci/getNth/{n} for positive values of {n}', (done) => {
