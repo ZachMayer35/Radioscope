@@ -12,13 +12,13 @@ class AuthWidget extends Component {
     }
     checkId () {
         const { idToken } = this.props;
-        fetch(`${global.API_PATH}/user/id`, { headers: { queuename: '/User/Id/', authorization: `bearer ${idToken}` }})
+        fetch(`${global.API_PATH}/user/id`, { headers: { queuename: '/User/Id', authorization: `bearer ${idToken}` }})
             .then((response) => response.json())
             .then((response) => alert(JSON.stringify(response)));
     }
     getProfile () {
         const { idToken } = this.props;
-        fetch(`${global.API_PATH}/user/profile`, { headers: { queuename: '/User/Profile/', authorization: `bearer ${idToken}` }})
+        fetch(`${global.API_PATH}/user/profile`, { headers: { queuename: '/User/Profile', authorization: `bearer ${idToken}` }})
             .then((response) => response.json())
             .then((response) => alert(JSON.stringify(response)));
     }

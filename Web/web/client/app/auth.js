@@ -74,7 +74,7 @@ class Auth {
     if (updateProfile) {
       axios.post(`${global.API_PATH}/user/createUpdate`, 
                   authResult, 
-                  { headers: { 'Authorization': `Bearer ${authResult.idToken}`}}).then(res => {
+                  { headers: { queuename: '/user/createUpdate', 'Authorization': `Bearer ${authResult.idToken}`}}).then(res => {
           store.dispatch(userActions.login({
               ...authResult,
               profile: res.data.profile

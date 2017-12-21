@@ -66,7 +66,7 @@ User.routes = [
         },
         config: {
             auth: 'jwt',
-            id: '/User/Id/',
+            id: '/User/Id',
             // SWAGGER DOCS
             description: 'Get User ID',
             notes: 'Get the authenticated user\'s id from their auth token',
@@ -82,7 +82,7 @@ User.routes = [
         },
         config: {
             auth: 'jwt',
-            id: '/User/CreateUpdate/',
+            id: '/User/CreateUpdate',
             // SWAGGER DOCS
             description: 'Create or Update a user/profile',
             notes: 'Get the authenticated user\'s id from their auth token and update their profile',
@@ -98,7 +98,7 @@ User.routes = [
         },
         config: {
             auth: 'jwt',
-            id: '/User/Profile/',
+            id: '/User/Profile',
             // SWAGGER DOCS
             description: 'Get User Profile',
             notes: 'Get the authenticated user\'s Profile from their auth token',

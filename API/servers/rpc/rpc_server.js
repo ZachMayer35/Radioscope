@@ -26,12 +26,14 @@ const generateQueueForRoute = function (path, api) {
           ch.ack(msg);
         };
         const thinger = Object.assign({}, msg, {content: null});
+        console.log(JSON.parse(msg.content).headers);
         console.log(chalk.red(`msg content raw: ${JSON.stringify(thinger)}`));
         console.log(`fetching ${config.server.rootUrl}/api${msg.fields.routingKey}`);
         const method = JSON.parse(msg.content).method;
         const req = {
           method,
-          url: method === 'GET' ? `/api/${JSON.parse(msg.content).path}` : `/api${msg.fields.routingKey}`
+          url: method === 'GET' ? `/api/${JSON.parse(msg.content).path}` : `/api${msg.fields.routingKey}`,
+          headers: JSON.parse(msg.content).headers
         };
         if (method === 'POST') {
           req.payload = JSON.parse(msg.content).payload;
