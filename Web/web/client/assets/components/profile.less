@@ -1,5 +1,7 @@
 @import '../variables';
 
+@boxSize: 50px;
+
 @keyframes oculusReveal {
   0% {
     border: solid #333;
@@ -11,10 +13,39 @@
   }
 }
 
+
+@keyframes oculusSpin {
+  0% {
+    border: solid #333;
+    border-width: 0px;
+    transform: rotate(0deg)
+  }
+  50% {
+    border: solid #333;
+    border-width: 10px;
+  }
+  100% {
+    border: solid #333;
+    border-width: 0px;
+    transform: rotate(360deg)
+  }
+}
+
 .profile {
-  border-radius: 50%;
+  height: @boxSize;
+  width: @boxSize;
   box-shadow: 0px 4px 10px #333;
-  &&.picture-show {
-    animation: .5s oculusReveal;
+  display: inline-block;
+  border-radius: 50%;
+  cursor: pointer;
+  animation: .5s oculusReveal;
+}
+.picture-show {
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  &&:hover {
+    animation: .5s oculusSpin;
   }
 }

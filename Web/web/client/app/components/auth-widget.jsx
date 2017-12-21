@@ -39,8 +39,10 @@ class AuthWidget extends Component {
             <div>
                 {idToken && !loading && 
                     <div>
-                        <div height={50} width={50} >
-                            {profile && profile.picture && <img src={profile.picture} height={50} width={50} className={profile && profile.picture ? 'picture-show profile' : 'picture-hide profile'}/>}
+                        <div className='block'>
+                            <div className='profile' onClick={this.getProfile}>
+                                {profile && profile.picture && <img src={profile.picture} className={profile && profile.picture ? 'picture-show' : 'picture-hide'}/>}
+                            </div>
                         </div>
                         <a href='#' onClick={auth.logout}>Logout</a>
                         <br/>

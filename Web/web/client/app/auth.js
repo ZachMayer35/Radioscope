@@ -69,7 +69,7 @@ export default class Auth {
   }
 
   checkSession () {
-    this.auth0.renewAuth({
+    return this.auth0.renewAuth({
       domain: 'generictest35.auth0.com', //AUTH_CONFIG.domain,
       clientID: 'mufc9w7SiOb3A5SbxEAQgGJtwJgwsya9', //AUTH_CONFIG.clientId,
       audience: 'https://generictest35.auth0.com/userinfo',
@@ -78,7 +78,6 @@ export default class Auth {
     }, (err, authResult) => {
       if (err) {
         console.log(err);
-        return;
       }
       console.log(authResult);
       this.setSession(authResult);
