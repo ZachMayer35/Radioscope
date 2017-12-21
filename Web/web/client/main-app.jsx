@@ -6,8 +6,11 @@ import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 
+
 import store from './app/store';
 
+import AuthPage from './pages/authPage';
+import AuthSilent from './pages/authSilent';
 import FibonacciPage from './pages/fibonacciPage';
 import StringsPage from './pages/stringsPage';
 import MiscPage from './pages/miscPage';
@@ -24,9 +27,11 @@ import './assets/main.less';
 const history = syncHistoryWithStore(browserHistory, store);
 
 ReactDOM.render(
-    <Provider store={store}>    
+    <Provider store={store}>
         <Router history={history}>
-        <Route path='/' component={MasterPage}>
+        <Route path='auth' component={AuthPage} />
+        <Route path='authSilent' component={AuthSilent} />
+        <Route path='/' component={MasterPage} >
             <IndexRoute component={FibonacciPage}/>
             <Route path='Home' component={FibonacciPage}/>
             <Route path='Strings' component={StringsPage}/>

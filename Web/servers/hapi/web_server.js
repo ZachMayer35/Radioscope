@@ -140,10 +140,22 @@ server.register(plugins, (err) => {
     };
     const proxyHandler = function (request, reply) {
         if (config.env.CLOUDAMQP_URL || config.env.AMQP == 'true') { // MQ_RPC
+            console.log(chalk.yellow(request.path));
+            console.log(chalk.red(JSON.stringify(request.headers)));
             const queueName = request.headers.queuename.toLowerCase();
             const method = request.method.toUpperCase();
             console.log(`method: ${method}`);
-            let message = method === 'GET' ? { ...request.params, method } : { payload: { ...JSON.parse(request.payload) }, method };
+            let headers = {};
+            console.log(JSON.stringify(request.headers));
+            if (request.headers.authentication) {
+                headers = { authentication: request.headers.authentication };
+            }
+            if (request.headers.authorization) {
+                headers = { ...headers, authorization: request.headers.authorization }
+            }
+            let message = method === 'GET' ? 
+                          { ...request.params, method, headers } : 
+                          { payload: { ...JSON.parse(request.payload) }, method, headers };
             if (!queueName) {
                 throw new Error('In RPC Mode, Fetch calls require a queuename header');
             }

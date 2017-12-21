@@ -6,10 +6,12 @@ import { browserHistory } from 'react-router';
 import { routerMiddleware, routerReducer } from 'react-router-redux';
 
 import fibonacciReducer from './reducers/fibonacci-reducer';
+import userReducer from './reducers/user-reducer';
 
 const rootReducer = combineReducers({
 	fibonacci: fibonacciReducer,
-	routing: routerReducer
+	routing: routerReducer,
+	user: userReducer
 });
 
 const middlewares = [thunkMiddleware, routerMiddleware(browserHistory)];

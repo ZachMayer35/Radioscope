@@ -20,7 +20,7 @@ describe('When StringsArrays API is running it', () => {
                 reply('Hapi catch-all view for /' + request.params.path);
             }
         });
-        server.route(routes);       
+        server.route(routes.filter((r) => (r.config.auth === undefined)));       
     }); 
 
     /* Region: Strings Arrays 1 */
