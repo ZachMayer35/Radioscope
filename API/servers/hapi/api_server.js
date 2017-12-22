@@ -75,11 +75,11 @@ server.register(plugins, (err) => {
           cache: true,
           rateLimit: true,
           jwksRequestsPerMinute: 5,
-          jwksUri: `https://generictest35.auth0.com/.well-known/jwks.json`
+          jwksUri: `https://${config.env.AUTH0_DOMAIN}/.well-known/jwks.json`
         }),
         verifyOptions: {
-          audience: 'mufc9w7SiOb3A5SbxEAQgGJtwJgwsya9',
-          issuer: `https://generictest35.auth0.com/`,
+          audience: config.env.AUTH0_CLIENT_ID,
+          issuer: `https://${config.env.AUTH0_DOMAIN}/`,
           algorithms: ['RS256']
         },
         validateFunc: validate
