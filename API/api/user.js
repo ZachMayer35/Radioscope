@@ -1,5 +1,6 @@
 'use strict';
 
+import config from '../variables';
 import path from 'path';
 import chalk from 'chalk';
 import Joi from 'joi';
@@ -19,7 +20,7 @@ const User = {
       return {userId};
     },
     'createUpdate' : async function(request) {
-        let OIDProfile = await axios.get('https://generictest35.auth0.com/userinfo', {headers: {'Authorization': `Bearer ${request.payload.accessToken}`}});
+        let OIDProfile = await axios.get(`https://${config.env.AUTH0_DOMAIN}/userinfo`, {headers: {'Authorization': `Bearer ${request.payload.accessToken}`}});
         let appProfile = await UserProfile.findOne({id: request.auth.credentials.sub});
         let profile;
         let OIDname = OIDProfile.data.name.match(RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) ? 
